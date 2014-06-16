@@ -42,11 +42,14 @@ class Dinodex
         results.map{|dino| dino[:name]}.uniq
     end
 
-    def print_dino(name)
-        dino = @entries.select { |dino| dino[:name].casecmp(name).zero? }
+    def print_dinos(names)
+        names = Array(names)
         str = ""
-        dino[0].each do |key, value|
-            str << "#{key}: #{value}\n" unless value.nil?
+        names.each do |name|
+            dino = @entries.select { |dino| dino[:name].casecmp(name).zero? }
+            dino[0].each do |key, value|
+                str << "#{key}: #{value}\n" unless value.nil?
+            end
         end
         str
     end

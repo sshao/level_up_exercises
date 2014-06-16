@@ -176,11 +176,15 @@ class DinodexTest < MiniTest::Unit::TestCase
 
     def test_gets_multiple_search_criteria
         expected = ["Deinonychus", "Quetzalcoatlus", "Abrictosaurus",
-            "Megalosaurus", "Afrovenator", "Giraffatitan"]
+            "Megalosaurus", "Afrovenator", "Giraffatitan",
+            "Diplocaulus", "Paralititan", "Melanorosaurus",
+            "Baryonyx"]
 
         assert_equal expected.sort, @full_dinodex.find(
             {:key => :weight_in_lbs, :values=>["small"]}, 
-            {:key => :period, :values=>["jurassic"]}).sort
+            {:key => :period, :values=>["jurassic"]},
+            {:key => :diet, :values=>["Herbivore", "Piscivore"]},
+            {:key => :walking, :values=>["quadruped"]}).sort
     end
 
     def test_prints_complete_dino_info
@@ -193,7 +197,7 @@ class DinodexTest < MiniTest::Unit::TestCase
              "Walking: Biped\n"\
              "Description: Like a T-Rex but smaller.\n"
 
-        assert_equal expected.downcase, @full_dinodex.print_dino("albertosaurus").downcase
+        assert_equal expected.downcase, @full_dinodex.print_dinos("albertosaurus").downcase
     end
 
     def test_prints_incomplete_dino_info
@@ -201,9 +205,48 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Name: Afrovenator\n"\
             "Period: Jurassic\n"\
             "Diet: Carnivore\n"\
-            "Walking: Biped\n"\
+            "Walking: Biped\n"
 
-        assert_equal expected.downcase, @full_dinodex.print_dino("afrovenator").downcase
+        assert_equal expected.downcase, @full_dinodex.print_dinos("afrovenator").downcase
+    end
+
+    def test_prints_dino_collection_info
+        expected_afrovenator = 
+            "Name: Afrovenator\n"\
+            "Period: Jurassic\n"\
+            "Diet: Carnivore\n"\
+            "Walking: Biped\n"
+        expected_abrictosaurus =
+            "Name: Abrictosaurus\n"\
+            "Period: Jurassic\n"\
+            "Diet: Herbivore\n"\
+            "Weight_In_Lbs: 100\n"\
+            "Walking: Biped\n"
+        expected_giraffatitan = 
+            "Name: Giraffatitan\n"\
+            "Period: Jurassic\n"\
+            "Diet: Herbivore\n"\
+            "Weight_In_Lbs: 6600\n"\
+            "Walking: Quadriped\n"
+        expected_megalosaurus = 
+            "Name: Megalosaurus\n"\
+            "Period: Jurassic\n"\
+            "Continent: Europe\n"\
+            "Diet: Carnivore\n"\
+            "Weight_In_Lbs: 2200\n"\
+            "Walking: Biped\n"\
+            "Description: Originally thought to be a quadriped. First dinosaur to be named.\n"\
+
+        jurassic_dinos = @full_dinodex.find(
+            {:key => :period, :values => ["jurassic"]})
+
+        output = @full_dinodex.print_dinos jurassic_dinos
+
+        assert_includes(output.downcase, expected_afrovenator.downcase)
+        assert_includes(output.downcase, expected_abrictosaurus.downcase)
+        assert_includes(output.downcase, expected_giraffatitan.downcase)
+        assert_includes(output.downcase, expected_megalosaurus.downcase)
+
     end
 
 end
