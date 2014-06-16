@@ -136,7 +136,7 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Carcharodontosaurus", "Suchomimus"]
 
         assert_equal expected.sort, @full_dinodex.find({:key => :walking,
-            :values=>["biped"]}).sort
+            :targets=>"biped"}).sort
     end
 
     def test_gets_all_carnivores
@@ -146,7 +146,7 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Suchomimus", "Albertonykus", "Baryonyx"]
 
         assert_equal expected.sort, @full_dinodex.find({:key => :diet,
-            :values=>["carnivore","insectivore","piscivore"]}).sort
+            :targets=>["carnivore","insectivore","piscivore"]}).sort
     end
 
     def test_gets_all_periods
@@ -155,7 +155,7 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Paralititan", "Suchomimus"]
 
         assert_equal expected.sort, @full_dinodex.find({:key => :period,
-            :values=>["cretaceous"]}).sort
+            :targets=>"cretaceous"}).sort
     end
 
     def test_gets_big_dinos
@@ -164,27 +164,23 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Giraffatitan", "Paralititan", "Suchomimus", "Melanorosaurus"]
 
         assert_equal expected.sort, @full_dinodex.find({
-            :key => :weight_in_lbs, :values=>["big"]}).sort
+            :key => :weight_in_lbs, :targets=>"big"}).sort
     end
 
     def test_gets_small_dinos
         expected = ["Deinonychus", "Quetzalcoatlus", "Abrictosaurus"]
 
         assert_equal expected.sort, @full_dinodex.find({
-            :key => :weight_in_lbs, :values=>["small"]}).sort
+            :key => :weight_in_lbs, :targets=>"small"}).sort
     end
 
     def test_gets_multiple_search_criteria
-        expected = ["Deinonychus", "Quetzalcoatlus", "Abrictosaurus",
-            "Megalosaurus", "Afrovenator", "Giraffatitan",
-            "Diplocaulus", "Paralititan", "Melanorosaurus",
-            "Baryonyx"]
+        expected = ["Abrictosaurus"]
 
-        assert_equal expected.sort, @full_dinodex.find(
-            {:key => :weight_in_lbs, :values=>["small"]}, 
-            {:key => :period, :values=>["jurassic"]},
-            {:key => :diet, :values=>["Herbivore", "Piscivore"]},
-            {:key => :walking, :values=>["quadruped"]}).sort
+        assert_equal expected, @full_dinodex.find(
+            {:key => :weight_in_lbs, :targets=>"small"},
+            {:key => :period, :targets=>"jurassic"},
+            {:key => :diet, :targets=>["Herbivore", "Piscivore"]}).sort
     end
 
     def test_prints_complete_dino_info
@@ -238,7 +234,7 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Description: Originally thought to be a quadriped. First dinosaur to be named.\n"\
 
         jurassic_dinos = @full_dinodex.find(
-            {:key => :period, :values => ["jurassic"]})
+            {:key => :period, :targets => "jurassic"})
 
         output = @full_dinodex.print_dinos jurassic_dinos
 

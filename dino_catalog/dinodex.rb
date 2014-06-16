@@ -8,7 +8,6 @@ class Dinodex
         @entries = []
 
         filepaths.each do |path|
-            # TODO error checking
             body = File.read(path)
 
             if body =~ /Genus,Period,Carnivore,Weight,Walking/
@@ -24,22 +23,8 @@ class Dinodex
     end
 
     def find(*searches)
-        results = []
-
-        searches.each do |search|
-            values = search[:values].map(&:downcase)
-
-            if search[:key].eql?(:weight_in_lbs)
-                results.concat find_by_weight(values[0])
-            else
-                results.concat( @entries.select do |dino|
-                    values.any? { |value| 
-                        dino[search[:key]].downcase.include? value } 
-                end )
-            end
-        end
-        
-        results.map{|dino| dino[:name]}.uniq
+        results = @entries.select { |dino| dino_matches_all(dino, *searches) }
+        results.map{|dino| dino[:name]}
     end
 
     def print_dinos(names)
@@ -64,6 +49,22 @@ class Dinodex
             body.gsub!(/,Yes,/, ',Carnivore,')
 
             body
+        end
+
+        def dino_matches_all(dino, *searches)
+            matches_all = true
+            searches.each do |search|
+                if search[:key].eql?(:weight_in_lbs)
+                    matches_all = false unless find_by_weight(search[:targets]).include? dino
+                else
+                    targets = Array(search[:targets]).map(&:downcase)
+                    matches_all = false unless targets.any? { |target| dino[search[:key]].downcase.include? target }
+                end
+
+                break unless matches_all
+            end
+
+            matches_all
         end
 
         def find_by_weight(weight)
