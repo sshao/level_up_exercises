@@ -44,7 +44,7 @@ class DinodexTest < MiniTest::Unit::TestCase
         
     EXPECTED_AFRICAN_OUTPUT = [
             {:name=>"Abrictosaurus", :period=>"Jurassic", 
-             :diet=>"Non-Carnivore", :weight_in_lbs=>100,
+             :diet=>"Herbivore", :weight_in_lbs=>100,
              :walking=>"Biped"},
             {:name=>"Afrovenator", :period=>"Jurassic",
              :diet=>"Carnivore", :weight_in_lbs=>nil,
@@ -53,18 +53,24 @@ class DinodexTest < MiniTest::Unit::TestCase
              :diet=>"Carnivore", :weight_in_lbs=>3000,
              :walking=>"Biped"},
             {:name=>"Giraffatitan", :period=>"Jurassic",
-             :diet=>"Non-Carnivore", :weight_in_lbs=>6600,
+             :diet=>"Herbivore", :weight_in_lbs=>6600,
              :walking=>"Quadriped"},
             {:name=>"Paralititan", :period=>"Cretaceous",
-             :diet=>"Non-Carnivore", :weight_in_lbs=>120000,
+             :diet=>"Herbivore", :weight_in_lbs=>120000,
              :walking=>"Quadriped"},
             {:name=>"Suchomimus", :period=>"Cretaceous",
              :diet=>"Carnivore", :weight_in_lbs=>10400,
              :walking=>"Biped"},
             {:name=>"Melanorosaurus", :period=>"Triassic",
-             :diet=>"Non-Carnivore", :weight_in_lbs=>2400,
+             :diet=>"Herbivore", :weight_in_lbs=>2400,
              :walking=>"Quadriped"}
         ]
+
+    def setup 
+        @full_dinodex = Dinodex.new(
+            File.expand_path('african_dinoaur_export.csv'),
+            File.expand_path('dinodex.csv'))
+    end
 
     def test_parses_complete_dinodex_format
         dinodex = Dinodex.new(File.expand_path(
@@ -120,11 +126,61 @@ class DinodexTest < MiniTest::Unit::TestCase
     def test_parse_multiple_files
         expected = EXPECTED_AFRICAN_OUTPUT + EXPECTED_DINODEX_OUTPUT
 
-        dinodex = Dinodex.new(
-            File.expand_path('african_dinoaur_export.csv'),
-            File.expand_path('dinodex.csv'))
-
-        assert_equal expected, dinodex.entries
+        assert_equal expected, @full_dinodex.entries
     end        
+
+    def test_gets_all_bipeds
+        expected = ["Albertosaurus", "Albertonykus", "Baryonyx",
+            "Deinonychus", "Megalosaurus", "Giganotosaurus",
+            "Yangchuanosaurus", "Abrictosaurus", "Afrovenator",
+            "Carcharodontosaurus", "Suchomimus"]
+
+        assert_equal expected.sort, @full_dinodex.find({:key => :walking,
+            :values=>["biped"]}).sort
+    end
+
+    def test_gets_all_carnivores
+        expected = ["Albertosaurus", "Deinonychus", "Diplocaulus",
+            "Megalosaurus", "Giganotosaurus", "Quetzalcoatlus",
+            "Yangchuanosaurus", "Afrovenator", "Carcharodontosaurus",
+            "Suchomimus", "Albertonykus", "Baryonyx"]
+
+        assert_equal expected.sort, @full_dinodex.find({:key => :diet,
+            :values=>["carnivore","insectivore","piscivore"]}).sort
+    end
+
+    def test_gets_all_periods
+        expected = ["Albertosaurus", "Albertonykus", "Baryonyx",
+            "Deinonychus", "Giganotosaurus", "Quetzalcoatlus", 
+            "Paralititan", "Suchomimus"]
+
+        assert_equal expected.sort, @full_dinodex.find({:key => :period,
+            :values=>["cretaceous"]}).sort
+    end
+
+    def test_gets_big_dinos
+        expected = ["Albertosaurus", "Baryonyx", "Megalosaurus",
+            "Giganotosaurus", "Yangchuanosaurus", "Carcharodontosaurus",
+            "Giraffatitan", "Paralititan", "Suchomimus", "Melanorosaurus"]
+
+        assert_equal expected.sort, @full_dinodex.find({
+            :key => :weight_in_lbs, :values=>["big"]}).sort
+    end
+
+    def test_gets_small_dinos
+        expected = ["Deinonychus", "Quetzalcoatlus", "Abrictosaurus"]
+
+        assert_equal expected.sort, @full_dinodex.find({
+            :key => :weight_in_lbs, :values=>["small"]}).sort
+    end
+
+    def test_gets_multiple_search_criteria
+        expected = ["Deinonychus", "Quetzalcoatlus", "Abrictosaurus",
+            "Megalosaurus", "Afrovenator", "Giraffatitan"]
+
+        assert_equal expected.sort, @full_dinodex.find(
+            {:key => :weight_in_lbs, :values=>["small"]}, 
+            {:key => :period, :values=>["jurassic"]}).sort
+    end
 
 end
