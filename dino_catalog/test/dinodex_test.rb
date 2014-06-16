@@ -183,4 +183,27 @@ class DinodexTest < MiniTest::Unit::TestCase
             {:key => :period, :values=>["jurassic"]}).sort
     end
 
+    def test_prints_complete_dino_info
+        expected = 
+            "Name: Albertosaurus\n"\
+             "Period: Late Cretaceous\n"\
+             "Continent: North America\n"\
+             "Diet: Carnivore\n"\
+             "Weight_In_Lbs: 2000\n"\
+             "Walking: Biped\n"\
+             "Description: Like a T-Rex but smaller.\n"
+
+        assert_equal expected.downcase, @full_dinodex.print_dino("albertosaurus").downcase
+    end
+
+    def test_prints_incomplete_dino_info
+        expected = 
+            "Name: Afrovenator\n"\
+            "Period: Jurassic\n"\
+            "Diet: Carnivore\n"\
+            "Walking: Biped\n"\
+
+        assert_equal expected.downcase, @full_dinodex.print_dino("afrovenator").downcase
+    end
+
 end

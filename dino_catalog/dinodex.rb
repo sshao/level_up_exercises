@@ -43,6 +43,12 @@ class Dinodex
     end
 
     def print_dino(name)
+        dino = @entries.select { |dino| dino[:name].casecmp(name).zero? }
+        str = ""
+        dino[0].each do |key, value|
+            str << "#{key}: #{value}\n" unless value.nil?
+        end
+        str
     end
 
     private
