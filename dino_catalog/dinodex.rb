@@ -23,7 +23,7 @@ class Dinodex
     end
 
     def find(*searches)
-        results = @entries.select { |dino| dino_matches_all(dino, *searches) }
+        results = @entries.select { |dino| dino_matches_all?(dino, *searches) }
         results.map{|dino| dino[:name]}
     end
 
@@ -51,14 +51,14 @@ class Dinodex
             body
         end
 
-        def dino_matches_all(dino, *searches)
+        def dino_matches_all?(dino, *searches)
             matches_all = true
             searches.each do |search|
                 if search[:key].eql?(:weight_in_lbs)
-                    matches_all = false unless find_by_weight(search[:targets]).include? dino
+                    matches_all = false unless matches_weight?(dino, search[:targets])
                 else
                     targets = Array(search[:targets]).map(&:downcase)
-                    matches_all = false unless targets.any? { |target| dino[search[:key]].include? target }
+                    matches_all = false unless contains_any?(targets, dino[search[:key]])
                 end
 
                 break unless matches_all
@@ -67,15 +67,18 @@ class Dinodex
             matches_all
         end
 
-        def find_by_weight(weight)
-            removed_nil_weights = @entries.reject {|dino| dino[:weight_in_lbs].nil?}
-            results = []
+        def contains_any?(targets, searched_array)
+            targets.any? { |target| searched_array.include? target }
+        end
+
+        def matches_weight?(dino, weight)
+            return false if dino[:weight_in_lbs].nil?
+
             if weight.casecmp("big").zero?
-                results = removed_nil_weights.select {|dino| dino[:weight_in_lbs] >= 2000}
+                dino[:weight_in_lbs] >= 2000
             else
-                results = removed_nil_weights.select {|dino| dino[:weight_in_lbs] < 2000}
+                dino[:weight_in_lbs] < 2000
             end
-            results
         end
 
 end
