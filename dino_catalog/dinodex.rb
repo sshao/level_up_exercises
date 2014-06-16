@@ -4,19 +4,23 @@ class Dinodex
 
     attr_reader :entries
 
-    def initialize(filepath)
-        # TODO error checking
-        body = File.read(filepath)
+    def initialize(*filepaths)
+        @entries = []
 
-        if body =~ /Genus,Period,Carnivore,Weight,Walking/
-            body = parse_african(body)
+        filepaths.each do |path|
+            # TODO error checking
+            body = File.read(path)
+
+            if body =~ /Genus,Period,Carnivore,Weight,Walking/
+                body = parse_african(body)
+            end
+
+            csv = CSV.new(body, :headers => true,
+                :header_converters => :symbol,
+                :converters => :all)
+
+            @entries.concat csv.to_a.map{|row| row.to_hash}
         end
-
-        csv = CSV.new(body, :headers => true, 
-            :header_converters => :symbol,
-            :converters => :all)
-
-        @entries = csv.to_a.map{|row| row.to_hash}
     end
 
     private
