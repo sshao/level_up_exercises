@@ -8,9 +8,9 @@ class Dinodex
         @entries = []
 
         filepaths.each do |path|
-            body = File.read(path)
+            body = File.read(path).downcase
 
-            if body =~ /Genus,Period,Carnivore,Weight,Walking/
+            if body =~ /Genus,Period,Carnivore,Weight,Walking/i
                 body = parse_african(body)
             end
 
@@ -41,12 +41,12 @@ class Dinodex
 
     private
         def parse_african(body)
-            body.gsub!(/Genus/, 'Name')
-            body.gsub!(/Carnivore/, 'Diet')
-            body.gsub!(/Weight/, 'Weight_In_Lbs')
+            body.gsub!(/Genus/i, 'name')
+            body.gsub!(/Carnivore/i, 'diet')
+            body.gsub!(/Weight/i, 'weight_in_lbs')
 
-            body.gsub!(/,No,/, ',Herbivore,')
-            body.gsub!(/,Yes,/, ',Carnivore,')
+            body.gsub!(/,No,/i, ',herbivore,')
+            body.gsub!(/,Yes,/i, ',carnivore,')
 
             body
         end
@@ -58,7 +58,7 @@ class Dinodex
                     matches_all = false unless find_by_weight(search[:targets]).include? dino
                 else
                     targets = Array(search[:targets]).map(&:downcase)
-                    matches_all = false unless targets.any? { |target| dino[search[:key]].downcase.include? target }
+                    matches_all = false unless targets.any? { |target| dino[search[:key]].include? target }
                 end
 
                 break unless matches_all
