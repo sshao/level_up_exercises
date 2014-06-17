@@ -4,11 +4,11 @@ class DinodexError < Exception
 end
 
 class Dinodex
-	attr_reader :entries
+	attr_reader :dinos
   CSV_FORMATS = [:african, :dinodex]
 
 	def initialize(*filepaths)
-		@entries = []
+		@dinos = []
 
 		filepaths.each do |path|
 			body = File.read(path).downcase
@@ -16,17 +16,17 @@ class Dinodex
       format = identify_format(body)
       raise DinodexError.new("Invalid CSV headers/format in #{path}.") if format.nil?
       
-      parse_african(body) if format.eql? :african
+      parse_african_format(body) if format.eql? :african
 
 			csv = CSV.new(body, :headers => true, :header_converters => :symbol,
 										:converters => :all)
 
-			@entries.concat csv.to_a.map { |row| row.to_hash }
+			@dinos.concat csv.to_a.map { |row| row.to_hash }
 		end
 	end
 
 	def find(*searches)
-		results = @entries.select { |dino| dino_matches_all?(dino, *searches) }
+		results = @dinos.select { |dino| dino_matches_all?(dino, *searches) }
 		results.map { |dino| dino[:name] }
 	end
 
@@ -34,8 +34,8 @@ class Dinodex
 		names = Array(names)
 
 		names.each do |name|
-			dino = @entries.find { |dino| dino[:name].casecmp(name).zero? }
-			dino.each { |k, v| puts "#{k}: #{v}\n" unless v.nil? }
+			dino = @dinos.find { |dino| dino[:name].casecmp(name).zero? }
+			dino.each { |header, fact| puts "#{header}: #{fact}\n" unless fact.nil? }
 		end
 	end
 
@@ -46,7 +46,7 @@ class Dinodex
     nil
   end
 
-	def parse_african(body)
+	def parse_african_format(body)
 		body.gsub!(/genus/i, 'name')
 		body.gsub!(/carnivore/i, 'diet')
 		body.gsub!(/weight/i, 'weight_in_lbs')
@@ -60,7 +60,7 @@ class Dinodex
 		searches.each do |search|
 			return false if dino[search[:key]].nil?
 
-			target = search[:targets].downcase
+			target = search[:target].downcase
 
 			case search[:key]
 			when :weight_in_lbs
