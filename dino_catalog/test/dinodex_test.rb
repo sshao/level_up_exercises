@@ -165,7 +165,7 @@ class DinodexTest < MiniTest::Unit::TestCase
             "carcharodontosaurus", "suchomimus"]
 
         assert_equal expected.sort, @full_dinodex.find({:key => :walking,
-            :targets=>"biped"}).sort
+            :targets=>"Biped"}).sort
     end
 
     def test_finds_all_carnivores
