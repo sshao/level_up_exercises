@@ -1,37 +1,37 @@
 class NumberUtils
-  attr_accessor :values, :i
+  attr_accessor :prime_factorizations, :upper_bound
 
-  def initialize(i = 1_000)
-    @values = {}
-    @i = i
-    do_it
+  def initialize(upper_bound = 1_000)
+    @prime_factorizations = {}
+    @upper_bound = upper_bound
+    factorize_range
   end
 
-  def do_it
-    1.upto(@i) do |i|
-      @values[i] = get_values_for(i)
+  def factorize_range
+    1.upto(@upper_bound) do |i|
+      @prime_factorizations[i] = factorize(i)
     end
   end
 
-  def get_values_for(i)
-    i2 = i
-    v = []
-    2.upto(i) do |n|
-      while (i2 % n).zero?
-        v << n
-        i2 = i2 / n
+  def factorize(num)
+    dividend = num
+    primes = []
+    2.upto(num) do |prime|
+      while (dividend % prime).zero?
+        primes << prime
+        dividend = dividend / prime
       end
     end
-    v
+    primes
   end
 
-  def get_values(i)
+  def get_prime_factorizations(i)
     raise 'Value too high!' unless i <= @i
-    @values[i]
+    @prime_factorizations[i]
   end
 
   def all
-    @values
+    @prime_factorizations
   end
 end
 
