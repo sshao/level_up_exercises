@@ -1,7 +1,11 @@
 require 'csv'
 
+class DinodexError < Exception
+end
+
 class Dinodex
 	attr_reader :entries
+  CSV_FORMATS = [:african, :dinodex]
 
 	def initialize(*filepaths)
 		@entries = []
@@ -9,7 +13,10 @@ class Dinodex
 		filepaths.each do |path|
 			body = File.read(path).downcase
 
-			body = parse_african(body) if body =~ /Genus,Period,Carnivore,Weight,Walking/i
+      format = identify_format(body)
+      raise DinodexError.new("Invalid CSV headers/format in #{path}.") if format.nil?
+      
+      parse_african(body) if format.eql? :african
 
 			csv = CSV.new(body, :headers => true, :header_converters => :symbol,
 										:converters => :all)
@@ -33,6 +40,12 @@ class Dinodex
 	end
 
 	private
+  def identify_format(body)
+    return :african if body =~ /Genus,Period,Carnivore,Weight,Walking/i
+    return :dinodex if body =~ /Name,Period,Continent,Diet,Weight_in_lbs,Walking,Description/i
+    nil
+  end
+
 	def parse_african(body)
 		body.gsub!(/genus/i, 'name')
 		body.gsub!(/carnivore/i, 'diet')
@@ -68,20 +81,21 @@ class Dinodex
 		carnivores = %w(carnivore insectivore piscivore)
 
 		if target_diet.casecmp("carnivore").zero?
-			true if carnivores.include? dino[:diet]
+			return true if carnivores.include? dino[:diet]
 		else
-			true if dino[:diet].casecmp(target_diet).zero?
+			return true if dino[:diet].casecmp(target_diet).zero?
 		end
+
+    false
 	end
 
 	def matches_weight?(dino, weight)
 		return false if dino[:weight_in_lbs].nil?
 
-		if weight.casecmp("big").zero?
-			dino[:weight_in_lbs] >= 2000
-		else
-			dino[:weight_in_lbs] < 2000
-		end
+    return dino[:weight_in_lbs] >= 2000 if weight.casecmp("big").zero?
+    return dino[:weight_in_lbs] < 2000 if weight.casecmp("small").zero?
+
+    nil
 	end
 
 end

@@ -72,9 +72,17 @@ class DinodexTest < MiniTest::Unit::TestCase
             File.expand_path('dinodex.csv'))
     end
 
+    def test_does_not_parse_invalid_csv
+      assert_raises(DinodexError, "Invalid CSV headers/format in test/fixtures/invalid_format.csv") {Dinodex.new(File.expand_path('test/fixtures/invalid_format.csv'))}
+    end
+
+    def test_invalid_weight
+      @full_dinodex.find({:key => :weight_in_lbs, :targets => "asdf"}) 
+    end
+
     def test_parses_complete_dinodex_format
         dinodex = Dinodex.new(File.expand_path(
-            'test/fixtures/single_complete_dinodex_input.csv'))
+          'test/fixtures/single_complete_dinodex_input.csv'))
 
         expected = [ EXPECTED_DINODEX_OUTPUT[0] ]
 
