@@ -129,7 +129,36 @@ class DinodexTest < MiniTest::Unit::TestCase
         assert_equal expected, @full_dinodex.entries
     end        
 
-    def test_gets_all_bipeds
+    def test_finds_nil_diet
+        dinodex = Dinodex.new(File.expand_path(
+            'test/fixtures/null_values.csv'))
+
+        assert_empty dinodex.find({:key => :diet,
+            :targets=>"Carnivore"})
+    end
+
+    def test_finds_nil_weight
+        dinodex = Dinodex.new(File.expand_path(
+            'test/fixtures/null_values.csv'))
+
+        assert_empty dinodex.find({:key => :weight,
+            :targets=>"big"})
+    end
+
+    def test_finds_nil_fact
+        dinodex = Dinodex.new(File.expand_path(
+            'test/fixtures/null_values.csv'))
+
+        assert_empty dinodex.find({:key => :period,
+            :targets=>"Jurassic"})
+    end
+
+    def test_finds_no_omnivores
+        assert_empty @full_dinodex.find({:key => :diet,
+            :targets=>"Omnivore"})
+    end
+
+    def test_finds_all_bipeds
         expected = ["albertosaurus", "albertonykus", "baryonyx",
             "deinonychus", "megalosaurus", "giganotosaurus",
             "yangchuanosaurus", "abrictosaurus", "afrovenator",
@@ -139,17 +168,24 @@ class DinodexTest < MiniTest::Unit::TestCase
             :targets=>"biped"}).sort
     end
 
-    def test_gets_all_carnivores
+    def test_finds_all_carnivores
         expected = ["albertosaurus", "deinonychus", "diplocaulus",
             "megalosaurus", "giganotosaurus", "quetzalcoatlus",
             "yangchuanosaurus", "afrovenator", "carcharodontosaurus",
             "suchomimus", "albertonykus", "baryonyx"]
 
         assert_equal expected.sort, @full_dinodex.find({:key => :diet,
-            :targets=>["carnivore","insectivore","piscivore"]}).sort
+            :targets=>"carnivore"}).sort
+    end
+    
+    def test_finds_all_piscivores
+        expected = ["baryonyx"]
+        
+        assert_equal expected, @full_dinodex.find({:key => :diet,
+            :targets=>"piscivore"})
     end
 
-    def test_gets_all_periods
+    def test_finds_all_periods
         expected = ["albertosaurus", "albertonykus", "baryonyx",
             "deinonychus", "giganotosaurus", "quetzalcoatlus", 
             "paralititan", "suchomimus"]
@@ -158,7 +194,7 @@ class DinodexTest < MiniTest::Unit::TestCase
             :targets=>"cretaceous"}).sort
     end
 
-    def test_gets_big_dinos
+    def test_finds_big_dinos
         expected = ["albertosaurus", "baryonyx", "megalosaurus",
             "giganotosaurus", "yangchuanosaurus", "carcharodontosaurus",
             "giraffatitan", "paralititan", "suchomimus", "melanorosaurus"]
@@ -167,20 +203,20 @@ class DinodexTest < MiniTest::Unit::TestCase
             :key => :weight_in_lbs, :targets=>"big"}).sort
     end
 
-    def test_gets_small_dinos
+    def test_finds_small_dinos
         expected = ["deinonychus", "quetzalcoatlus", "abrictosaurus"]
 
         assert_equal expected.sort, @full_dinodex.find({
             :key => :weight_in_lbs, :targets=>"small"}).sort
     end
 
-    def test_gets_multiple_search_criteria
+    def test_finds_multiple_search_criteria
         expected = ["abrictosaurus"]
 
         assert_equal expected, @full_dinodex.find(
             {:key => :weight_in_lbs, :targets=>"small"},
             {:key => :period, :targets=>"jurassic"},
-            {:key => :diet, :targets=>["Herbivore", "Piscivore"]}).sort
+            {:key => :diet, :targets=>"Herbivore"}).sort
     end
 
     def test_prints_complete_dino_info

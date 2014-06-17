@@ -50,11 +50,17 @@ class Dinodex
         def dino_matches_all?(dino, *searches)
             matches_all = true
             searches.each do |search|
+                if dino[search[:key]].nil?
+                    matches_all = false
+                    break
+                end
+
                 if search[:key].eql?(:weight_in_lbs)
                     matches_all = false unless matches_weight?(dino, search[:targets])
+                elsif search[:key].eql?(:diet)
+                    matches_all = false unless matches_diet?(dino, search[:targets])
                 else
-                    targets = Array(search[:targets]).map(&:downcase)
-                    matches_all = false unless contains_any?(targets, dino[search[:key]])
+                    matches_all = false unless dino[search[:key]].include? (search[:targets])
                 end
 
                 break unless matches_all
@@ -63,8 +69,14 @@ class Dinodex
             matches_all
         end
 
-        def contains_any?(targets, searched_array)
-            targets.any? { |target| searched_array.include? target }
+        def matches_diet?(dino, diet)
+            return false if dino[:diet].nil?
+                
+            if diet.casecmp("carnivore").zero?
+                true if ["carnivore", "insectivore", "piscivore"].any? { |diet| diet.casecmp(dino[:diet]).zero? }
+            else
+                true if dino[:diet].casecmp(diet).zero?
+            end
         end
 
         def matches_weight?(dino, weight)
