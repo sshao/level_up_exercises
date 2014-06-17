@@ -48,25 +48,20 @@ class Dinodex
         end
 
         def dino_matches_all?(dino, *searches)
-            matches_all = true
             searches.each do |search|
-                if dino[search[:key]].nil?
-                    matches_all = false
-                    break
-                end
+                return false if dino[search[:key]].nil?
 
-                if search[:key].eql?(:weight_in_lbs)
-                    matches_all = false unless matches_weight?(dino, search[:targets])
-                elsif search[:key].eql?(:diet)
-                    matches_all = false unless matches_diet?(dino, search[:targets])
-                else
-                    matches_all = false unless dino[search[:key]].include? (search[:targets])
+                case search[:key]
+                    when :weight_in_lbs
+                        return false unless matches_weight?(dino, search[:targets])
+                    when :diet
+                        return false unless matches_diet?(dino, search[:targets])
+                    else
+                        return false unless dino[search[:key]].include? (search[:targets])
                 end
-
-                break unless matches_all
             end
 
-            matches_all
+            true
         end
 
         def matches_diet?(dino, diet)
