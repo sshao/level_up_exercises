@@ -10,9 +10,7 @@ class Dinodex
         filepaths.each do |path|
             body = File.read(path).downcase
 
-            if body =~ /Genus,Period,Carnivore,Weight,Walking/i
-                body = parse_african(body)
-            end
+            body = parse_african(body) if body =~ /Genus,Period,Carnivore,Weight,Walking/i
 
             csv = CSV.new(body, :headers => true,
                 :header_converters => :symbol,
@@ -29,14 +27,12 @@ class Dinodex
 
     def print_dinos(names)
         names = Array(names)
-        str = ""
         names.each do |name|
-            dino = @entries.select { |dino| dino[:name].casecmp(name).zero? }
-            dino[0].each do |key, value|
-                str << "#{key}: #{value}\n" unless value.nil?
+            dino = @entries.find { |dino| dino[:name].casecmp(name).zero? }
+            dino.each do |key, value| 
+                puts "#{key}: #{value}\n" unless value.nil?
             end
         end
-        str
     end
 
     private

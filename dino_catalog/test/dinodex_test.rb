@@ -193,7 +193,9 @@ class DinodexTest < MiniTest::Unit::TestCase
              "walking: biped\n"\
              "description: like a t-rex but smaller.\n"
 
-        assert_equal expected.downcase, @full_dinodex.print_dinos("albertosaurus").downcase
+        output, err = capture_io { @full_dinodex.print_dinos("albertosaurus") }
+
+        assert_equal expected.downcase, output.downcase
     end
 
     def test_prints_incomplete_dino_info
@@ -203,7 +205,8 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Diet: Carnivore\n"\
             "Walking: Biped\n"
 
-        assert_equal expected.downcase, @full_dinodex.print_dinos("afrovenator").downcase
+        output, err = capture_io { @full_dinodex.print_dinos("afrovenator") }
+        assert_equal expected.downcase, output.downcase
     end
 
     def test_prints_dino_collection_info
@@ -236,7 +239,7 @@ class DinodexTest < MiniTest::Unit::TestCase
         jurassic_dinos = @full_dinodex.find(
             {:key => :period, :targets => "jurassic"})
 
-        output = @full_dinodex.print_dinos jurassic_dinos
+        output, err = capture_io { @full_dinodex.print_dinos jurassic_dinos }
 
         assert_includes(output.downcase, expected_afrovenator.downcase)
         assert_includes(output.downcase, expected_abrictosaurus.downcase)
