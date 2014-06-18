@@ -25,7 +25,7 @@ class Robot
 
   private
   def valid_name?(name)
-    name =~ /\w{2|\d{3}/
+    name =~ /[[:alpha]]{2}[[:digit:]]{3}/
   end
 
   def name_exists?(name)
