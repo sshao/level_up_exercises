@@ -1,6 +1,8 @@
 require 'minitest/autorun'
 require_relative '../dinodex'
 
+# FIXME remove csv, not worth testing incomplete lines?
+
 class DinodexTest < MiniTest::Unit::TestCase
 
     EXPECTED_DINODEX_OUTPUT = [
@@ -45,39 +47,40 @@ class DinodexTest < MiniTest::Unit::TestCase
     EXPECTED_AFRICAN_OUTPUT = [
             {:name=>"abrictosaurus", :period=>"jurassic", 
              :diet=>"herbivore", :weight_in_lbs=>100,
-             :walking=>"biped"},
+             :continent=>"africa", :walking=>"biped"},
             {:name=>"afrovenator", :period=>"jurassic",
              :diet=>"carnivore", :weight_in_lbs=>nil,
-             :walking=>"biped"},
+             :continent=>"africa", :walking=>"biped"},
             {:name=>"carcharodontosaurus", :period=>"albian",
              :diet=>"carnivore", :weight_in_lbs=>3000,
-             :walking=>"biped"},
+             :continent=>"africa", :walking=>"biped"},
             {:name=>"giraffatitan", :period=>"jurassic",
              :diet=>"herbivore", :weight_in_lbs=>6600,
-             :walking=>"quadriped"},
+             :continent=>"africa", :walking=>"quadriped"},
             {:name=>"paralititan", :period=>"cretaceous",
              :diet=>"herbivore", :weight_in_lbs=>120000,
-             :walking=>"quadriped"},
+             :continent=>"africa", :walking=>"quadriped"},
             {:name=>"suchomimus", :period=>"cretaceous",
              :diet=>"carnivore", :weight_in_lbs=>10400,
-             :walking=>"biped"},
+             :continent=>"africa", :walking=>"biped"},
             {:name=>"melanorosaurus", :period=>"triassic",
              :diet=>"herbivore", :weight_in_lbs=>2400,
-             :walking=>"quadriped"}
+             :continent=>"africa", :walking=>"quadriped"}
         ]
 
     def setup 
-        @full_dinodex = Dinodex.new(
-            File.expand_path('african_dinoaur_export.csv'),
-            File.expand_path('dinodex.csv'))
+        @full_dinodex = Dinodex.new([
+            File.expand_path('test/fixtures/african_dinoaur_export.csv'),
+            File.expand_path('test/fixtures/dinodex.csv')])
     end
 
     def test_does_not_parse_invalid_csv
       assert_raises(DinodexError, "Invalid CSV headers/format in test/fixtures/invalid_format.csv") {Dinodex.new(File.expand_path('test/fixtures/invalid_format.csv'))}
     end
 
+    # FIXME assertion
     def test_invalid_weight
-      @full_dinodex.find({:key => :weight_in_lbs, :target => "asdf"}) 
+      assert_nil @full_dinodex.find({:key => :weight_in_lbs, :target => "asdf"}) 
     end
 
     def test_parses_complete_dinodex_format
@@ -237,9 +240,8 @@ class DinodexTest < MiniTest::Unit::TestCase
              "walking: biped\n"\
              "description: like a t-rex but smaller.\n"
 
-        output, err = capture_io { @full_dinodex.print("albertosaurus") }
-
-        assert_equal expected.downcase, output.downcase
+        assert_equal expected.downcase, 
+          @full_dinodex.to_s("albertosaurus").downcase
     end
 
     def test_prints_incomplete_dino_info
@@ -247,10 +249,11 @@ class DinodexTest < MiniTest::Unit::TestCase
             "Name: Afrovenator\n"\
             "Period: Jurassic\n"\
             "Diet: Carnivore\n"\
-            "Walking: Biped\n"
+            "Walking: Biped\n"\
+            "continent: africa\n"\
 
-        output, err = capture_io { @full_dinodex.print("afrovenator") }
-        assert_equal expected.downcase, output.downcase
+        assert_equal expected.downcase, 
+          @full_dinodex.to_s("afrovenator").downcase
     end
 
     def test_prints_dino_collection_info
@@ -283,7 +286,7 @@ class DinodexTest < MiniTest::Unit::TestCase
         jurassic_dinos = @full_dinodex.find(
             {:key => :period, :target => "jurassic"})
 
-        output, err = capture_io { @full_dinodex.print jurassic_dinos }
+        output = @full_dinodex.to_s jurassic_dinos 
 
         assert_includes(output.downcase, expected_afrovenator.downcase)
         assert_includes(output.downcase, expected_abrictosaurus.downcase)
