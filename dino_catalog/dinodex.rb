@@ -2,9 +2,6 @@ require 'csv'
 require_relative 'formatter'
 require_relative 'dinodex_config'
 
-# FIXME have more specific error names -- possibly create different error classes
-class DinodexError < RuntimeError; end
-
 class Dinodex
   attr_accessor :dinos
  
@@ -65,14 +62,15 @@ class Dinodex
     return body, format
   end
 
-  # TODO use respond_to/define_method/send to decide on matches_? methods to use
   def matches?(dino, search)
     target = search[:target].downcase
 
-    case search[:key]
-    when :weight_in_lbs then matches_weight?(dino, target)
-    when :diet then matches_diet?(dino, target)
-    else matches_arbitrary_target?(dino, search[:key], target)
+    method_name = "matches_#{search[:key].to_s}?"
+    
+    if self.respond_to? method_name, true 
+      send(method_name, *[dino, target])
+    else
+      matches_arbitrary_target?(dino, search[:key], target)
     end
   end
 
@@ -86,10 +84,10 @@ class Dinodex
   end
 
   # FIXME error on weight != big||small
-  def matches_weight?(dino, weight)
-    dino[:weight_in_lbs] && 
-    ((weight == "big" && is_big_dino?(dino)) || 
-    (weight == "small" && is_small_dino?(dino)))
+  def matches_weight_in_lbs?(dino, weight)
+    method_name = "is_#{weight}_dino?"
+
+    dino[:weight_in_lbs] && send(method_name, dino) if self.respond_to? method_name, true
   end
 
   def is_big_dino?(dino)
