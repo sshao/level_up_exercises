@@ -232,11 +232,11 @@ class DinodexTest < MiniTest::Unit::TestCase
     end
 
     def test_finds_multiple_search_criteria
-        expected = "abrictosaurus"
+        expected = "paralititan"
 
         assert_equal expected, @full_dinodex
-            .find({:key => :weight_in_lbs, :target=>"small"})
-            .find({:key => :period, :target=>"jurassic"})
+            .find({:key => :weight_in_lbs, :target=>"big"})
+            .find({:key => :period, :target=>"cretaceous"})
             .find({:key => :diet, :target=>"Herbivore"}).dinos.first[:name]
     end
 
