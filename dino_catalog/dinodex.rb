@@ -13,22 +13,23 @@ class Dinodex
     Array(filepaths).each { |path| @dinos += create_entries(path) } if filepaths
   end
 
-  # FIXME input searches as a hash
-  #       allow chained searches, would have to return Dinodex rather than dino 
-  #       names, or return a new instance of dinodex to allow chaining 
+  def add(dino_hash)
+    @dinos += Array(dino_hash)
+  end
+
   def find(search)
-    results = @dinos.select { |dino| matches?(dino, search) }
     results_dinodex = Dinodex.new
-    results_dinodex.dinos += results
+    results_dinodex.add(@dinos.select { |dino| matches?(dino, search) })
+
     results_dinodex
   end
 
   def to_s(name = nil)
-    str = ""
     if name
       dino = @dinos.find { |dino| dino[:name] == name.downcase }
       dino_to_s(dino)
     else
+      str = ""
       @dinos.each { |dino| str << dino_to_s(dino) }
       str
     end
