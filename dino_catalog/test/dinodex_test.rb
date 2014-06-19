@@ -79,6 +79,11 @@ class DinodexTest < MiniTest::Unit::TestCase
       assert_match /InvalidFormatError/, output
     end
 
+    def test_skips_nonexistent_file
+      output, = capture_io { Dinodex.new('') }
+      assert_match /not found, skipping/, output
+    end
+
     def test_invalid_weight
       assert_nil @full_dinodex.find({:key => :weight_in_lbs, :target => "asdf"}) 
     end

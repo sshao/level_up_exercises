@@ -40,7 +40,7 @@ class Dinodex
   end
 
   def create_entries(path)
-    body, formatter = read_csv(path) 
+    body, formatter = read_file_and_format(path)
 
     if formatter
       csv = CSV.new(body, :headers => true, :header_converters => :symbol,
@@ -51,15 +51,17 @@ class Dinodex
     end
   end
 
-  def read_csv(path)
+  def read_file_and_format(path)
     begin
       body = File.read(path).downcase
-      format = Formatter.identify_format(body)
-    rescue RuntimeError => e
+      formatter = Formatter.identify_format(body)
+    rescue InvalidFormatError => e
       puts "#{e.inspect} -- from file #{path}"
+    rescue Errno::ENOENT
+      puts "File #{path} not found, skipping"
     end
 
-    return body, format
+    return body, formatter
   end
 
   def matches?(dino, search)
