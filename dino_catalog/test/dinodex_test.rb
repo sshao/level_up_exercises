@@ -75,10 +75,10 @@ class DinodexTest < MiniTest::Unit::TestCase
     end
 
     def test_does_not_parse_invalid_csv
-      assert_empty Dinodex.new(File.expand_path('test/fixtures/invalid_format.csv')).dinos
+      output, = capture_io { Dinodex.new(File.expand_path('test/fixtures/invalid_format.csv')) }
+      assert_match /InvalidFormatError/, output
     end
 
-    # FIXME assertion
     def test_invalid_weight
       assert_nil @full_dinodex.find({:key => :weight_in_lbs, :target => "asdf"}) 
     end

@@ -42,14 +42,14 @@ class Dinodex
     str
   end
 
-  # FIXME split into further methods
   def create_entries(path)
     body, format = read_csv(path) 
 
     csv = CSV.new(body, :headers => true, :header_converters => :symbol,
                   :converters => :all)
+    csv_hash = csv.to_a.map(&:to_hash)
 
-    Formatter.format(csv, format)
+    Formatter.format(csv_hash, format)
   end
 
   def read_csv(path)
@@ -91,7 +91,7 @@ class Dinodex
   end
 
   def is_big_dino?(dino)
-    dino[:weight_in_lbs] >= 2000
+    dino[:weight_in_lbs] >= BIG_DINO_WEIGHT_THRESHOLD
   end
 
   def is_small_dino?(dino)

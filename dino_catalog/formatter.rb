@@ -3,12 +3,10 @@ require_relative 'dinodex_config'
 class InvalidFormatError < RuntimeError; end
 
 class Formatter
-  def self.format(csv, format)
-    hash = csv.to_a.map(&:to_hash)
-    
+  def self.format(hash_array, format)
     case format
-    when :african then AfricanFormatter.format(hash)
-    when :dinodex then DinodexFormatter.format(hash)
+    when :african then AfricanFormatter.format(hash_array)
+    when :dinodex then DinodexFormatter.format(hash_array)
     end
   end
 
@@ -48,3 +46,4 @@ class AfricanFormatter < Formatter
     end
   end
 end
+
