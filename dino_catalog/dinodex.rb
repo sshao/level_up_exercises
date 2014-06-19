@@ -6,36 +6,41 @@ require_relative 'dinodex_config'
 class DinodexError < RuntimeError; end
 
 class Dinodex
-  attr_reader :dinos
+  attr_accessor :dinos
  
-  def initialize(filepaths)
+  def initialize(filepaths = nil)
     @dinos = []
-    Array(filepaths).each { |path| @dinos += create_entries(path) }
+    Array(filepaths).each { |path| @dinos += create_entries(path) } if filepaths
   end
 
   # FIXME input searches as a hash
   #       allow chained searches, would have to return Dinodex rather than dino 
   #       names, or return a new instance of dinodex to allow chaining 
-  def find(*searches)
-    results = @dinos.select { |dino| matches_all?(dino, *searches) }
-    results.map { |dino| dino[:name] }
+  def find(search)
+    results = @dinos.select { |dino| matches?(dino, search) }
+    results_dinodex = Dinodex.new
+    results_dinodex.dinos += results
+    results_dinodex
   end
 
-  # TODO override to_s (no args) method?
-
-  def to_s(names)
+  def to_s(name = nil)
     str = ""
-    names_array = Array(names).map(&:downcase)
-
-    names_array.each do |name|
-      dino = @dinos.find { |dino| dino[:name] == name }
-      dino.each { |header, fact| str << "#{header}: #{fact}\n" unless fact.nil? }
+    if name
+      dino = @dinos.find { |dino| dino[:name] == name.downcase }
+      dino_to_s(dino)
+    else
+      @dinos.each { |dino| str << dino_to_s(dino) }
+      str
     end
-
-    str
   end
 
   private
+  def dino_to_s(dino)
+    str = ""
+    dino.each { |header, fact| str << "#{header}: #{fact}\n" unless fact.nil? }
+    str
+  end
+
   # FIXME split into further methods
   def create_entries(path)
     body = File.read(path).downcase
@@ -53,10 +58,6 @@ class Dinodex
   end
 
   # TODO use respond_to/define_method/send to decide on matches_? methods to use
-  def matches_all?(dino, *searches)
-    searches.all? { |search| matches?(dino, search) }
-  end
-
   def matches?(dino, search)
     target = search[:target].downcase
 

@@ -141,32 +141,32 @@ class DinodexTest < MiniTest::Unit::TestCase
     end        
 
     def test_finds_nil_diet
-        dinodex = Dinodex.new(File.expand_path(
-            'test/fixtures/null_values.csv'))
+        dinodex = Dinodex.new(File.expand_path('test/fixtures/null_values.csv'))
 
-        assert_empty dinodex.find({:key => :diet,
-            :target=>"Carnivore"})
+        actual = dinodex.find({:key => :diet, :target => "Carnivore" }).dinos
+
+        assert_empty actual
     end
 
     def test_finds_nil_weight
-        dinodex = Dinodex.new(File.expand_path(
-            'test/fixtures/null_values.csv'))
+        dinodex = Dinodex.new(File.expand_path('test/fixtures/null_values.csv'))
 
-        assert_empty dinodex.find({:key => :weight,
-            :target=>"big"})
+        actual = dinodex.find({:key => :diet, :target => "big" }).dinos
+
+        assert_empty actual
     end
 
     def test_finds_nil_fact
-        dinodex = Dinodex.new(File.expand_path(
-            'test/fixtures/null_values.csv'))
+        dinodex = Dinodex.new(File.expand_path('test/fixtures/null_values.csv'))
 
-        assert_empty dinodex.find({:key => :period,
-            :target=>"Jurassic"})
+        actual = dinodex.find({:key => :period, :target => "jurassic"}).dinos
+
+        assert_empty actual
     end
 
     def test_finds_no_omnivores
         assert_empty @full_dinodex.find({:key => :diet,
-            :target=>"Omnivore"})
+            :target=>"Omnivore"}).dinos
     end
 
     def test_finds_all_bipeds
@@ -175,8 +175,10 @@ class DinodexTest < MiniTest::Unit::TestCase
             "yangchuanosaurus", "abrictosaurus", "afrovenator",
             "carcharodontosaurus", "suchomimus"]
 
-        assert_equal expected.sort, @full_dinodex.find({:key => :walking,
-            :target=>"Biped"}).sort
+        actual = @full_dinodex.find({:key => :walking, :target => "Biped"}).dinos
+        actual = actual.map { |hash| hash[:name] }
+
+        assert_equal expected.sort, actual.sort
     end
 
     def test_finds_all_carnivores
@@ -185,15 +187,17 @@ class DinodexTest < MiniTest::Unit::TestCase
             "yangchuanosaurus", "afrovenator", "carcharodontosaurus",
             "suchomimus", "albertonykus", "baryonyx"]
 
-        assert_equal expected.sort, @full_dinodex.find({:key => :diet,
-            :target=>"carnivore"}).sort
+        actual = @full_dinodex.find({:key => :diet, :target => "carnivore"}).dinos
+        actual = actual.map { |hash| hash[:name] }
+
+        assert_equal expected.sort, actual.sort
     end
     
     def test_finds_all_piscivores
-        expected = ["baryonyx"]
+        expected = "baryonyx"
         
         assert_equal expected, @full_dinodex.find({:key => :diet,
-            :target=>"piscivore"})
+            :target=>"piscivore"}).dinos.first[:name]
     end
 
     def test_finds_all_periods
@@ -201,8 +205,10 @@ class DinodexTest < MiniTest::Unit::TestCase
             "deinonychus", "giganotosaurus", "quetzalcoatlus", 
             "paralititan", "suchomimus"]
 
-        assert_equal expected.sort, @full_dinodex.find({:key => :period,
-            :target=>"cretaceous"}).sort
+        actual = @full_dinodex.find({:key => :period, :target=>"cretaceous"}).dinos
+        actual = actual.map { |hash| hash[:name] }
+
+        assert_equal expected.sort, actual.sort
     end
 
     def test_finds_big_dinos
@@ -210,24 +216,28 @@ class DinodexTest < MiniTest::Unit::TestCase
             "giganotosaurus", "yangchuanosaurus", "carcharodontosaurus",
             "giraffatitan", "paralititan", "suchomimus", "melanorosaurus"]
 
-        assert_equal expected.sort, @full_dinodex.find({
-            :key => :weight_in_lbs, :target=>"big"}).sort
+        actual = @full_dinodex.find({key: :weight_in_lbs, target: "big"}).dinos
+        actual = actual.map { |hash| hash[:name] }
+
+        assert_equal expected.sort, actual.sort
     end
 
     def test_finds_small_dinos
         expected = ["deinonychus", "quetzalcoatlus", "abrictosaurus"]
+        
+        actual = @full_dinodex.find({:key => :weight_in_lbs, :target=>"small"}).dinos
+        actual = actual.map { |hash| hash[:name] }
 
-        assert_equal expected.sort, @full_dinodex.find({
-            :key => :weight_in_lbs, :target=>"small"}).sort
+        assert_equal expected.sort, actual.sort
     end
 
     def test_finds_multiple_search_criteria
-        expected = ["abrictosaurus"]
+        expected = "abrictosaurus"
 
-        assert_equal expected, @full_dinodex.find(
-            {:key => :weight_in_lbs, :target=>"small"},
-            {:key => :period, :target=>"jurassic"},
-            {:key => :diet, :target=>"Herbivore"}).sort
+        assert_equal expected, @full_dinodex
+            .find({:key => :weight_in_lbs, :target=>"small"})
+            .find({:key => :period, :target=>"jurassic"})
+            .find({:key => :diet, :target=>"Herbivore"}).dinos.first[:name]
     end
 
     def test_prints_complete_dino_info
@@ -286,7 +296,7 @@ class DinodexTest < MiniTest::Unit::TestCase
         jurassic_dinos = @full_dinodex.find(
             {:key => :period, :target => "jurassic"})
 
-        output = @full_dinodex.to_s jurassic_dinos 
+        output = jurassic_dinos.to_s
 
         assert_includes(output.downcase, expected_afrovenator.downcase)
         assert_includes(output.downcase, expected_abrictosaurus.downcase)
