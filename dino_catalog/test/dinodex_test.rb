@@ -75,7 +75,7 @@ class DinodexTest < MiniTest::Unit::TestCase
     end
 
     def test_does_not_parse_invalid_csv
-      assert_raises(DinodexError, "Invalid CSV headers/format in test/fixtures/invalid_format.csv") {Dinodex.new(File.expand_path('test/fixtures/invalid_format.csv'))}
+      assert_empty Dinodex.new(File.expand_path('test/fixtures/invalid_format.csv')).dinos
     end
 
     # FIXME assertion

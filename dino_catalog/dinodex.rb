@@ -10,7 +10,7 @@ class Dinodex
  
   def initialize(filepaths = nil)
     @dinos = []
-    Array(filepaths).each { |path| @dinos += create_entries(path) } if filepaths
+    Array(filepaths).each { |path| @dinos += Array(create_entries(path)) } if filepaths
   end
 
   def add(dino_hash)
@@ -44,18 +44,23 @@ class Dinodex
 
   # FIXME split into further methods
   def create_entries(path)
-    body = File.read(path).downcase
+    body, format = read_csv(path) 
 
-    format = Formatter.identify_format(body)
-    raise DinodexError, "Invalid CSV headers/format in #{path}" if format.nil?
-      
     csv = CSV.new(body, :headers => true, :header_converters => :symbol,
                   :converters => :all)
-      
-    csv_hash = csv.to_a.map(&:to_hash)
-    csv_hash = AfricanFormatter.format(csv_hash) if format == :african
 
-    csv_hash 
+    Formatter.format(csv, format)
+  end
+
+  def read_csv(path)
+    begin
+      body = File.read(path).downcase
+      format = Formatter.identify_format(body)
+    rescue RuntimeError => e
+      puts "#{e.inspect} -- from file #{path}"
+    end
+
+    return body, format
   end
 
   # TODO use respond_to/define_method/send to decide on matches_? methods to use

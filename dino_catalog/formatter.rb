@@ -1,11 +1,22 @@
 require_relative 'dinodex_config'
 
+class InvalidFormatError < RuntimeError; end
+
 class Formatter
+  def self.format(csv, format)
+    hash = csv.to_a.map(&:to_hash)
+    
+    case format
+    when :african then AfricanFormatter.format(hash)
+    when :dinodex then DinodexFormatter.format(hash)
+    end
+  end
+
   def self.identify_format(body)
     case body.lines.first
     when /genus,period,carnivore,weight,walking/i then :african
     when /name,period,continent,diet,weight_in_lbs,walking,description/i then :dinodex 
-    else nil
+    else raise InvalidFormatError, "Invalid CSV format"
     end
   end
 end
