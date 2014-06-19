@@ -43,13 +43,15 @@ class Dinodex
   end
 
   def create_entries(path)
-    body, format = read_csv(path) 
+    body, formatter = read_csv(path) 
 
-    csv = CSV.new(body, :headers => true, :header_converters => :symbol,
-                  :converters => :all)
-    csv_hash = csv.to_a.map(&:to_hash)
+    if formatter
+      csv = CSV.new(body, :headers => true, :header_converters => :symbol,
+                    :converters => :all)
+      csv_hash = csv.to_a.map(&:to_hash)
 
-    Formatter.format(csv_hash, format)
+      formatter.format(csv_hash) 
+    end
   end
 
   def read_csv(path)
