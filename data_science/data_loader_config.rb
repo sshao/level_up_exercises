@@ -1,0 +1,2 @@
+ACCEPTED_FORMATS = [:json]
+
