@@ -19,6 +19,7 @@ class Dinodex
 
   def find(search)
     results_dinodex = Dinodex.new
+    
     begin
       results_dinodex.add(@dinos.select { |dino| matches?(dino, search) })
     rescue DinodexMatchError => e
@@ -92,7 +93,6 @@ class Dinodex
       (target_diet == "carnivore" && CARNIVORES.include?(dino[:diet]))
   end
 
-  # FIXME error on weight != big||small
   def matches_weight_in_lbs?(dino, weight)
     method_name = "is_#{weight}_dino?"
 

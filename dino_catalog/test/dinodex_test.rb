@@ -3,7 +3,7 @@ require_relative '../dinodex'
 
 # FIXME remove csv, not worth testing incomplete lines?
 
-class DinodexTest < MiniTest::Unit::TestCase
+class DinodexTest < MiniTest::Test
 
     EXPECTED_DINODEX_OUTPUT = [
             {:name => "albertosaurus", :period => "late cretaceous",
