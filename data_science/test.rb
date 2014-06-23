@@ -1,36 +1,34 @@
-require_relative 'split_tester_config'
-
 class Test
-  attr_reader :cohort, :data, :sample_size, :conversions
+  attr_reader :cohort, :data, :sample_size, :conversions, :nonconversions
+  
+  PERCENTILE_POINT_OF_95 = 1.96
 
   def initialize(data, cohort)
     @cohort = cohort
-    @data = data.select { |h| h[:cohort] == cohort }
-    @sample_size = @data.size
-    @conversions = @data.count { |h| h[:result] == 1 }
+    @data = data
+    @sample_size = data.size
+    @conversions = data.count { |h| h[:result] == 1 }
+    @nonconversions = sample_size - conversions
   end
 
   def conversion_rate
-    @conversions.to_f / @sample_size.to_f
+    @conversion_rate ||= conversions.to_f / sample_size.to_f
   end
 
   def standard_error
     p = conversion_rate
-    Math.sqrt(p * (1 - p) / @sample_size)
+    Math.sqrt(p * (1 - p) / sample_size)
   end
 
   def confidence_interval
-    PERCENTILE_POINT_OF_95 * standard_error
+    @confidence_interval ||= PERCENTILE_POINT_OF_95 * standard_error
   end
 
   def conversion_range
-    interval = confidence_interval
-    conversion_percentage = conversion_rate
+    lower_bound = [0, conversion_rate - confidence_interval].max
+    upper_bound = [1, conversion_rate + confidence_interval].min
 
-    lower_bound = [0, conversion_percentage - interval].max
-    upper_bound = [1, conversion_percentage + interval].min
-    
-    Range.new(lower_bound, upper_bound)
+    (lower_bound..upper_bound)
   end
 
 end

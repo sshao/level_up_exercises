@@ -1,21 +1,25 @@
 require 'json'
-require_relative 'data_loader_config'
 
 class InvalidFormatError < RuntimeError; end
 
 class DataLoader
 
+  # TODO yaml?
+  ACCEPTED_FORMATS = [:json]
+
   attr_accessor :format
 
   def initialize(format)
-    raise InvalidFormatError, "Cannot read .#{format}. Accepted formats are #{ACCEPTED_FORMATS}" unless ACCEPTED_FORMATS.include? format
+    unless ACCEPTED_FORMATS.include? format
+      raise InvalidFormatError, "Cannot read .#{format}. Accepted formats are #{ACCEPTED_FORMATS}" 
+    end
 
     @format = format
   end
 
   def read(filepath)
     method = "read_#{@format}"
-    send(method, *[filepath]) if self.respond_to? method, true
+    send(method, filepath) if self.respond_to?(method, true)
   end
 
   private
