@@ -70,7 +70,7 @@ class DinodexTest < MiniTest::Unit::TestCase
 
     def setup 
         @full_dinodex = Dinodex.new([
-            File.expand_path('test/fixtures/african_dinoaur_export.csv'),
+            File.expand_path('test/fixtures/african_dinosaur_export.csv'),
             File.expand_path('test/fixtures/dinodex.csv')])
     end
 
@@ -108,7 +108,7 @@ class DinodexTest < MiniTest::Unit::TestCase
 
     def test_parses_multiple_dinodex_format
         dinodex = Dinodex.new(File.expand_path(
-            'dinodex.csv'))
+            'test/fixtures/dinodex.csv'))
 
         assert_equal EXPECTED_DINODEX_OUTPUT, dinodex.dinos
     end
@@ -134,7 +134,7 @@ class DinodexTest < MiniTest::Unit::TestCase
     def test_parses_multiple_african_format
 
         dinodex = Dinodex.new(File.expand_path(
-            'african_dinoaur_export.csv'))
+            'test/fixtures/african_dinosaur_export.csv'))
 
         assert_equal EXPECTED_AFRICAN_OUTPUT, dinodex.dinos
     end
