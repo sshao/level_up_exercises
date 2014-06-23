@@ -2,6 +2,9 @@ require 'csv'
 require_relative 'formatter'
 require_relative 'dinodex_config'
 
+class DinodexMatchError < RuntimeError; end
+class InvalidWeightError < DinodexMatchError; end
+
 class Dinodex
   attr_accessor :dinos
  
@@ -16,7 +19,11 @@ class Dinodex
 
   def find(search)
     results_dinodex = Dinodex.new
-    results_dinodex.add(@dinos.select { |dino| matches?(dino, search) })
+    begin
+      results_dinodex.add(@dinos.select { |dino| matches?(dino, search) })
+    rescue DinodexMatchError => e
+      puts e.inspect
+    end
 
     results_dinodex
   end
@@ -89,7 +96,11 @@ class Dinodex
   def matches_weight_in_lbs?(dino, weight)
     method_name = "is_#{weight}_dino?"
 
-    dino[:weight_in_lbs] && send(method_name, dino) if self.respond_to? method_name, true
+    if self.respond_to? method_name, true
+      dino[:weight_in_lbs] && send(method_name, dino) 
+    else
+      raise InvalidWeightError, "Cannot find dinosaurs of weight #{weight}. Try 'big' or 'small' instead"
+    end
   end
 
   def is_big_dino?(dino)

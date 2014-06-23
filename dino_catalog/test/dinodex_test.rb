@@ -84,10 +84,6 @@ class DinodexTest < MiniTest::Unit::TestCase
       assert_match /not found, skipping/, output
     end
 
-    def test_invalid_weight
-      assert_nil @full_dinodex.find({:key => :weight_in_lbs, :target => "asdf"}) 
-    end
-
     def test_parses_complete_dinodex_format
         dinodex = Dinodex.new(File.expand_path(
           'test/fixtures/single_complete_dinodex_input.csv'))
@@ -214,6 +210,16 @@ class DinodexTest < MiniTest::Unit::TestCase
         actual = actual.map { |hash| hash[:name] }
 
         assert_equal expected.sort, actual.sort
+    end
+
+    def test_invalid_weight
+      invalid_weight = "asdf"
+      results = nil
+
+      output, = capture_io { results = @full_dinodex.find({:key => :weight_in_lbs, :target => invalid_weight}) }
+
+      assert_match /InvalidWeightError: Cannot find dinosaurs of weight asdf/, output
+      assert_empty results.dinos
     end
 
     def test_finds_big_dinos
