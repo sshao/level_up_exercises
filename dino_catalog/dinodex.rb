@@ -10,66 +10,64 @@ class Dinodex
  
   def initialize(filepaths = nil)
     @dinos = []
-    Array(filepaths).each { |path| @dinos += Array(create_entries(path)) } if filepaths
+    # TODO could probably refactor further 
+    filepaths = Array(filepaths)
+    filepaths.each { |path| @dinos += Array(records(path)) }
   end
 
-  def add(dino_hash)
-    @dinos += Array(dino_hash)
+  def add(dino)
+    @dinos << dino
   end
 
   def find(search)
+    # TODO Dinodex.create_from( matching = @dinos.select { search } ) ?
     results_dinodex = Dinodex.new
-    
-    begin
-      results_dinodex.add(@dinos.select { |dino| matches?(dino, search) })
-    rescue DinodexMatchError => e
-      puts e.inspect
-    end
-
+    @dinos.select { |dino| results_dinodex.add(dino) if matches?(dino, search) }
     results_dinodex
+  rescue DinodexMatchError => e
+    puts e.inspect
   end
 
-  def to_s(name = nil)
-    if name
-      dino = @dinos.find { |dino| dino[:name] == name.downcase }
-      dino_to_s(dino)
-    else
-      str = ""
-      @dinos.each { |dino| str << dino_to_s(dino) }
-      str
-    end
+  def to_s
+    @dinos.map { |dino| dino_to_s(dino) }.join
+  end
+
+  def print_dino(name)
+    dino = @dinos.find { |dino| dino[:name] == name.downcase }
+    dino_to_s(dino)
   end
 
   private
   def dino_to_s(dino)
-    str = ""
-    dino.each { |header, fact| str << "#{header}: #{fact}\n" unless fact.nil? }
-    str
+    dino.map { |header, fact| "#{header}: #{fact}\n" unless fact.nil? }.join
   end
 
-  def create_entries(path)
-    body, formatter = read_file_and_format(path)
+  def records(path)
+    body = read_file(path)
+    return if body.nil?
 
-    if formatter
-      csv = CSV.new(body, :headers => true, :header_converters => :symbol,
-                    :converters => :all)
-      csv_hash = csv.to_a.map(&:to_hash)
-
-      formatter.format(csv_hash) 
-    end
+    formatter = formatter(body.lines.first)
+    return if formatter.nil?
+    
+    formatter.format(records_hash(body)) 
   end
 
-  def read_file_and_format(path)
-    begin
-      body = File.read(path).downcase
-      formatter = Formatter.identify_format(body)
-    rescue InvalidFormatError => e
-      puts "#{e.inspect} -- from file #{path}"
-    rescue Errno::ENOENT
-      puts "File #{path} not found, skipping"
-    end
+  def read_file(path)
+    File.read(path).downcase
+  rescue Errno::ENOENT
+    puts "File #{path} not found, skipping"
+  end
 
-    return body, formatter
+  def formatter(header)
+    formatter = Formatter.formatter(header)
+  rescue InvalidFormatError => e
+    puts e.inspect
+  end
+
+  def records_hash(body)
+    csv = CSV.new(body, :headers => true, :header_converters => :symbol,
+                  :converters => :all)
+    csv_hash = csv.map(&:to_hash)
   end
 
   def matches?(dino, search)
@@ -89,8 +87,11 @@ class Dinodex
   end
 
   def matches_diet?(dino, target_diet)
-    dino[:diet].to_s == target_diet || 
-      (target_diet == "carnivore" && CARNIVORES.include?(dino[:diet]))
+    if target_diet == "carnivore"
+      CARNIVORES.include?(dino[:diet])
+    else
+      dino[:diet].to_s == target_diet
+    end
   end
 
   def matches_weight_in_lbs?(dino, weight)

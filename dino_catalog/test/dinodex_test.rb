@@ -219,7 +219,7 @@ class DinodexTest < MiniTest::Test
       output, = capture_io { results = @full_dinodex.find({:key => :weight_in_lbs, :target => invalid_weight}) }
 
       assert_match /InvalidWeightError: Cannot find dinosaurs of weight asdf/, output
-      assert_empty results.dinos
+      assert_nil results
     end
 
     def test_finds_big_dinos
@@ -262,7 +262,7 @@ class DinodexTest < MiniTest::Test
              "description: like a t-rex but smaller.\n"
 
         assert_equal expected.downcase, 
-          @full_dinodex.to_s("albertosaurus").downcase
+          @full_dinodex.print_dino("albertosaurus").downcase
     end
 
     def test_prints_incomplete_dino_info
@@ -274,7 +274,7 @@ class DinodexTest < MiniTest::Test
             "continent: africa\n"\
 
         assert_equal expected.downcase, 
-          @full_dinodex.to_s("afrovenator").downcase
+          @full_dinodex.print_dino("afrovenator").downcase
     end
 
     def test_prints_dino_collection_info

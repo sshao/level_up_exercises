@@ -1,26 +1,27 @@
-require_relative 'dinodex_config'
-
 class InvalidFormatError < RuntimeError; end
 
 class Formatter
-  def self.identify_format(body)
-    case body.lines.first
-    when /genus,period,carnivore,weight,walking/i then AfricanFormatter.new
-    when /name,period,continent,diet,weight_in_lbs,walking,description/i then DinodexFormatter.new
-    else raise InvalidFormatError, "Invalid CSV format"
-    end
-  end
-end
+  FORMATTERS = { /genus,period,carnivore,weight,walking/i => "AfricanFormatter",
+                 /name,period,continent,diet,weight_in_lbs,walking,description/i => "Formatter" }
 
-class DinodexFormatter < Formatter
   def format(hash_array)
     hash_array
+  end
+
+  # TODO this doesn't seem like it belongs in this class now 
+  def self.formatter(body)
+    formatter = FORMATTERS.find { |header, formatter| body.lines.first =~ header }
+    raise InvalidFormatError, "Invalid CSV format" if formatter.nil?
+    
+    Object.const_get(formatter[1]).new
   end
 end
 
 class AfricanFormatter < Formatter
+  AFRICAN_HEADER_MAPPINGS = { :genus => :name, :carnivore => :diet, :weight => :weight_in_lbs }
+  
   def format(hash_array)
-    new_hash = hash_array.map { |h| reformat(h) }
+    hash_array.map { |record| reformat(record) }
   end
 
   private
