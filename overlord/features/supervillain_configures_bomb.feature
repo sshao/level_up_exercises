@@ -15,6 +15,7 @@ Feature: supervillain configures bomb
 
   Scenarios: invalid code
     | code  | result                                                |
+    | 77    | "Invalid activation code: must be 4 numerical digits" |
     | 77777 | "Invalid activation code: must be 4 numerical digits" |
     | abcd  | "Invalid activation code: must be 4 numerical digits" |
     | 7a7b  | "Invalid activation code: must be 4 numerical digits" |
@@ -34,6 +35,7 @@ Feature: supervillain configures bomb
 
   Scenarios: invalid code
     | code  | result                                                  |
+    | 77    | "Invalid deactivation code: must be 4 numerical digits" |
     | 77777 | "Invalid deactivation code: must be 4 numerical digits" |
     | abcd  | "Invalid deactivation code: must be 4 numerical digits" |
     | 7a7b  | "Invalid deactivation code: must be 4 numerical digits" |
