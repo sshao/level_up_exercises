@@ -9,7 +9,7 @@ Feature: supervillain boots up a new bomb
     Then I should see "THIS IS THE BOMB"
       And I should see "Status: Deactivated"
       And I should see "Enter Activation Code"
-      And I should see "Activate"
+      And I should see button "Activate"
       And I should see "Enter Deactivation Code" 
-      And I should see "Deactivate"
+      And I should see button "Deactivate"
 

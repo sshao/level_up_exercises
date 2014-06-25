@@ -9,6 +9,10 @@ Then(/^I should see "(.*)"$/) do |text|
   expect(page).to have_content text
 end
 
+Then(/^I should see button "(.*)"$/) do |button|
+  expect(page).to have_selector(:link_or_button, button)
+end
+
 Given(/^I have not yet configured the activation code$/) do
 end
 

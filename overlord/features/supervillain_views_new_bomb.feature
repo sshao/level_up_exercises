@@ -9,5 +9,5 @@ Feature: supervillain views a new bomb
     Then I should see "THIS WILL BE THE BOMB"
       And I should see "Enter new activation code:"
       And I should see "Enter new deactivation code:"
-      And I should see "Finish"
+      And I should see button "Finish"
 

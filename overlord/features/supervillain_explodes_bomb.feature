@@ -10,9 +10,9 @@ Feature: supervillain explodes a bomb
     When I submit "1111" as "Enter Deactivation Code" and click "Deactivate" 3 times
     Then I should see "Status: EXPLODED"
       And I should see "Enter Activation Code"
-      And I should see "Activate"
+      And I should see button "Activate"
       And "Activate" should be "disabled"
       And I should see "Enter Deactivation Code" 
-      And I should see "Deactivate"
+      And I should see button "Deactivate"
       And "Deactivate" should be "disabled"
 
