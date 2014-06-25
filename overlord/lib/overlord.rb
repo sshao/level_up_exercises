@@ -1,0 +1,2 @@
+require 'overlord/bomb'
+
