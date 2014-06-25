@@ -8,11 +8,51 @@ describe Bomb do
   end
 
   describe "#activation_code=" do
-    it "correctly sets activation code" 
+    context "with valid activation code" do
+      it "correctly sets activation code" 
+    end
+    
+    context "with invalid activation code" do
+      context "with >4 characters" do
+        it "does not change the activation code"
+      end
+      
+      context "with <4 characters" do
+        it "does not change the activation code"
+      end
+
+      context "with all non-number characters" do
+        it "does not change the activation code"
+      end
+
+      context "with mixed number/non-number characters" do
+        it "does not change the activation code"
+      end
+    end
   end
 
   describe "#deactivation_code=" do
-    it "correctly sets deactivation code"
+    context "with valid deactivation code" do
+      it "correctly sets deactivation code"
+    end
+
+    context "with invalid deactivation code" do
+      context "with >4 characters" do
+        it "does not change the deactivation code"
+      end
+      
+      context "with <4 characters" do
+        it "does not change the deactivation code"
+      end
+
+      context "with all non-number characters" do
+        it "does not change the deactivation code"
+      end
+
+      context "with mixed number/non-number characters" do
+        it "does not change the deactivation code"
+      end
+    end
   end
 
   describe "#activate" do
