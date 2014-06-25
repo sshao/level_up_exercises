@@ -4,6 +4,7 @@ describe Bomb do
   describe "#new" do
     it "sets default activation code to 1234"
     it "sets default deactivation code to 0000"
+    it "sets the bomb state to deactivated"
   end
 
   describe "#activation_code=" do
@@ -15,27 +16,51 @@ describe Bomb do
   end
 
   describe "#activate" do
-    context "with correct activation code" do
-      it "activates the bomb"
+    context "with deactivated bomb" do
+      context "with correct activation code" do
+        it "activates the bomb"
+      end
+
+      context "with incorrect activation code" do
+        it "does not activate the bomb"
+      end
     end
 
-    context "with incorrect activation code" do
-      it "does not activate the bomb"
+    context "with activated bomb" do
+      context "with correct activation code" do
+        it "has no effect on bomb state"
+      end
+
+      context "with incorrect activation code" do
+        it "has no effect on bomb state"
+      end
     end
   end
 
   describe "#deactivate" do
-    context "with correct deactivation code" do
-      it "deactivates the bomb"
-    end
-  
-    context "with incorrect deactivation code" do
-      context "once" do
-        it "does not deactivate the bomb"
+    context "with activated bomb" do 
+      context "with correct deactivation code" do
+        it "deactivates the bomb"
       end
+    
+      context "with incorrect deactivation code" do
+        context "once" do
+          it "does not deactivate the bomb"
+        end
 
-      context "three times" do
-        it "explodes the bomb"
+        context "three times" do
+          it "explodes the bomb"
+        end
+      end
+    end
+
+    context "with deactivated bomb" do 
+      context "with correct deactivation code" do
+        it "has no effect on bomb state"
+      end
+    
+      context "with incorrect deactivation code" do
+        it "has no effect on bomb state"
       end
     end
   end
