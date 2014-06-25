@@ -75,6 +75,16 @@ describe Bomb do
         it "has no effect on bomb state"
       end
     end
+
+    context "with exploded bomb" do
+      context "with correct activation code" do
+        it "has no effect on bomb state"
+      end
+
+      context "with incorrect activation code" do
+        it "has no effect on bomb state"
+      end
+    end
   end
 
   describe "#deactivate" do
@@ -100,6 +110,16 @@ describe Bomb do
       end
     
       context "with incorrect deactivation code" do
+        it "has no effect on bomb state"
+      end
+    end
+    
+    context "with exploded bomb" do
+      context "with correct activation code" do
+        it "has no effect on bomb state"
+      end
+
+      context "with incorrect activation code" do
         it "has no effect on bomb state"
       end
     end
