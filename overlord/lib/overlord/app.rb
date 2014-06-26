@@ -1,32 +1,56 @@
 require 'sinatra'
-require_relative 'bomb'
+require 'sinatra/flash'
 require 'haml'
+require_relative 'bomb'
+
 require 'pry'
+
 enable :sessions
 
 get '/' do
   haml :index
 end
 
-post '/' do
+post '/create' do
   @bomb = Bomb.new
 
-  session[:flash] = ""
+  alerts = ""
+  successes = ""
+  errors = ""
 
-  session[:flash] << "Activation code set to default value\n" if params[:activation_code].empty?
-  session[:flash] << "Deactivation code set to default value\n" if params[:deactivation_code].empty?
-  
-  activation_set = @bomb.activation_code(params[:activation_code])
-  deactivation_set = @bomb.deactivation_code(params[:deactivation_code])
+  if params[:activation_code].empty?
+    alerts << "Activation code set to default value\n"
+  else
+    activation_set = @bomb.activation_code(params[:activation_code])
+    if activation_set
+      successes << "Activation code set\n"
+    else
+      errors << "Invalid activation code: must be 4 numerical digits\n"
+    end
+  end
 
-  session[:flash] << "Activation code set\n" if activation_set
-  session[:flash] << "Deactivation code set\n" if deactivation_set
+  if params[:deactivation_code].empty?
+    alerts << "Deactivation code set to default value\n"
+  else
+    deactivation_set = @bomb.deactivation_code(params[:deactivation_code])
+    if deactivation_set
+      successes << "Deactivation code set\n"
+    else
+      errors << "Invalid deactivation code: must be 4 numerical digits\n"
+    end
+  end
 
-  session[:flash] << "Invalid activation code: must be 4 numerical digits\n" if !activation_set
-  session[:flash] << "Invalid deactivation code: must be 4 numerical digits\n" if !deactivation_set
+  flash[:alert] = alerts
+  flash[:success] = successes
+  flash[:error] = errors
   
   session[:bomb] = @bomb  
 
+  redirect to("/bomb")
+end
+
+get '/bomb' do
+  @bomb = session[:bomb]
   haml :bomb
 end
 
@@ -34,24 +58,25 @@ post '/activate' do
   @bomb = session[:bomb]
   
   if @bomb.state == :activated
-    session[:flash] = "Bomb is activated"
+    flash[:error] = "Bomb is activated"
   else
-    @bomb.activate(params[:activation_code])
-    session[:flash] = "Wrong activation code"
+    unless @bomb.activate(params[:activation_code])
+      flash[:error] = "Wrong activation code"
+    end
   end
   
-  haml :bomb
+  redirect to("/bomb")
 end
 
 post '/deactivate' do
   @bomb = session[:bomb]
   if @bomb.state == :deactivated
-    session[:flash] = "Bomb is already deactivated"
+    flash[:error] = "Bomb is already deactivated"
   else 
-    @bomb.deactivate(params[:deactivation_code])
-    session[:flash] = "Wrong deactivation code"
+    flash[:error] = "Wrong deactivation code" unless @bomb.deactivate(params[:deactivation_code])
   end
-  haml :bomb
+  
+  redirect to("/bomb")
 end
 
 def h(text)
