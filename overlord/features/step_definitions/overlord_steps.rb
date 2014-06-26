@@ -6,7 +6,7 @@ When(/^I boot up the bomb$/) do
 end
 
 Then(/^I should see "(.*)"$/) do |text|
-  expect(page).to have_content text
+  expect(page).to have_content /#{text}/i
 end
 
 Then(/^I should see button "(.*)"$/) do |button|
@@ -14,38 +14,51 @@ Then(/^I should see button "(.*)"$/) do |button|
 end
 
 Given(/^I have not yet configured the activation code$/) do
+  visit "/"
 end
 
 When(/^I click "(.*?)"$/) do |link|
-  click_link link
+  click_link_or_button link
 end
 
 Given(/^I have not yet configured the deactivation code$/) do
+  visit "/"
 end
 
 Given(/^the bomb has been configured$/) do
+  visit "/"
+end
+
+Given(/^I have a new bomb$/) do
+  visit "/"
+end
+
+Given(/^I have configured the bomb$/) do
+  click_button "Finish"
 end
 
 Given(/^the bomb is not yet activated$/) do
 end
 
-Given(/^the activation code is "(.*?)"$/) do |code|
-  expect(Bomb.any_instance).to receive(:activation_code) { code.to_i }
+Given(/^the bomb's activation code is "(.*?)"$/) do |code|
+  visit "/"
+  fill_in "Enter new activation code:", :with => code
 end
 
-Given(/^the bomb is activated$/) do
-  expect(Bomb.any_instance).to receive(:activated?) { true }
+Given(/^the bomb is activated with code "(.*?)"$/) do |code|
+  fill_in "Enter Activation Code", :with => code
+  click_button "Activate"
 end
 
 Given(/^the bomb is deactivated$/) do
-  expect(Bomb.any_instance).to receive(:activated?) { false }
 end
 
-Given(/^the deactivation code is "(.*?)"$/) do |code|
-  expect(Bomb.any_instance).to receive(:deactivation_code) { code.to_i }
+Given(/^the bomb's deactivation code is "(.*?)"$/) do |code|
+  visit "/"
+  fill_in "Enter new deactivation code:", :with => code
 end
 
 Then(/^"(.*?)" should be "(.*?)"$/) do |button, state|
-  field_labeled(button, disabled: true)
+  find_button(button, disabled: true)
 end
 
