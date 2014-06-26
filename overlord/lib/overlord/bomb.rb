@@ -8,11 +8,11 @@ class Bomb
     @deactivation_attempts = 0
   end
 
-  def activation_code=(code)
+  def activation_code(code)
     @activation_code = code if valid_code?(code)
   end
 
-  def deactivation_code=(code)
+  def deactivation_code(code)
     @deactivation_code = code if valid_code?(code)
   end
 

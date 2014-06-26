@@ -17,37 +17,37 @@ describe Bomb do
     end
   end
 
-  describe "#activation_code=" do
+  describe "#activation_code" do
     let(:bomb) { Bomb.new }
 
     context "with valid activation code" do
       it "correctly sets activation code" do
-        expect{bomb.activation_code = "5555"}.to change{bomb.instance_variable_get(:@activation_code)}.to("5555")
+        expect{bomb.activation_code("5555")}.to change{bomb.instance_variable_get(:@activation_code)}.to("5555")
       end
     end
     
     context "with invalid activation code" do
       context "with >4 characters" do
         it "does not change the activation code" do
-          expect{bomb.activation_code = "22222"}.to_not change{bomb.instance_variable_get(:@activation_code)}
+          expect{bomb.activation_code("22222")}.to_not change{bomb.instance_variable_get(:@activation_code)}
         end
       end
       
       context "with <4 characters" do
         it "does not change the activation code" do
-          expect{bomb.activation_code = "12"}.to_not change{bomb.instance_variable_get(:@activation_code)}
+          expect{bomb.activation_code("12")}.to_not change{bomb.instance_variable_get(:@activation_code)}
         end
       end
 
       context "with all non-number characters" do
         it "does not change the activation code" do
-          expect{bomb.activation_code = "aaaa"}.to_not change{bomb.instance_variable_get(:@activation_code)}
+          expect{bomb.activation_code("aaaa")}.to_not change{bomb.instance_variable_get(:@activation_code)}
         end
       end
 
       context "with mixed number/non-number characters" do
         it "does not change the activation code" do
-          expect{bomb.activation_code = "a2a2"}.to_not change{bomb.instance_variable_get(:@activation_code)}
+          expect{bomb.activation_code("a2a2")}.to_not change{bomb.instance_variable_get(:@activation_code)}
         end
       end
     end
@@ -58,32 +58,32 @@ describe Bomb do
 
     context "with valid deactivation code" do
       it "correctly sets deactivation code" do
-        expect{bomb.deactivation_code = "6666"}.to change{bomb.instance_variable_get(:@deactivation_code)}
+        expect{bomb.deactivation_code("6666")}.to change{bomb.instance_variable_get(:@deactivation_code)}
       end
     end
 
     context "with invalid deactivation code" do
       context "with >4 characters" do
         it "does not change the deactivation code" do
-          expect{bomb.deactivation_code = "66666"}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
+          expect{bomb.deactivation_code("66666")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
         end
       end
       
       context "with <4 characters" do
         it "does not change the deactivation code" do
-          expect{bomb.deactivation_code = "666"}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
+          expect{bomb.deactivation_code("666")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
         end
       end
 
       context "with all non-number characters" do
         it "does not change the deactivation code" do
-          expect{bomb.deactivation_code = "aaaa"}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
+          expect{bomb.deactivation_code("aaaa")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
         end
       end
 
       context "with mixed number/non-number characters" do
         it "does not change the deactivation code" do
-          expect{bomb.deactivation_code = "6a6a"}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
+          expect{bomb.deactivation_code("6a6a")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
         end
       end
     end
