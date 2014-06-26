@@ -1,0 +1,11 @@
+%h1 THIS WILL BE THE BOMB
+%form{ :action => "", :method => "post"}
+  %fieldset
+    %ol
+      %li
+        %label{:for => "activation_code"} Enter new activation code:
+        %input{:type => "text", :id => "activation_code", :name => "activation_code", :class => "text"}
+      %li 
+        %label{:for => "deactivation_code"} Enter new deactivation code:
+        %input{:type => "text", :id => "deactivation_code", :name => "deactivation_code", :class => "text"}
+    %input{:type => "submit", :value => "Finish", :class => "button"}

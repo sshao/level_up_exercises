@@ -1,0 +1,22 @@
+%h1 THIS IS THE BOMB
+%p=session[:flash]
+
+%p="Status: #{@bomb.state}"
+
+%form{ :action => "/activate", :method => "post"}
+  %fieldset
+    %ol
+      %li
+        %label{:for => "activation_code"} Enter Activation Code
+        %input{:type => "text", :id => "activation_code", :name => "activation_code", :class => "text"}
+  %input{:type => "submit", :value => "Activate", :class => "button", disabled: @bomb.state == :exploded}
+    
+%form{ :action => "/deactivate", :method => "post"}
+  %fieldset
+    %ol
+      %li
+        %label{:for => "deactivation_code"} Enter Deactivation Code
+        %input{:type => "text", :id => "deactivation_code", :name => "deactivation_code", :class => "text"}
+  %input{:type => "submit", :value => "Deactivate", :class => "button", disabled: @bomb.state == :exploded}
+
+%p=h session[:bomb].inspect
