@@ -137,11 +137,19 @@ describe Bomb do
         it "activates the bomb" do
           expect{bomb.activate("1234")}.to change{bomb.state}.to(:activated)
         end
+
+        it "returns truthy" do
+          expect(bomb.activate("1234")).to be_truthy
+        end
       end
 
       context "with incorrect activation code" do
         it "does not activate the bomb" do
           expect{bomb.activate("1111")}.to_not change{bomb.state}
+        end
+
+        it "returns falsey" do
+          expect(bomb.activate("1111")).to be_falsey
         end
       end
     end
@@ -155,11 +163,19 @@ describe Bomb do
         it "has no effect on bomb state" do
           expect{bomb.activate("1234")}.to_not change{bomb.state}
         end
+        
+        it "returns falsey" do
+          expect(bomb.activate("1234")).to be_falsey
+        end
       end
 
       context "with incorrect activation code" do
         it "has no effect on bomb state" do
           expect{bomb.activate("1111")}.to_not change{bomb.state}
+        end
+        
+        it "returns falsey" do
+          expect(bomb.activate("1111")).to be_falsey
         end
       end
     end
@@ -173,11 +189,19 @@ describe Bomb do
         it "has no effect on bomb state" do
           expect{bomb.activate("1234")}.to_not change{bomb.state}
         end
+        
+        it "returns falsey" do
+          expect(bomb.activate("1234")).to be_falsey
+        end
       end
 
       context "with incorrect activation code" do
         it "has no effect on bomb state" do
           expect{bomb.activate("1111")}.to_not change{bomb.state}
+        end
+        
+        it "returns falsey" do
+          expect(bomb.activate("1111")).to be_falsey
         end
       end
     end
@@ -195,12 +219,20 @@ describe Bomb do
         it "deactivates the bomb" do
           expect{bomb.deactivate("0000")}.to change{bomb.state}.to(:deactivated)
         end
+
+        it "returns truthy" do
+          expect(bomb.deactivate("0000")).to be_truthy
+        end
       end
     
       context "with incorrect deactivation code" do
         context "once" do
           it "does not deactivate the bomb" do
             expect{bomb.deactivate("1111")}.to_not change{bomb.state}
+          end
+        
+          it "returns falsey" do
+            expect(bomb.activate("1111")).to be_falsey
           end
         end
 
@@ -221,11 +253,19 @@ describe Bomb do
         it "has no effect on bomb state" do
           expect{bomb.deactivate("0000")}.to_not change{bomb.state}
         end
+
+        it "returns falsey" do
+          expect(bomb.deactivate("0000")).to be_falsey
+        end
       end
     
       context "with incorrect deactivation code" do
         it "has no effect on bomb state" do
           expect{bomb.deactivate("1111")}.to_not change{bomb.state}
+        end
+        
+        it "returns falsey" do
+          expect(bomb.deactivate("1111")).to be_falsey
         end
       end
     end
@@ -239,11 +279,19 @@ describe Bomb do
         it "has no effect on bomb state" do
           expect{bomb.deactivate("0000")}.to_not change{bomb.state}
         end
+        
+        it "returns falsey" do
+          expect(bomb.deactivate("0000")).to be_falsey
+        end
       end
 
       context "with incorrect activation code" do
         it "has no effect on bomb state" do
           expect{bomb.deactivate("1111")}.to_not change{bomb.state}
+        end
+        
+        it "returns falsey" do
+          expect(bomb.deactivate("1111")).to be_falsey
         end
       end
     end
