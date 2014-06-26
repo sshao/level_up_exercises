@@ -24,6 +24,10 @@ describe Bomb do
       it "correctly sets activation code" do
         expect{bomb.activation_code("5555")}.to change{bomb.instance_variable_get(:@activation_code)}.to("5555")
       end
+
+      it "returns truthy" do
+        expect(bomb.activation_code("5555")).to be_truthy
+      end
     end
     
     context "with invalid activation code" do
@@ -31,11 +35,19 @@ describe Bomb do
         it "does not change the activation code" do
           expect{bomb.activation_code("22222")}.to_not change{bomb.instance_variable_get(:@activation_code)}
         end
+
+        it "returns falsey" do
+          expect(bomb.activation_code("22222")).to be_falsey
+        end
       end
       
       context "with <4 characters" do
         it "does not change the activation code" do
           expect{bomb.activation_code("12")}.to_not change{bomb.instance_variable_get(:@activation_code)}
+        end
+
+        it "returns falsey" do
+          expect(bomb.activation_code("12")).to be_falsey
         end
       end
 
@@ -43,11 +55,19 @@ describe Bomb do
         it "does not change the activation code" do
           expect{bomb.activation_code("aaaa")}.to_not change{bomb.instance_variable_get(:@activation_code)}
         end
+        
+        it "returns falsey" do
+          expect(bomb.activation_code("aaaa")).to be_falsey
+        end
       end
 
       context "with mixed number/non-number characters" do
         it "does not change the activation code" do
           expect{bomb.activation_code("a2a2")}.to_not change{bomb.instance_variable_get(:@activation_code)}
+        end
+        
+        it "returns falsey" do
+          expect(bomb.activation_code("a2a2")).to be_falsey
         end
       end
     end
@@ -60,6 +80,10 @@ describe Bomb do
       it "correctly sets deactivation code" do
         expect{bomb.deactivation_code("6666")}.to change{bomb.instance_variable_get(:@deactivation_code)}
       end
+
+      it "returns truthy" do
+        expect(bomb.deactivation_code("6666")).to be_truthy
+      end
     end
 
     context "with invalid deactivation code" do
@@ -67,11 +91,19 @@ describe Bomb do
         it "does not change the deactivation code" do
           expect{bomb.deactivation_code("66666")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
         end
+        
+        it "returns falsey" do
+          expect(bomb.activation_code("66666")).to be_falsey
+        end
       end
       
       context "with <4 characters" do
         it "does not change the deactivation code" do
           expect{bomb.deactivation_code("666")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
+        end
+        
+        it "returns falsey" do
+          expect(bomb.activation_code("666")).to be_falsey
         end
       end
 
@@ -79,11 +111,19 @@ describe Bomb do
         it "does not change the deactivation code" do
           expect{bomb.deactivation_code("aaaa")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
         end
+        
+        it "returns falsey" do
+          expect(bomb.activation_code("aaaa")).to be_falsey
+        end
       end
 
       context "with mixed number/non-number characters" do
         it "does not change the deactivation code" do
           expect{bomb.deactivation_code("6a6a")}.to_not change{bomb.instance_variable_get(:@deactivation_code)}
+        end
+
+        it "returns falsey" do
+          expect(bomb.activation_code("6a6a")).to be_falsey
         end
       end
     end
