@@ -1,4 +1,4 @@
 $ ->
   $(".close").on("click", (event)->
-    $(this).parent().hide("slow")
+    $(this).parent().hide("slide", { direction: "up" }, "slow")
   )

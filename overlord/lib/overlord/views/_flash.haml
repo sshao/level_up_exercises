@@ -1,0 +1,5 @@
+- flash.each do |name, msg|
+  - unless msg.empty?
+    .flash{class: "#{name}"}
+      %button{class: "close"} &times; 
+      = msg
