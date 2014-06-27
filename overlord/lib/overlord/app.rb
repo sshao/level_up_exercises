@@ -1,11 +1,16 @@
 require 'sinatra'
 require 'sinatra/flash'
 require 'haml'
+require 'sass'
 require_relative 'bomb'
-
 require 'pry'
 
 enable :sessions
+
+get '/stylesheets/:name.css' do
+  content_type 'text/css', :charset => 'utf-8'
+  scss(:"../stylesheets/scss/#{params[:name]}")
+end
 
 get '/' do
   haml :index
@@ -19,24 +24,24 @@ post '/create' do
   errors = ""
 
   if params[:activation_code].empty?
-    alerts << "Activation code set to default value\n"
+    alerts << "Activation code set to default value<br/>"
   else
     activation_set = @bomb.activation_code(params[:activation_code])
     if activation_set
-      successes << "Activation code set\n"
+      successes << "Activation code set<br/>"
     else
-      errors << "Invalid activation code: must be 4 numerical digits\n"
+      errors << "Invalid activation code: must be 4 numerical digits<br/>"
     end
   end
 
   if params[:deactivation_code].empty?
-    alerts << "Deactivation code set to default value\n"
+    alerts << "Deactivation code set to default value<br/>"
   else
     deactivation_set = @bomb.deactivation_code(params[:deactivation_code])
     if deactivation_set
-      successes << "Deactivation code set\n"
+      successes << "Deactivation code set<br/>"
     else
-      errors << "Invalid deactivation code: must be 4 numerical digits\n"
+      errors << "Invalid deactivation code: must be 4 numerical digits<br/>"
     end
   end
 

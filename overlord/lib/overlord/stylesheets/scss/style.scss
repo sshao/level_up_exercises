@@ -1,0 +1,82 @@
+@mixin circle($radius, $center-text: true) {
+  width: $radius;
+  height: $radius;
+  border-radius: $radius/2;
+           
+  @if ($center-text) {
+    line-height: $radius;
+    text-align: center;
+  }
+}
+
+body {
+  font-family: Menlo, Courier;
+}
+
+button {
+  font-family: Menlo, Courier;
+  text-align: center;
+  padding: 5px;
+  width: 100px;
+  border: 0px;
+  border-radius: 50px;
+  text-decoration: none;
+  color: #fff;
+  
+  &:hover {
+    background-color: red;
+  }
+
+  &:disabled {
+    color: #bbb;
+    border: 1px solid #bbb;
+    background-color: transparent;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+form {
+  margin: 1.0em;
+}
+
+fieldset { 
+  margin: auto;
+  padding: 0.3em 0.6em;
+  border: 1px solid; 
+
+  legend {
+    padding: 0.3em 0.6em;
+    border: 1px solid;
+    text-transform: uppercase;
+  }
+}
+
+.activated {
+  color: green;
+}
+.exploded {
+  color: red;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.flash {
+  &.error {
+    color: red;
+  }
+  &.success {
+    color: green;
+  }
+}
+
+.circle {
+  @include circle(500px);
+  background: #000;
+
+  p {
+    color: #fff;
+  }
+}
+
