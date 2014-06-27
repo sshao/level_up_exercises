@@ -4,12 +4,18 @@ require 'haml'
 require 'sass'
 require_relative 'bomb'
 require 'pry'
+require 'sinatra/reloader' if development?
+require 'coffee-script'
 
 enable :sessions
 
 get '/stylesheets/:name.css' do
   content_type 'text/css', :charset => 'utf-8'
   scss(:"../stylesheets/scss/#{params[:name]}")
+end
+
+get '/js/:name.js' do
+  coffee :"../js/#{params[:name]}"
 end
 
 get '/' do
@@ -63,7 +69,7 @@ post '/activate' do
   @bomb = session[:bomb]
   
   if @bomb.state == :activated
-    flash[:error] = "Bomb is activated"
+    flash[:error] = "Bomb is already activated"
   else
     unless @bomb.activate(params[:activation_code])
       flash[:error] = "Wrong activation code"

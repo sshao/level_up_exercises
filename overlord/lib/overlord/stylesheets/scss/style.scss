@@ -4,7 +4,6 @@
   border-radius: $radius/2;
            
   @if ($center-text) {
-    line-height: $radius;
     text-align: center;
   }
 }
@@ -17,16 +16,23 @@ button {
   font-family: Menlo, Courier;
   text-align: center;
   padding: 5px;
-  width: 100px;
   border: 0px;
   border-radius: 50px;
   text-decoration: none;
   color: #fff;
+
+  &.control {
+    width: 100px;
   
-  &:hover {
-    background-color: red;
+    &:hover {
+      background-color: red;
+    }
   }
 
+  &.close {
+    width: 2em;
+  }
+  
   &:disabled {
     color: #bbb;
     border: 1px solid #bbb;
@@ -56,6 +62,9 @@ fieldset {
 .activated {
   color: green;
 }
+.deactivated {
+  color: grey;
+}
 .exploded {
   color: red;
   text-transform: uppercase;
@@ -72,11 +81,30 @@ fieldset {
 }
 
 .circle {
-  @include circle(500px);
+  @include circle(800px);
   background: #000;
-
-  p {
-    color: #fff;
+  color: #fff;
+  margin: auto;
+  overflow: hidden;
+  
+  .content {
+    width: 80%;
+    text-align: center;
   }
 }
 
+fieldset {
+  label {
+    display: inline-block;
+  }
+
+  ol {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 5px;
+  }
+}

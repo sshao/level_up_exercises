@@ -3,5 +3,15 @@
   %head
     %title BOMB
     %link{rel: 'stylesheet', href: '/stylesheets/style.css'}
+    %script{type: 'text/javascript', src: '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'}
+    %script{type: 'text/javascript', src: '/js/flash.js'}
+    %script{type: 'text/javascript', src: '/js/circle.js'}
   %body
-    .container= yield
+    - flash.each do |name, msg|
+      - unless msg.empty?
+        .flash{class: "#{name}"}
+          %button{class: "close"} &times; 
+          = msg
+
+    .circle
+      .content= yield

@@ -27,7 +27,7 @@ Feature: supervillain activates a bomb
   Scenario: submit activation code for activated bomb
     Given the bomb is activated with code "1234"
     When I submit "1234" as "Enter Activation Code" and click "Activate"
-    Then I should see "Bomb is activated"
+    Then I should see "Bomb is already activated"
     And I should see "Status: Activated"
     And I should not see "Invalid"
     And I should not see "Wrong"
@@ -35,7 +35,7 @@ Feature: supervillain activates a bomb
   Scenario: submit incorrect activation code for activated bomb
     Given the bomb is activated with code "1234"
     When I submit "4444" as "Enter Activation Code" and click "Activate"
-    Then I should see "Bomb is activated"
+    Then I should see "Bomb is already activated"
     And I should see "Status: Activated"
     And I should not see "Invalid"
     And I should not see "Wrong"

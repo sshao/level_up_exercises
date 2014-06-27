@@ -1,5 +1,4 @@
 %h1 THIS IS THE BOMB
-= styled_flash
 
 %h2 
   %strong Status: 
@@ -9,13 +8,13 @@
   %fieldset
     %label{:for => "activation_code"} Enter Activation Code
     %input{:type => "text", :id => "activation_code", :name => "activation_code", :class => "text"}
-    %button{:type => "submit", disabled: @bomb.state == :exploded} Activate
+    %button{:type => "submit", :class => "control", disabled: @bomb.state == :exploded} Activate
     
 %form{ :action => "/deactivate", :method => "post"}
   %fieldset
     %label{:for => "deactivation_code"} Enter Deactivation Code
     %input{:type => "text", :id => "deactivation_code", :name => "deactivation_code", :class => "text"}
-    %button{:type => "submit", disabled: @bomb.state == :exploded} Deactivate
+    %button{:type => "submit", :class => "control", disabled: @bomb.state == :exploded} Deactivate
 
 %a{:href => "/"} reset bomb?
 
