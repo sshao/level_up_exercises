@@ -1,11 +1,6 @@
+Bundler.require
 require 'sinatra'
-require 'sinatra/flash'
-require 'haml'
-require 'sass'
-require_relative 'bomb'
-require 'pry'
-require 'sinatra/reloader' if development?
-require 'coffee-script'
+require_relative "bomb"
 
 enable :sessions
 
@@ -30,6 +25,7 @@ post '/create' do
   errors = ""
 
   if params[:activation_code].empty?
+    # FIXME get rid of <br>s 
     alerts << "Activation code set to default value<br/>"
   else
     activation_set = @bomb.activation_code(params[:activation_code])
