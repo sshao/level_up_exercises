@@ -33,7 +33,7 @@ describe Bomb do
     end
     
     context "with invalid activation code" do
-      context "with >4 characters" do
+      context "that is >4 characters" do
         let(:code) { "22222" }
 
         it "does not change the activation code" do
@@ -45,7 +45,7 @@ describe Bomb do
         end
       end
       
-      context "with <4 characters" do
+      context "that is <4 characters" do
         let(:code) { "12" }
 
         it "does not change the activation code" do
@@ -57,7 +57,7 @@ describe Bomb do
         end
       end
 
-      context "with all non-number characters" do
+      context "that is all non-number characters" do
         let(:code) { "aaaa" }
 
         it "does not change the activation code" do
@@ -69,7 +69,7 @@ describe Bomb do
         end
       end
 
-      context "with mixed number/non-number characters" do
+      context "that is mixed number/non-number characters" do
         let(:code) { "a2a2" }
 
         it "does not change the activation code" do
@@ -97,7 +97,7 @@ describe Bomb do
     end
 
     context "with invalid deactivation code" do
-      context "with >4 characters" do
+      context "that is >4 characters" do
         let(:code) { "66666" }
 
         it "does not change the deactivation code" do
@@ -109,7 +109,7 @@ describe Bomb do
         end
       end
       
-      context "with <4 characters" do
+      context "that is <4 characters" do
         let(:code) { "666" }
 
         it "does not change the deactivation code" do
@@ -121,7 +121,7 @@ describe Bomb do
         end
       end
 
-      context "with all non-number characters" do
+      context "that is all non-number characters" do
         let(:code) { "aaaa" }
 
         it "does not change the deactivation code" do
@@ -133,7 +133,7 @@ describe Bomb do
         end
       end
 
-      context "with mixed number/non-number characters" do
+      context "that is mixed number/non-number characters" do
         let(:code) { "6a6a" }
 
         it "does not change the deactivation code" do
@@ -148,7 +148,7 @@ describe Bomb do
   end
 
   describe "#activate" do
-    context "with deactivated bomb" do
+    context "deactivated bomb" do
       context "with correct activation code" do
         it "activates the bomb" do
           expect{bomb.activate(default_activation_code)}.to change{bomb.state}.to(:activated)
@@ -172,7 +172,7 @@ describe Bomb do
       end
     end
 
-    context "with activated bomb" do
+    context "activated bomb" do
       before(:each) do
         bomb.instance_variable_set(:@state, :activated)
       end
@@ -200,7 +200,7 @@ describe Bomb do
       end
     end
 
-    context "with exploded bomb" do
+    context "exploded bomb" do
       before(:each) do
         bomb.instance_variable_set(:@state, :exploded)
       end
@@ -230,7 +230,7 @@ describe Bomb do
   end
 
   describe "#deactivate" do
-    context "with activated bomb" do 
+    context "activated bomb" do 
       before(:each) do
         bomb.instance_variable_set(:@state, :activated)
       end
@@ -266,7 +266,7 @@ describe Bomb do
       end
     end
 
-    context "with deactivated bomb" do 
+    context "deactivated bomb" do 
       before(:each) do
         allow(bomb).to receive(:state) { :deactivated }
       end
@@ -294,7 +294,7 @@ describe Bomb do
       end
     end
     
-    context "with exploded bomb" do
+    context "exploded bomb" do
       before(:each) do
         bomb.instance_variable_set(:@state, :exploded)
       end

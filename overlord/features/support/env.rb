@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), *%w[.. .. lib overlord app])
+require File.join(File.dirname(__FILE__), *%w[.. .. app])
 
 require 'capybara'
 require 'capybara/cucumber'

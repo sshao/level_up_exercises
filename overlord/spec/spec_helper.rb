@@ -1,2 +1,2 @@
-require 'overlord'
+require_relative "../models/bomb"
 

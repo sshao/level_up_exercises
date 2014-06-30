@@ -1,16 +1,19 @@
-Bundler.require
+require 'rubygems'
+require 'bundler'
+Bundler.require(:default, :development)
+
 require 'sinatra'
-require_relative "bomb"
+require_relative "models/bomb"
 
 enable :sessions
 
 get '/stylesheets/:name.css' do
   content_type 'text/css', :charset => 'utf-8'
-  scss(:"../stylesheets/scss/#{params[:name]}")
+  scss(:"../assets/stylesheets/#{params[:name]}")
 end
 
-get '/js/:name.js' do
-  coffee :"../js/#{params[:name]}"
+get '/javascript/:name.js' do
+  coffee :"../assets/javascript/#{params[:name]}"
 end
 
 get '/' do
