@@ -8,25 +8,31 @@ class Bomb
     @deactivation_attempts = 0
   end
 
-  def activation_code(code)
+  def set_activation_code(code)
     @activation_code = code if valid_code?(code)
   end
 
-  def deactivation_code(code)
+  def set_deactivation_code(code)
     @deactivation_code = code if valid_code?(code)
   end
 
   def activate(code)
-    @state = :activated if (state == :deactivated) && (@activation_code == code)
+    return if state != :deactivated
+    return if @activation_code != code
+
+    @state = :activated
   end
 
   def deactivate(code)
-    if (state == :activated) && (@deactivation_code == code)
-      @state = :deactivated
-    else
-      @deactivation_attempts += 1
+    return if state != :activated
+
+    if @deactivation_code != code
+      update_deactivation_attempts if @deactivation_code != code
       explode_bomb if @deactivation_attempts == 3
+      return
     end
+
+    @state = :deactivated
   end
 
   private
@@ -34,6 +40,10 @@ class Bomb
     code.length == 4 && code =~ /[[:digit:]]{4}/
   end
 
+  def update_deactivation_attempts
+    @deactivation_attempts += 1
+  end
+  
   def explode_bomb
     @state = :exploded
   end

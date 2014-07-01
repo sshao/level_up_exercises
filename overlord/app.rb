@@ -31,7 +31,7 @@ post '/create' do
     # FIXME get rid of <br>s 
     alerts << "Activation code set to default value<br/>"
   else
-    activation_set = @bomb.activation_code(params[:activation_code])
+    activation_set = @bomb.set_activation_code(params[:activation_code])
     if activation_set
       successes << "Activation code set<br/>"
     else
@@ -42,7 +42,7 @@ post '/create' do
   if params[:deactivation_code].empty?
     alerts << "Deactivation code set to default value<br/>"
   else
-    deactivation_set = @bomb.deactivation_code(params[:deactivation_code])
+    deactivation_set = @bomb.set_deactivation_code(params[:deactivation_code])
     if deactivation_set
       successes << "Deactivation code set<br/>"
     else
@@ -89,6 +89,3 @@ post '/deactivate' do
   redirect to("/bomb")
 end
 
-def h(text)
-  Rack::Utils.escape_html(text)
-end
