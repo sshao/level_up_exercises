@@ -1,4 +1,4 @@
-Feature: supervillain explodes a bomb
+Feature: Supervillain explodes a bomb
 
   As a supervillain
   I want to explode a bomb
@@ -10,10 +10,10 @@ Feature: supervillain explodes a bomb
     And the bomb's deactivation code is "0000"
     And I have configured the bomb
 
-  Scenario: explode a bomb
+  Scenario: Explode a bomb
     Given the bomb is activated with code "1234"
-    When I submit "1111" as "Enter Deactivation Code" and click "Deactivate" 3 times
+    When I submit "1111" as "deactivation code" and click "Deactivate" 3 times
     Then I should see "Status: EXPLODED"
-      And "Activate" should be "disabled"
-      And "Deactivate" should be "disabled"
+      And "Activate" should be disabled
+      And "Deactivate" should be disabled
 
