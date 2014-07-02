@@ -1,6 +1,8 @@
 require 'spec_helper.rb'
+require 'pry'
 
 describe Test do
+  let(:empty_data) { [] }
   let(:a_data) { [{date: "2014-03-21", cohort: "A", result: 1},
                   {date: "2014-03-21", cohort: "A", result: 1},
                   {date: "2014-03-20", cohort: "A", result: 0},
@@ -8,10 +10,15 @@ describe Test do
   let(:b_data) { [{date: "2014-03-20", cohort: "B", result: 0},
                   {date: "2014-03-20", cohort: "B", result: 1},
                   {date: "2014-03-21", cohort: "B", result: 0}] }
+  let(:empty_test) { Test.new(empty_data, nil) }
   let(:test_a) { Test.new(a_data, "A") }
   let(:test_b) { Test.new(b_data, "B") }
 
   describe "#new" do
+    it "raises an error when dataset is empty" do
+      expect{ Test.new(empty_data, nil) }.to raise_error(ZeroDataError)
+    end
+
     it "returns the correct cohort" do
       expect(test_a.cohort).to eq "A"
       expect(test_b.cohort).to eq "B"

@@ -1,12 +1,15 @@
+class ZeroDataError < RuntimeError; end
+
 class Test
   attr_reader :cohort, :data, :sample_size, :conversions, :nonconversions
   
   PERCENTILE_POINT_OF_95 = 1.96
 
   def initialize(data, cohort)
+    @sample_size = data.size
+    raise ZeroDataError if @sample_size.zero?
     @cohort = cohort
     @data = data
-    @sample_size = data.size
     @conversions = data.count { |h| h[:result] == 1 }
     @nonconversions = sample_size - conversions
   end
