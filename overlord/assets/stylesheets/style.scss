@@ -98,6 +98,11 @@ fieldset {
     text-transform: uppercase;
     font-weight: bold;
   }
+
+  .exploded_elem {
+    position: relative;
+    transition: all 4s ease-in-out;
+  }
 }
 
 .flash {

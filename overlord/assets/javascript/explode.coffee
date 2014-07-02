@@ -6,23 +6,11 @@ $ ->
   
   for val in arr 
     do ->
-      $(val).css('position', 'relative');
-
       top = Math.floor((Math.random()*100)+1) * random_negation();
       left = Math.floor((Math.random()*100)+1) * random_negation();
       degree = Math.floor((Math.random()*360)+1)
-
-      $(val).animate(
-        {
-          rotation: degree
-          left: '+=' + left + '%'
-          top: '+=' + top + '%'
-        },
-        {
-          duration: 4000
-          easing: 'easeOutQuint'
-          step: (now) ->
-            $(this).css('transform', 'rotate(' + now + 'deg)')
-        }
-      )
+      
+      $(val).addClass('exploded_elem')
+      $(val).css('transform', 'rotate(' + degree + 'deg) ' +
+        'translate(' + top + '%,' + left + '%)')
 
