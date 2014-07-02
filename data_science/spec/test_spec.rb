@@ -1,5 +1,4 @@
 require 'spec_helper.rb'
-require 'pry'
 
 describe Test do
   let(:empty_data) { [] }
