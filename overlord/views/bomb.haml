@@ -3,7 +3,7 @@
 
 %h2 
   %strong Status: 
-  %span{:class => "#{@bomb.state}"}= @bomb.state
+  %span{class: "#{@bomb.state}"}= @bomb.state
 
 %form{ :action => "/activate", :method => "post"}
   %fieldset
@@ -18,7 +18,3 @@
     %button{:type => "submit", :class => "control", disabled: @bomb.state == :exploded} Deactivate
 
 %a{:href => "/"} reset bomb?
-
-%hr
-%h4 debug info
-%p=h session[:bomb].inspect

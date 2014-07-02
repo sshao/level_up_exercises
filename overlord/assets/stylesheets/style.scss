@@ -1,3 +1,8 @@
+$bomb-width: 600px;
+$deactivated-color: gray;
+$activated-color: green;
+$exploded-color: red;
+
 @mixin circle($radius, $center-text: true) {
   width: $radius;
   height: $radius;
@@ -10,17 +15,12 @@
 
 body {
   font-family: Menlo, Courier;
+  background: #eee;
 }
 
 a {
   color: orange;
   text-decoration: none;
-}
-
-hr {
-  border: 0;
-  height: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 button {
@@ -81,16 +81,23 @@ fieldset {
   }
 }
 
+// FIXME this doesn't look like good inheritance 
 .activated {
-  color: green;
+  span {
+    color: $activated-color;
+  }
 }
 .deactivated {
-  color: grey;
+  span {
+    color: $deactivated-color;
+  }
 }
 .exploded {
-  color: red;
-  text-transform: uppercase;
-  font-weight: bold;
+  span {
+    color: $exploded-color;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
 }
 
 .flash {
@@ -103,10 +110,9 @@ fieldset {
 }
 
 .circle {
-  @include circle(800px);
+  @include circle($bomb-width);
   background: #000;
   margin: auto;
-  overflow: hidden;
 }
 
 .circle:before {
