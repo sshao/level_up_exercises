@@ -1,17 +1,15 @@
 %h1 THIS IS THE BOMB
-= haml :_flash
 
-%h2 
-  %strong Status: 
-  %span{class: "#{@bomb.state}"}= @bomb.state
+.state
+  = haml :_flash_and_state
 
-%form{ :action => "/activate", :method => "post"}
+%form{ :action => "/activate", :method => "post", :id => "activate" }
   %fieldset
     %label{:for => "activation_code"} Enter Activation Code
     %input{:type => "text", :id => "activation_code", :name => "activation_code", :class => "text"}
     %button{:type => "submit", :class => "control", disabled: @bomb.state == :exploded} Activate
     
-%form{ :action => "/deactivate", :method => "post"}
+%form{ :action => "/deactivate", :method => "post", :id => "deactivate" }
   %fieldset
     %label{:for => "deactivation_code"} Enter Deactivation Code
     %input{:type => "text", :id => "deactivation_code", :name => "deactivation_code", :class => "text"}

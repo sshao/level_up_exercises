@@ -8,6 +8,7 @@
     %link{type: 'text/javascript', src: '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css'}
     %script{type: 'text/javascript', src: '/javascript/flash.js'}
     %script{type: 'text/javascript', src: '/javascript/explode.js'}
+    %script{type: 'text/javascript', src: '/javascript/state.js'}
   %body
     .circle
       .content{class: defined?(@bomb) ? @bomb.state : nil}= yield

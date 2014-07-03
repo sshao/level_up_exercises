@@ -66,26 +66,41 @@ end
 
 post '/activate' do
   @bomb = session[:bomb]
+  error = ""
   
   if @bomb.state == :activated
-    flash[:error] = "Bomb is already activated"
+    error = "Bomb is already activated"
   else
     unless @bomb.activate(params[:activation_code])
-      flash[:error] = "Wrong activation code"
+      error = "Wrong activation code"
     end
   end
-  
-  redirect to("/bomb")
+
+  if request.xhr?
+    flash.now[:error] = error
+    haml :_flash_and_state, :layout => false
+  else
+    flash[:error] = error
+    redirect to("/bomb")
+  end
 end
 
 post '/deactivate' do
   @bomb = session[:bomb]
+  error = ""
+
   if @bomb.state == :deactivated
-    flash[:error] = "Bomb is already deactivated"
+    error = "Bomb is already deactivated"
   else 
-    flash[:error] = "Wrong deactivation code" unless @bomb.deactivate(params[:deactivation_code])
+    error = "Wrong deactivation code" unless @bomb.deactivate(params[:deactivation_code])
   end
   
-  redirect to("/bomb")
+  if request.xhr?
+    flash.now[:error] = error
+    haml :_flash_and_state, :layout => false 
+  else
+    flash[:error] = error
+    redirect to("/bomb")
+  end
 end
 
