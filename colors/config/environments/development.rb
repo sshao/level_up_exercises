@@ -1,4 +1,8 @@
 Rails.application.configure do
+  Tumblr.configure do |config|
+    config.consumer_key = ENV["OAUTH_CONSUMER"]
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

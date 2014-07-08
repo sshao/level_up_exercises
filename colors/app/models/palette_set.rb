@@ -4,26 +4,23 @@ class PaletteSet < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :palettes
 
-  attr_accessor :palettes
+  attr_reader :palettes
 
   POST_LIMIT = 10
 
   def initialize(blog) 
-    @client = Tumblr::Client.new(:client => :httpclient)
+    @client = Tumblr::Client.new
     @response = @client.posts("#{blog}.tumblr.com", :type => "photo", :limit => POST_LIMIT)
 
-    generate_palettes
+    # FIXME check response
+    
+    @palettes = @response["posts"].map { |post| generate_palette(photo_url(post)) }
   end
 
   private
-  def generate_palettes
-    @response["posts"].each do |post|
-      # FIXME deal gracefully with photosets
-      # FIXME pick a photo size other than first/original size ... since we're quantizing
-      # it shouldn't have to be that big, but it also can't be the smallest (75px width)
-      photo_url = post["photos"][0]["alt_sizes"][0]["url"]
-      @palettes << generate_palette(photo_url)
-    end
+  def photo_url(post)
+    # FIXME gracefully deal with photosets 
+    post["photos"][0]["alt_sizes"][0]["url"]
   end
 
   def generate_palette(url)

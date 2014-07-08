@@ -1,5 +1,6 @@
 class PaletteSetsController < ApplicationController
   def new
+    @paletteset = PaletteSet.new(params[:tumblr_username])
   end
 
   def create

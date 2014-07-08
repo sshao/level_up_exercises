@@ -1,4 +1,8 @@
-%h1 Palettes#index
-%p Find me in app/views/palettes/index.html.haml
+%h1 PaletteSets#index
+%p Find me in app/views/palette_sets/index.html.haml
 
-= render 'new'
+= form_tag "/generate", :method => "post" do
+  %label{for: "tumblr_username"} username:
+  %input#tumblr_username{name: "tumblr_username"}
+  %button{type: "submit"} Generate 
+
