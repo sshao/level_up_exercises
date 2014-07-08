@@ -17,12 +17,17 @@ describe PaletteSet do
     let(:image_url) { "spec/fixtures/images/image.jpg" }
 
     context "with valid params" do
+      let(:paletteset) { PaletteSet.new(source: blog) }
+
+      it "is valid" do
+        expect(paletteset).to be_valid
+      end
+
       it "creates up to #{LIMIT} different palettes" do
-        expect(PaletteSet.new(blog).palettes.count).to be LIMIT
+        expect(paletteset.palettes.size).to be LIMIT
       end
 
       it "assigns a image url to each palette" do
-        paletteset = PaletteSet.new(blog)
         paletteset.palettes.each do |palette|
           expect(palette.image_url).to eq image_url
         end

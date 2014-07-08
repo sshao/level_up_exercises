@@ -1,12 +1,10 @@
 class Palette < ActiveRecord::Base
-  has_and_belongs_to_many :palette_sets
+  has_and_belongs_to_many :palette_sets, join_table: :palette_sets_palettes
   serialize :colors, Array
 
   validate :validate_colors
 
   after_initialize :format_colors
-  
-  attr_accessor :colors, :image_url
 
   private
   def validate_colors 
