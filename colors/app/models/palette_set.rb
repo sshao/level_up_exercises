@@ -14,7 +14,7 @@ class PaletteSet < ActiveRecord::Base
 
     # FIXME check response
     
-    @palettes = @response["posts"].map { |post| generate_palette(photo_url(post)) }
+    @palettes = @response["posts"].map { |post| generate_palette(post) }
   end
 
   private
@@ -23,13 +23,14 @@ class PaletteSet < ActiveRecord::Base
     post["photos"][0]["alt_sizes"][0]["url"]
   end
 
-  def generate_palette(url)
+  def generate_palette(post)
     # FIXME stub? 
-    image = Magick::ImageList.new(url).cur_image
+    image_url = photo_url(post)
+    image = Magick::ImageList.new(image_url).cur_image
     quantized_img = image.quantize(5, Magick::RGBColorspace)
     hist = quantized_img.color_histogram
     sorted = hist.keys.sort_by { |p| -hist[p] }
     sorted = sorted.collect { |p| p.to_color(Magick::AllCompliance, false, 8, true) }
-    Palette.new(sorted)
+    Palette.new(sorted, image_url)
   end
 end

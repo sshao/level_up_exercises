@@ -2,12 +2,18 @@ require 'rails_helper'
 
 describe Palette do
   let(:colors) { [ "#ECD078", "#D95B43", "#C02942", "#542437", "#53777A" ] }
+  let(:image_url) { "http://imageurl.com/image.jpg" }
 
   describe "#new" do
     context "with valid parameters" do
       it "initializes palette with passed-in colors" do
         palette = Palette.new(colors)
         expect(palette.colors.size).to be 5
+      end
+
+      it "adds the source to the sources hash" do
+        palette = Palette.new(colors, image_url)
+        expect(palette.image_url).to eq image_url
       end
     end
 
