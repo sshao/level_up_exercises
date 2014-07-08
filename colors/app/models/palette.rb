@@ -16,13 +16,18 @@ class Palette < ActiveRecord::Base
 
     new_colors.each do |color|
       raise InvalidColorInput, "Input '#{color}' not a valid hex color" unless valid_color?(color)
-      @colors << color
+      @colors << format_color(color)
     end
   end
 
   private
   def valid_color?(color)
-    color =~ /^#[A-Fa-f0-9]{6}$|^[A-Fa-f0-9]{3}$/
+    color =~ /^#*[A-Fa-f0-9]{6}$|^#*[A-Fa-f0-9]{3}$/
+  end
+
+  def format_color(color)
+    color.insert(0, '#') if color[0] != '#'
+    color
   end
 end
 
