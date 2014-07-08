@@ -23,5 +23,6 @@ end
 Then(/^I should see "(\d+)" palettes and their associated photo posts$/) do |num|
   # FIXME change to test 'up to'
   expect(page).to have_selector('div.palette', count: num.to_i)
+  expect(page).to have_selector('div.palette_img', count: num.to_i)
 end
 
