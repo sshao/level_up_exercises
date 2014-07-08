@@ -34,3 +34,4 @@ class PaletteSet < ActiveRecord::Base
     Palette.new(sorted, image_url)
   end
 end
+
