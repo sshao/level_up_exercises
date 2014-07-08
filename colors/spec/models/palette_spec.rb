@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PaletteSet do
+describe Palette do
   let(:colors) { [ "#ECD078", "#D95B43", "#C02942", "#542437", "#53777A" ] }
 
   describe "#new" do

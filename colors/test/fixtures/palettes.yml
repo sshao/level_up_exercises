@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  colors: MyText
+  sources: MyText
+  image_url: MyText
+  source_timestamp: 2014-07-08 09:32:21
+
+two:
+  colors: MyText
+  sources: MyText
+  image_url: MyText
+  source_timestamp: 2014-07-08 09:32:21
