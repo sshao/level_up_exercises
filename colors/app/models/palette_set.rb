@@ -32,6 +32,9 @@ class PaletteSet < ActiveRecord::Base
     hist = quantized_img.color_histogram
     sorted = hist.keys.sort_by { |p| -hist[p] }
     sorted = sorted.collect { |p| p.to_color(Magick::AllCompliance, false, 8, true) }
+    # TODO will save palettes without saving paletteset...
+    # is that what i want?
+    # or should i only save palettes when i save encompassing paletteset?
     palettes << Palette.create(colors: sorted, image_url: image_url)
   end
 end
