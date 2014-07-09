@@ -7,8 +7,10 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
-
-  post 'generate' => 'palette_sets#new'
+  
+  # FIXME not using all the resources... using just for url helper
+  resources :palette_sets
+  post 'generate' => 'palette_sets#create'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

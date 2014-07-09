@@ -4,7 +4,7 @@ class PaletteSet < ActiveRecord::Base
   has_and_belongs_to_many :palettes, join_table: :palette_sets_palettes
   belongs_to :user
 
-  after_initialize :generate_palettes
+  before_save :generate_palettes
 
   POST_LIMIT = 10
 

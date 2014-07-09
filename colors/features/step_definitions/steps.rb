@@ -12,7 +12,7 @@ Given(/^the blog has at least "(\d+)" photo posts$/) do |num|
 end
 
 When(/^I submit "(.*?)" as "(.*?)" and click "(.*?)"$/) do |blog, field, link|
-  visit '/'
+  visit '/palette_sets/new'
 
   field = field.gsub(/\s/, '_')
   fill_in field, :with => blog

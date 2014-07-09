@@ -1,2 +1,9 @@
 %h1 PaletteSets#show
 %p Find me in app/views/palette_sets/show.html.haml
+
+- @palette_set.palettes.each do |palette|
+  .palette
+    .palette_img
+      %img{src: palette.image_url}
+    - palette.colors.each do |color|
+      .color{style: "display: inline-block; width: 100px; height: 100px; background: #{color};"}

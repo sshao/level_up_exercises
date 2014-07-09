@@ -1,9 +1,10 @@
 class PaletteSetsController < ApplicationController
   def new
-    @paletteset = PaletteSet.new(source: params[:tumblr_username])
   end
 
   def create
+    @palette_set = PaletteSet.create(source: params[:palette_set][:tumblr_username])
+    redirect_to @palette_set
   end
 
   def update
@@ -16,5 +17,6 @@ class PaletteSetsController < ApplicationController
   end
 
   def show
+    @palette_set = PaletteSet.find(params[:id])
   end
 end

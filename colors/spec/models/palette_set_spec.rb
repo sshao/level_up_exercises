@@ -12,6 +12,7 @@ describe PaletteSet do
     stub_10_photos_request
   end
 
+  # FIXME what SHOULD #new be doing??
   describe "#new" do
     let(:blog) { "blog" }
     let(:image_url) { "spec/fixtures/images/image.jpg" }
@@ -19,6 +20,19 @@ describe PaletteSet do
     context "with valid params" do
       let(:paletteset) { PaletteSet.new(source: blog) }
 
+      it "is valid" do
+        expect(paletteset).to be_valid
+      end
+    end
+  end
+
+  describe "#create" do
+    let(:blog) { "blog" }
+    let(:image_url) { "spec/fixtures/images/image.jpg" }
+
+    context "with valid params" do
+      let(:paletteset) { PaletteSet.create(source: blog) }
+      
       it "is valid" do
         expect(paletteset).to be_valid
       end
