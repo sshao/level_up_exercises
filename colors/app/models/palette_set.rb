@@ -13,7 +13,12 @@ class PaletteSet < ActiveRecord::Base
     # FIXME check response for valid response
     response = @client.posts("#{source}.tumblr.com", :type => "photo", :limit => PULL_LIMIT)
 
-    response["posts"].each { |post| generate_palette(post) }
+    if response["status"].nil?
+      response["posts"].each { |post| generate_palette(post) }
+    else
+      errors.add(:source, "did not receive successful response, got #{response["status"]}")
+      return false
+    end
   end
 
   private
@@ -26,7 +31,9 @@ class PaletteSet < ActiveRecord::Base
 
   def generate_palette(post)
     image_url = photo_url(post)
-    image = Magick::ImageList.new(image_url).cur_image
+    image = open_image(image_url)
+
+    return if image.nil?
 
     quantized_img = image.quantize(5, Magick::RGBColorspace)
     quantized_colors = get_quantized_colors(quantized_img)
@@ -34,11 +41,18 @@ class PaletteSet < ActiveRecord::Base
     # TODO check palette is valid
     palette = Palette.create(colors: quantized_colors, image_url: image_url)
 
-    # TODO will save palettes without saving paletteset...
-    # is that what i want?
-    # or should i only save palettes when i save encompassing paletteset?
+    # TODO will save palettes without saving palette_set...
+    # is that what i want? or only when encompassing palette_set is
+    # successfully saved?
     
     palettes << palette
+  end
+
+  def open_image(url)
+    Magick::ImageList.new(url).cur_image
+  rescue Magick::ImageMagickError => e
+    logger.error e.inspect
+    return nil
   end
 
   def get_quantized_colors(image)
