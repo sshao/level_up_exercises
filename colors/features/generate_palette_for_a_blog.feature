@@ -12,5 +12,4 @@ Feature: Generate color palettes for a blog
 
   # Scenario? photosets 
   # Scenario: existing blog, no photo posts
-  #
   # Scenario: nonexistent blog

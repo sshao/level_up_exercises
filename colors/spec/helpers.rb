@@ -1,10 +1,9 @@
 module Helpers
-  def stub_10_photos_request
-    # FIXME headers?
-    body = File.open(File.dirname(__FILE__) + '/fixtures/blog.json').read
-    stub_request(:get, %r{api.tumblr.com/v2/blog/blog.tumblr.com/posts/photo\?.*&limit=10})
-      .to_return(status: 200, 
-                 headers: {'content-type' => 'application/json'},
-                 body: body)
+  def stub_photos_request(username, num = 20)
+    body = File.open(File.join(fixture_path, "#{username}_#{num}_posts.json")).read
+    uri = %r{api.tumblr.com/v2/blog/#{username}.tumblr.com/posts/photo\?.*&limit=#{num}}
+    headers = {'content-type' => 'application/json'}
+
+    stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
   end
 end

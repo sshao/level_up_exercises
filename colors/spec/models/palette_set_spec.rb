@@ -2,47 +2,42 @@ require 'rails_helper'
 require_relative '../helpers'
 
 describe PaletteSet do
-  LIMIT = 10
+  let(:username) { "blog" }
+  let(:image_url) { "spec/fixtures/images/image.jpg" }
 
   RSpec.configure do |c|
     c.include Helpers
   end
 
   before(:each) do 
-    stub_10_photos_request
+    stub_photos_request(username, PULL_LIMIT)
   end
 
   # FIXME what SHOULD #new be doing??
   describe "#new" do
-    let(:blog) { "blog" }
-    let(:image_url) { "spec/fixtures/images/image.jpg" }
-
     context "with valid params" do
-      let(:paletteset) { PaletteSet.new(source: blog) }
+      let(:palette_set) { PaletteSet.new(source: username) }
 
       it "is valid" do
-        expect(paletteset).to be_valid
+        expect(palette_set).to be_valid
       end
     end
   end
 
   describe "#create" do
-    let(:blog) { "blog" }
-    let(:image_url) { "spec/fixtures/images/image.jpg" }
-
     context "with valid params" do
-      let(:paletteset) { PaletteSet.create(source: blog) }
+      let(:palette_set) { PaletteSet.create(source: username) }
       
       it "is valid" do
-        expect(paletteset).to be_valid
+        expect(palette_set).to be_valid
       end
 
-      it "creates up to #{LIMIT} different palettes" do
-        expect(paletteset.palettes.size).to be LIMIT
+      it "creates up to #{PULL_LIMIT} different palettes" do
+        expect(palette_set.palettes.size).to be PULL_LIMIT
       end
 
       it "assigns a image url to each palette" do
-        paletteset.palettes.each do |palette|
+        palette_set.palettes.each do |palette|
           expect(palette.image_url).to eq image_url
         end
       end

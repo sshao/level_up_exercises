@@ -3,16 +3,15 @@ Given(/^there exists a tumblr blog "(.*?)"$/) do |blog|
 end
 
 Given(/^the blog has at least "(\d+)" photo posts$/) do |num|
-  # FIXME do something with num 
-  body = File.open(File.dirname(__FILE__) + '/../fixtures/blog.json').read
-  stub_request(:get, %r{api.tumblr.com/v2/blog/blog.tumblr.com/posts/photo\?.*&limit=10})
-    .to_return(status: 200, 
-               headers: {'content-type' => 'application/json'},
-               body: body)
+  body = File.open(File.join(fixtures_path, "#{@blog}_#{num}_posts.json")).read
+  uri = %r{api.tumblr.com/v2/blog/#{@blog}.tumblr.com/posts/photo\?.*&limit=#{num}}
+  headers = {'content-type' => 'application/json'}
+
+  stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
 end
 
 When(/^I submit "(.*?)" as "(.*?)" and click "(.*?)"$/) do |blog, field, link|
-  visit '/palette_sets/new'
+  visit '/'
 
   field = field.gsub(/\s/, '_')
   fill_in field, :with => blog
@@ -21,8 +20,9 @@ When(/^I submit "(.*?)" as "(.*?)" and click "(.*?)"$/) do |blog, field, link|
 end
 
 Then(/^I should see "(\d+)" palettes and their associated photo posts$/) do |num|
-  # FIXME change to test 'up to'
-  expect(page).to have_selector('div.palette', count: num.to_i)
-  expect(page).to have_selector('div.palette_img', count: num.to_i)
+  expected_count = num.to_i
+
+  expect(page).to have_selector('div.palette', count: expected_count)
+  expect(page).to have_selector('div.palette_img', count: expected_count)
 end
 

@@ -2,17 +2,20 @@ require 'rails_helper'
 require_relative '../helpers'
 
 describe PaletteSetsController do
+  let(:username) { "blog" }
+  let(:limit) { 10 }
+
   RSpec.configure do |c|
     c.include Helpers
   end
 
   before(:each) do
-    stub_10_photos_request
+    stub_photos_request(username, limit)
   end
 
   describe "GET show" do
     before(:each) do
-      @palette_set = PaletteSet.create(source: "blog")
+      @palette_set = PaletteSet.create(source: username)
     end
 
     it "renders the show template" do
@@ -31,8 +34,6 @@ describe PaletteSetsController do
 
   describe "POST create" do
     context "with valid username" do
-      let(:username) { "blog" }
-
       it "saves the new palettes in the database"
 
       it "redirects to the new palettes page" do
