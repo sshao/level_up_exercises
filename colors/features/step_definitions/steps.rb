@@ -3,10 +3,14 @@ Given(/^there exists a tumblr blog "(.*?)"$/) do |blog|
 end
 
 Given(/^the blog has at least "(\d+)" photo posts$/) do |num|
-  body = File.open(File.join(fixtures_path, "#{@blog}_#{num}_posts.json")).read
-  uri = %r{api.tumblr.com/v2/blog/#{@blog}.tumblr.com/posts/photo\?.*&limit=#{num}}
   headers = {'content-type' => 'application/json'}
 
+  body = File.open(File.join(fixtures_path, "#{@blog}_#{num}_posts.json")).read
+  uri = %r{api.tumblr.com/v2/blog/#{@blog}.tumblr.com/posts/photo\?.*&limit=#{num}}
+  stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
+
+  uri = %r{api.tumblr.com/v2/blog/#{@blog}.tumblr.com/info}
+  body = File.open(File.join(fixtures_path, "#{@blog}_info.json")).read
   stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
 end
 
