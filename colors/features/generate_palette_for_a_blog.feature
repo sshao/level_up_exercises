@@ -15,6 +15,11 @@ Feature: Generate color palettes for a blog
     When I submit "doesnotexist" as "tumblr username" and click "Generate"
     Then I should see "not found, returned 404"
 
+  Scenario: Generate palettes when no blog is input
+    Given there does not exist a tumblr blog ""
+    When I submit "" as "tumblr username" and click "Generate"
+    Then I should see "Source can't be blank"
+
   # Scenario? photosets 
   # Scenario: existing blog, no photo posts
 
