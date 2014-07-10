@@ -10,7 +10,7 @@ describe PaletteSetsController do
 
   before(:each) do
     stub_info_request(username)
-    stub_photos_request(username, PULL_LIMIT) if username
+    stub_photos_request(username, PULL_LIMIT)
   end
 
   describe "GET show" do

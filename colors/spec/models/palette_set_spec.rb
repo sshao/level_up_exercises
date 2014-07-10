@@ -2,25 +2,16 @@ require 'rails_helper'
 require_relative '../helpers'
 
 describe PaletteSet do
-  let(:default_username) { FactoryGirl.attributes_for(:palette_set)[:source] }
+  let(:username) { FactoryGirl.attributes_for(:palette_set)[:source] }
   let(:image_url) { "spec/fixtures/images/image.jpg" }
 
   RSpec.configure do |c|
     c.include Helpers
   end
-
-  # FIXME what SHOULD #new be doing??
-  describe "#new" do
-    before(:each) do 
-      stub_info_request(default_username)
-      stub_photos_request(default_username, PULL_LIMIT)
-    end
-
-    context "with valid params" do
-      it "is valid" do
-        expect(FactoryGirl.build(:palette_set)).to be_valid
-      end
-    end
+    
+  before(:each) do 
+    stub_info_request(username)
+    stub_photos_request(username, PULL_LIMIT) 
   end
 
   describe "#create" do
@@ -29,11 +20,6 @@ describe PaletteSet do
         let(:palette_set) { FactoryGirl.create(:palette_set) }
         
         context "with photos to generate from" do
-          before(:each) do 
-            stub_info_request(default_username)
-            stub_photos_request(default_username, PULL_LIMIT)
-          end
-          
           it "is valid" do
             expect(palette_set).to be_valid
           end
@@ -53,11 +39,6 @@ describe PaletteSet do
           let(:username) { "no_photos" }
           let(:palette_set) { FactoryGirl.create(:palette_set, source: username) }
 
-          before(:each) do
-            stub_info_request(username)
-            stub_photos_request(username, PULL_LIMIT)
-          end
-
           it "is valid" do
             expect(palette_set).to be_valid
           end
@@ -73,11 +54,6 @@ describe PaletteSet do
           let(:username) { "unauthorized" }
           let(:palette_set_save) { FactoryGirl.build(:palette_set, source: username).save }
 
-          before(:each) do 
-            stub_info_request(username)
-            stub_photos_request(username, PULL_LIMIT)
-          end
-          
           it "should not save to db" do
             expect(palette_set_save).to be false
           end
@@ -87,11 +63,6 @@ describe PaletteSet do
           let(:username) { "invalid_image_urls" }
           let(:palette_set_save) { FactoryGirl.build(:palette_set, source: username).save }
           let(:palette_set) { FactoryGirl.create(:palette_set, source: username) }
-
-          before(:each) do
-            stub_info_request(username)
-            stub_photos_request(username, PULL_LIMIT)
-          end
 
           it "saves to db" do
             expect(palette_set_save).to be true
@@ -113,10 +84,6 @@ describe PaletteSet do
         let(:username) { nil }
         let(:palette_set_new) { FactoryGirl.build(:palette_set, source: username) }
 
-        before(:each) do
-          stub_info_request(username)
-        end
-
         it "is not valid" do
           expect(palette_set_new).to_not be_valid
         end
@@ -125,10 +92,6 @@ describe PaletteSet do
       context "with non-existent source" do
         let(:username) { "doesnotexist" }
         let(:palette_set_new) { FactoryGirl.build(:palette_set, source: username) }
-
-        before(:each) do
-          stub_info_request(username)
-        end
 
         it "is not valid" do
           expect(palette_set_new).to_not be_valid
