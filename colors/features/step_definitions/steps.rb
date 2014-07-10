@@ -11,6 +11,15 @@ Given(/^it has 0 photo posts$/) do
   stub_photos_request(@blog, PULL_LIMIT)
 end
 
+Given(/^there exist palettes for a tumblr blog "(.*?)"$/) do |blog|
+  @blog = blog
+  stub_info_request(@blog)
+  stub_photos_request(@blog, PULL_LIMIT)
+  visit '/'
+  fill_in "tumblr_username", :with => @blog
+  click_link_or_button "Generate"
+end
+
 When(/^I submit it as "(.*?)" and click "(.*?)"$/) do |field, link|
   visit '/'
 

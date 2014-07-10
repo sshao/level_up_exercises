@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708222048) do
+ActiveRecord::Schema.define(version: 20140710175539) do
 
   create_table "palette_sets", force: true do |t|
     t.string   "title"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140708222048) do
     t.string   "source"
   end
 
+  add_index "palette_sets", ["source"], name: "index_palette_sets_on_source", unique: true
   add_index "palette_sets", ["user_id"], name: "index_palette_sets_on_user_id"
 
   create_table "palette_sets_palettes", id: false, force: true do |t|

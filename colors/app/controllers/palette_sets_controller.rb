@@ -10,8 +10,12 @@ class PaletteSetsController < ApplicationController
       end
       redirect_to @palette_set
     else
-      flash[:error] = @palette_set.errors.full_messages
-      render action: :index
+      if @palette_set.errors.full_messages.include? "Source has already been taken"
+        redirect_to PaletteSet.find_by(source: params[:palette_set][:tumblr_username])
+      else
+        flash[:error] = @palette_set.errors.full_messages
+        render action: :index
+      end
     end
   end
 

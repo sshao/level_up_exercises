@@ -35,15 +35,32 @@ describe PaletteSetsController do
 
   describe "POST create" do
     context "with valid username" do
-      it "saves the new palettes in the database" do
+      it "saves the new palette set in the database" do
         expect{
           post :create, :palette_set => { tumblr_username: username }
         }.to change(PaletteSet, :count).by(1)
       end
 
-      it "redirects to the new palettes page" do
+      it "redirects to the new palette set page" do
         post :create, :palette_set => { tumblr_username: username }
         expect(response).to redirect_to assigns(:palette_set)
+      end
+
+      context "that has already had palettes generated for it" do
+        before(:each) do 
+          post :create, :palette_set => { tumblr_username: username }
+        end
+
+        it "does not save a new palette set in the database" do
+          expect{
+            post :create, :palette_set => { tumblr_username: username }
+          }.to_not change(PaletteSet, :count)
+        end
+        
+        it "redirects to the existing palettes" do
+          post :create, :palette_set => { tumblr_username: username }
+          expect(response).to redirect_to PaletteSet.find_by(source: username)
+        end
       end
     end
 
@@ -52,7 +69,7 @@ describe PaletteSetsController do
         stub_info_request(nil)
       end
 
-      it "does not save the new palettes in the database" do
+      it "does not save the new palette set in the database" do
         expect{
           post :create, :palette_set => { tumblr_username: nil }
         }.to_not change(PaletteSet, :count)

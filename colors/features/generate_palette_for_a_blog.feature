@@ -27,5 +27,10 @@ Feature: Generate color palettes for a blog
     Then I should see "0" palettes and their associated photo posts
     And I should see "No photo posts found"
 
+  Scenario: Generate palettes for a blog already in database
+    Given there exist palettes for a tumblr blog "blog"
+    When I submit it as "tumblr username" and click "Generate"
+    Then I should see "10" palettes and their associated photo posts
+
   # Scenario? photosets 
 
