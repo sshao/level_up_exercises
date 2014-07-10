@@ -20,6 +20,12 @@ Feature: Generate color palettes for a blog
     When I submit "" as "tumblr username" and click "Generate"
     Then I should see "Source can't be blank"
 
+  Scenario: Generate palettes for an existing blog with no photo posts
+    Given there exists a tumblr blog "no_photos"
+    And the blog has 0 photo posts
+    When I submit "no_photos" as "tumblr username" and click "Generate"
+    Then I should see "0" palettes and their associated photo posts
+    And I should see "No photo posts found"
+
   # Scenario? photosets 
-  # Scenario: existing blog, no photo posts
 

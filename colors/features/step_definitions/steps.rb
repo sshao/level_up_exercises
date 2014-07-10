@@ -26,6 +26,14 @@ Given(/^the blog has at least "(\d+)" photo posts$/) do |num|
   stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
 end
 
+Given(/^the blog has 0 photo posts$/) do 
+  headers = {'content-type' => 'application/json'}
+
+  body = File.open(File.join(fixtures_path, "#{@blog}_10_posts.json")).read
+  uri = %r{api.tumblr.com/v2/blog/#{@blog}.tumblr.com/posts/photo}
+  stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
+end
+
 When(/^I submit "(.*?)" as "(.*?)" and click "(.*?)"$/) do |blog, field, link|
   visit '/'
 

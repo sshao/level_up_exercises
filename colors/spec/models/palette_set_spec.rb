@@ -30,22 +30,42 @@ describe PaletteSet do
       let(:palette_set) { PaletteSet.create(source: username) }
 
       context "with successful HTTP responses" do
-        before(:each) do 
-          stub_info_request(username)
-          stub_photos_request(username, PULL_LIMIT)
-        end
-        
-        it "is valid" do
-          expect(palette_set).to be_valid
+        context "with photos to generate from" do
+          before(:each) do 
+            stub_info_request(username)
+            stub_photos_request(username, PULL_LIMIT)
+          end
+          
+          it "is valid" do
+            expect(palette_set).to be_valid
+          end
+
+          it "creates up to #{PULL_LIMIT} different palettes" do
+            expect(palette_set.palettes.size).to be PULL_LIMIT
+          end
+
+          it "assigns a image url to each palette" do
+            palette_set.palettes.each do |palette|
+              expect(palette.image_url).to eq image_url
+            end
+          end
         end
 
-        it "creates up to #{PULL_LIMIT} different palettes" do
-          expect(palette_set.palettes.size).to be PULL_LIMIT
-        end
+        context "without photos to generate from" do
+          let(:username) { "no_photos" }
+          let(:empty_palette_set) { PaletteSet.create(source: username) }
 
-        it "assigns a image url to each palette" do
-          palette_set.palettes.each do |palette|
-            expect(palette.image_url).to eq image_url
+          before(:each) do
+            stub_info_request(username)
+            stub_photos_request(username, PULL_LIMIT)
+          end
+
+          it "is valid" do
+            expect(empty_palette_set).to be_valid
+          end
+
+          it "creates 0 palettes" do
+            expect(empty_palette_set.palettes.size).to be 0
           end
         end
       end
