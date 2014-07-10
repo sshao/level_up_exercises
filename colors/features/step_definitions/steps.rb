@@ -1,44 +1,21 @@
-Given(/^there exists a tumblr blog "(.*?)"$/) do |blog|
-  headers = {'content-type' => 'application/json'}
-
-  uri = %r{api.tumblr.com/v2/blog/#{blog}.tumblr.com/info}
-  body = File.open(File.join(fixtures_path, "#{blog}_info.json")).read
-  stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
-
+Given(/^there (?:does not )*exist(?:s*) a tumblr blog "(.*?)"$/) do |blog|
   @blog = blog
+  stub_info_request(@blog)
 end
 
-Given(/^there does not exist a tumblr blog "(.*?)"$/) do |blog|
-  headers = {'content-type' => 'application/json'}
-
-  uri = %r{api.tumblr.com/v2/blog/#{blog}.tumblr.com/info}
-  body = File.open(File.join(fixtures_path, "#{blog}_info.json")).read
-  stub_request(:get, uri).to_return(status: 404, headers: headers, body: body)
-
-  @blog = blog
+Given(/^it has at least "(\d+)" photo posts$/) do |num|
+  stub_photos_request(@blog, num)
 end
 
-Given(/^the blog has at least "(\d+)" photo posts$/) do |num|
-  headers = {'content-type' => 'application/json'}
-
-  body = File.open(File.join(fixtures_path, "#{@blog}_#{num}_posts.json")).read
-  uri = %r{api.tumblr.com/v2/blog/#{@blog}.tumblr.com/posts/photo\?.*&limit=#{num}}
-  stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
+Given(/^it has 0 photo posts$/) do 
+  stub_photos_request(@blog, PULL_LIMIT)
 end
 
-Given(/^the blog has 0 photo posts$/) do 
-  headers = {'content-type' => 'application/json'}
-
-  body = File.open(File.join(fixtures_path, "#{@blog}_10_posts.json")).read
-  uri = %r{api.tumblr.com/v2/blog/#{@blog}.tumblr.com/posts/photo}
-  stub_request(:get, uri).to_return(status: 200, headers: headers, body: body)
-end
-
-When(/^I submit "(.*?)" as "(.*?)" and click "(.*?)"$/) do |blog, field, link|
+When(/^I submit it as "(.*?)" and click "(.*?)"$/) do |field, link|
   visit '/'
 
   field = field.gsub(/\s/, '_')
-  fill_in field, :with => blog
+  fill_in field, :with => @blog
 
   click_link_or_button link
 end

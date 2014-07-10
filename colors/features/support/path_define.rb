@@ -1,6 +1,6 @@
 module PathDefine
-  def fixtures_path
-    @fixtures_path ||= "#{::Rails.root}/spec/fixtures"
+  def fixture_path
+    @fixture_path ||= "#{::Rails.root}/spec/fixtures"
   end
 end
 
