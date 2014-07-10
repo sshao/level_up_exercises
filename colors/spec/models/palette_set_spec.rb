@@ -72,9 +72,11 @@ describe PaletteSet do
 
       context "with unsuccessful HTTP responses" do
         context "with unsuccessful client response" do
+          let(:username) { "unauthorized" }
+
           before(:each) do 
             stub_info_request(username)
-            stub_timeout_photos_request(username, PULL_LIMIT)
+            stub_photos_request(username, PULL_LIMIT)
           end
           
           it "should not save to db" do
@@ -83,9 +85,11 @@ describe PaletteSet do
         end
 
         context "with unsuccessful image response" do
+          let(:username) { "invalid_image_urls" }
+
           before(:each) do
             stub_info_request(username)
-            stub_error_photos_request(username, PULL_LIMIT)
+            stub_photos_request(username, PULL_LIMIT)
           end
 
           it "saves to db" do
@@ -106,7 +110,7 @@ describe PaletteSet do
     context "with invalid params" do
       context "with no source" do
         before(:each) do
-          stub_not_found_info_request(nil)
+          stub_info_request(nil)
         end
 
         it "is not valid" do
@@ -116,7 +120,7 @@ describe PaletteSet do
 
       context "with non-existent source" do
         before(:each) do
-          stub_not_found_info_request("doesnotexist")
+          stub_info_request("doesnotexist")
         end
 
         it "is not valid" do

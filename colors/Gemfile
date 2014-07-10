@@ -54,4 +54,5 @@ group :test do
   gem 'webmock'
   gem 'launchy'
   gem 'pry'
+  gem 'json'
 end

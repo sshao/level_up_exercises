@@ -49,7 +49,7 @@ describe PaletteSetsController do
 
     context "with invalid username" do
       before(:each) do
-        stub_not_found_info_request(nil)
+        stub_info_request(nil)
       end
 
       it "does not save the new palettes in the database" do
