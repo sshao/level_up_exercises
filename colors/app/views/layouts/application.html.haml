@@ -9,6 +9,18 @@
     = csrf_meta_tags 
 
   %body
+    .container
+      .row
+        .twelve.columns
+          - if flash[:error]
+            .error
+              = flash[:error]
+          - if flash[:notice]
+            .notice
+              = flash[:notice]
+          - if flash[:alert]
+            .alert
+              = flash[:alert]
     = yield
     = javascript_include_tag 'application'
 

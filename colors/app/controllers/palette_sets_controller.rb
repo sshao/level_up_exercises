@@ -7,6 +7,7 @@ class PaletteSetsController < ApplicationController
     if @palette_set.save
       redirect_to @palette_set
     else
+      flash[:error] = @palette_set.errors.full_messages
       render action: :index
     end
   end
@@ -24,3 +25,4 @@ class PaletteSetsController < ApplicationController
     @palette_set = PaletteSet.find(params[:id])
   end
 end
+

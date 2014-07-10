@@ -10,6 +10,11 @@ Feature: Generate color palettes for a blog
     When I submit "blog" as "tumblr username" and click "Generate"
     Then I should see "10" palettes and their associated photo posts
 
+  Scenario: Generate palettes for a non-existent blog
+    Given there does not exist a tumblr blog "doesnotexist"
+    When I submit "doesnotexist" as "tumblr username" and click "Generate"
+    Then I should see "not found, returned 404"
+
   # Scenario? photosets 
   # Scenario: existing blog, no photo posts
-  # Scenario: nonexistent blog
+
