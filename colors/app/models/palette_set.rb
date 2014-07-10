@@ -4,7 +4,15 @@ class PaletteSet < ActiveRecord::Base
   has_and_belongs_to_many :palettes, join_table: :palette_sets_palettes
   belongs_to :user
 
+  validates :source, presence: true
+  validate :source_exists
   before_save :generate_palettes
+
+  def source_exists
+    client = Tumblr::Client.new
+    response = client.blog_info("#{source}.tumblr.com")
+    errors.add(:source, "not found, returned 404") if response["status"] == 404
+  end
 
   def generate_palettes
     # FIXME open for each instance of PaletteSet? Or have one open for whole app?

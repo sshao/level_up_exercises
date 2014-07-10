@@ -12,6 +12,7 @@ describe PaletteSet do
   # FIXME what SHOULD #new be doing??
   describe "#new" do
     before(:each) do 
+      stub_info_request(username)
       stub_photos_request(username, PULL_LIMIT)
     end
 
@@ -30,6 +31,7 @@ describe PaletteSet do
 
       context "with successful HTTP responses" do
         before(:each) do 
+          stub_info_request(username)
           stub_photos_request(username, PULL_LIMIT)
         end
         
@@ -51,6 +53,7 @@ describe PaletteSet do
       context "with unsuccessful HTTP responses" do
         context "with unsuccessful client response" do
           before(:each) do 
+            stub_info_request(username)
             stub_timeout_photos_request(username, PULL_LIMIT)
           end
           
@@ -61,6 +64,7 @@ describe PaletteSet do
 
         context "with unsuccessful image response" do
           before(:each) do
+            stub_info_request(username)
             stub_error_photos_request(username, PULL_LIMIT)
           end
 
@@ -74,14 +78,31 @@ describe PaletteSet do
         end
 
         context "with corrupted image (palette)" do
-          it "does not save the palette"
+          it "does not save the palette" 
         end
       end
     end
     
     context "with invalid params" do
-      it "is not valid"
-    end
+      context "with no source" do
+        before(:each) do
+          stub_not_found_info_request(nil)
+        end
 
+        it "is not valid" do
+          expect(PaletteSet.new(source: nil)).to_not be_valid
+        end
+      end
+
+      context "with non-existent source" do
+        before(:each) do
+          stub_not_found_info_request("doesnotexist")
+        end
+
+        it "is not valid" do
+          expect(PaletteSet.new(source: "doesnotexist")).to_not be_valid
+        end
+      end
+    end
   end
 end

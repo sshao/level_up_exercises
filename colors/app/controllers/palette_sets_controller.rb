@@ -3,8 +3,12 @@ class PaletteSetsController < ApplicationController
   end
 
   def create
-    @palette_set = PaletteSet.create(source: params[:palette_set][:tumblr_username])
-    redirect_to @palette_set
+    @palette_set = PaletteSet.new(source: params[:palette_set][:tumblr_username])
+    if @palette_set.save
+      redirect_to @palette_set
+    else
+      render action: :index
+    end
   end
 
   def update

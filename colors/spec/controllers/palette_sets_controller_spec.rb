@@ -10,6 +10,7 @@ describe PaletteSetsController do
   end
 
   before(:each) do
+    stub_info_request(username)
     stub_photos_request(username, limit)
   end
 
@@ -34,7 +35,11 @@ describe PaletteSetsController do
 
   describe "POST create" do
     context "with valid username" do
-      it "saves the new palettes in the database"
+      it "saves the new palettes in the database" do
+        expect{
+          post :create, :palette_set => { tumblr_username: username }
+        }.to change(PaletteSet, :count).by(1)
+      end
 
       it "redirects to the new palettes page" do
         post :create, :palette_set => { tumblr_username: username }
@@ -43,8 +48,20 @@ describe PaletteSetsController do
     end
 
     context "with invalid username" do
-      it "does not save the new palettes in the database"
-      it "re-renders the :index template"
+      before(:each) do
+        stub_not_found_info_request(nil)
+      end
+
+      it "does not save the new palettes in the database" do
+        expect{
+          post :create, :palette_set => { tumblr_username: nil }
+        }.to_not change(PaletteSet, :count)
+      end
+
+      it "re-renders the :index template" do
+        post :create, :palette_set => { tumblr_username: nil }
+        expect(response).to render_template :index
+      end
     end
   end
 end
