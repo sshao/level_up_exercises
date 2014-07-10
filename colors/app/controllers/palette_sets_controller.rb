@@ -26,6 +26,7 @@ class PaletteSetsController < ApplicationController
   end
 
   def index
+    @palette_sets = PaletteSet.all
   end
 
   def show
