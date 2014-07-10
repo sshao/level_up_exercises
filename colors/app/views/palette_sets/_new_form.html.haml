@@ -1,5 +1,7 @@
-= form_tag "/generate", :method => "post" do 
-  %label{for: "tumblr_username"} username:
-  %input#tumblr_username{name: "palette_set[tumblr_username]"}
-  %button{type: "submit"} Generate 
+.row
+  .twelve.columns
+    = form_tag "/generate", :method => "post" do 
+      %label{for: "tumblr_username"} username:
+      %input#tumblr_username{name: "palette_set[tumblr_username]"}
+      %button{type: "submit"} Generate 
 

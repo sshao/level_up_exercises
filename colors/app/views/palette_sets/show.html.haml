@@ -1,5 +1,7 @@
-%h1 PaletteSets#show
-%p Find me in app/views/palette_sets/show.html.haml
+.row
+  .twelve.columns
+    %h1 PaletteSets#show
+    %p Find me in app/views/palette_sets/show.html.haml
 
 - @palette_set.palettes.in_groups_of(2) do |palette_group|
   .row
