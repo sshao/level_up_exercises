@@ -4,7 +4,7 @@ class Palette < ActiveRecord::Base
 
   validate :validate_colors
 
-  after_initialize :format_colors
+  before_save :format_colors
 
   NUM_COLORS = 5
 
