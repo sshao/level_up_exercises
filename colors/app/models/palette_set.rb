@@ -19,7 +19,9 @@ class PaletteSet < ActiveRecord::Base
   private
   def photo_url(post)
     # FIXME gracefully deal with photosets 
-    post["photos"][0]["alt_sizes"][0]["url"]
+    first_photo = post["photos"][0]
+    photo_500px = first_photo["alt_sizes"].find{ |photo| photo["width"] == 500 } || first_photo["original_size"]
+    photo_500px["url"]
   end
 
   def generate_palette(post)
