@@ -2,8 +2,7 @@ require 'rails_helper'
 require_relative '../helpers'
 
 describe PaletteSetsController do
-  let(:username) { "blog" }
-  let(:limit) { 10 }
+  let(:username) { FactoryGirl.attributes_for(:palette_set)[:source] }
 
   RSpec.configure do |c|
     c.include Helpers
@@ -11,17 +10,14 @@ describe PaletteSetsController do
 
   before(:each) do
     stub_info_request(username)
-    stub_photos_request(username, limit)
+    stub_photos_request(username, PULL_LIMIT) if username
   end
 
   describe "GET show" do
-    before(:each) do
-      @palette_set = PaletteSet.create(source: username)
-    end
+    let(:palette_set) { FactoryGirl.create(:palette_set) }
 
     it "renders the show template" do
-      id = @palette_set.id
-      get :show, id: id
+      get :show, id: palette_set.id
       expect(response).to render_template "show"
     end
   end
@@ -65,18 +61,16 @@ describe PaletteSetsController do
     end
 
     context "with invalid username" do
-      before(:each) do
-        stub_info_request(nil)
-      end
+      let(:username) { nil }
 
       it "does not save the new palette set in the database" do
         expect{
-          post :create, :palette_set => { tumblr_username: nil }
+          post :create, :palette_set => { tumblr_username: username }
         }.to_not change(PaletteSet, :count)
       end
 
       it "re-renders the :index template" do
-        post :create, :palette_set => { tumblr_username: nil }
+        post :create, :palette_set => { tumblr_username: username }
         expect(response).to render_template :index
       end
     end
