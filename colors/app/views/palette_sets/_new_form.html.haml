@@ -1,7 +1,10 @@
 .row
   .twelve.columns
+    %h2 Create Set
     = form_tag "/generate", :method => "post" do 
-      %label{for: "tumblr_username"} username:
-      %input#tumblr_username{name: "palette_set[tumblr_username]"}
-      %button{type: "submit"} Generate 
+      .row.collapse
+        .small-4.columns
+          %input#tumblr_username{name: "palette_set[tumblr_username]", type: "text", placeholder: "Enter username..."}
+        .small-2.columns.end
+          %button{type: "submit", class: 'button postfix'} Generate 
 
