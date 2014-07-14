@@ -6,4 +6,5 @@
     %ul
     - @palette_sets.each do |set|
       %li
-        %a{href: palette_set_path(set)} link
+        %a{href: palette_set_path(set)} 
+          = set.source

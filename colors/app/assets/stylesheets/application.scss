@@ -1,1 +1,7 @@
 @import "foundation_and_overrides";
+
+.error {
+  @include alert(
+    $bg: red
+  );
+}
