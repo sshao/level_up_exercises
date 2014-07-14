@@ -84,9 +84,9 @@ describe PaletteSetsController do
         }.to_not change(PaletteSet, :count)
       end
 
-      it "re-renders the :index template" do
+      it "redirects to the :index template" do
         post :create, :palette_set => { tumblr_username: username }
-        expect(response).to render_template :index
+        expect(response).to redirect_to :action => :index
       end
     end
   end

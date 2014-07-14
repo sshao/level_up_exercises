@@ -14,7 +14,7 @@ class PaletteSetsController < ApplicationController
         redirect_to PaletteSet.find_by(source: params[:palette_set][:tumblr_username])
       else
         flash[:error] = @palette_set.errors.full_messages
-        render action: :index
+        redirect_to action: "index"
       end
     end
   end
