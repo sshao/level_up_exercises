@@ -1,14 +1,16 @@
 .row
   .twelve.columns
-    %h1 PaletteSets#show
-    %p Find me in app/views/palette_sets/show.html.haml
+    %h2= @palette_set.title
+    %ul
+      %li
+        source:
+        %a{href: "http://#{@palette_set.source}.tumblr.com"}= @palette_set.source
 
-- @palette_set.palettes.in_groups_of(2) do |palette_group|
-  .row
-    - palette_group.each do |palette|
-      .small-6.columns
-        .palette_img
-          %img{src: palette.image_url}
-        .palette
-          - palette.colors.each do |color|
-            .color{style: "display: inline-block; width: 50px; height: 50px; background: #{color};"}
+.row.seamless_container
+  - @palette_set.palettes.each do |palette|
+    .palette
+      .palette_img
+        %img{src: palette.image_url}
+      .swatch_container
+        - palette.colors.each do |color|
+          .swatch{style: "background-color: #{color};"}
