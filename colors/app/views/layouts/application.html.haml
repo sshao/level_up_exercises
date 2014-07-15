@@ -16,6 +16,9 @@
           %a{href: root_path} Home
     .row
       .twelve.columns
+        = render :partial => 'devise/sessions/new'
+    .row
+      .twelve.columns
         = render :partial => 'shared/flash'
     = yield
 

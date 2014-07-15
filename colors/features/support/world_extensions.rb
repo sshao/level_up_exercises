@@ -11,9 +11,10 @@ module KnowsUser
   end
 
   def login(username, username_field, password, password_field)
+    visit '/'
     fill_in field_name(username_field), with: username
     fill_in field_name(password_field), with: password
-    click_link_or_button 'Log in'
+    click_link_or_button 'Sign in'
   end
 end
 World(KnowsUser)
