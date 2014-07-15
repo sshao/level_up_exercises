@@ -1,0 +1,9 @@
+- flash.each do |type, msgs|
+  .alert-box{"data-alert" => "", class: type }
+    - if msgs.is_a? String
+      = msgs
+    - else
+      - msgs.each do |msg|
+        = msg
+    %a{href: "#", class: "close"} &times;
+

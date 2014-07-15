@@ -24,14 +24,13 @@ $block-margin: 3px;
 
   .palette {
     margin-bottom: $swatch-height + $swatch-margin-top + $block-margin;
-
-    .swatch {
-      margin-top: $swatch-margin-top;
-      width: $swatch-width;
-      height: $swatch-height;
-      float: left;
-    }
   }
 
+  .swatch {
+    margin-top: $swatch-margin-top;
+    width: $swatch-width;
+    height: $swatch-height;
+    float: left;
+  }
 }
 
