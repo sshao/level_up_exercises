@@ -22,10 +22,7 @@ end
 
 When(/^I submit it as "(.*?)" and click "(.*?)"$/) do |field, link|
   visit '/'
-
-  field = field.gsub(/\s/, '_')
-  fill_in field, :with => @blog
-
+  fill_in field_name(field), :with => @blog
   click_link_or_button link
 end
 
