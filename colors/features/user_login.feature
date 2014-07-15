@@ -14,15 +14,15 @@ Feature: User logs in
   Scenario: User attempts login with wrong password
     Given there exists a user "sshao" with password "password123"
     When I submit "sshao" as "user[login]" and "user[password]" as "user[password]"
-    Then I should see "Login failed: password does not match username"
+    Then I should see "Invalid login or password"
 
   Scenario: User attempts login with wrong username
     Given there exists a user "sshao" with password "password123"
     When I submit "dshao" as "user[login]" and "password123" as "user[password]"
-    Then I should see "Login failed: password does not match username"
+    Then I should see "Invalid login or password"
 
   Scenario: User attempts login with nonexistent username
     Given there does not exist a user "sshao"
     When I submit "sshao" as "user[login]" and "password123" as "user[password]"
-    Then I should see "Login failed: user does not exist"
+    Then I should see "Invalid login or password"
 
