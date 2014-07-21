@@ -1,25 +1,27 @@
-require 'rmagick'
-
 class PaletteSet < ActiveRecord::Base
   has_and_belongs_to_many :palettes, join_table: :palette_sets_palettes
   belongs_to :user
 
   validates :source, presence: true, uniqueness: true
   validate :source_exists
-  before_save :generate_palettes
+
+  before_create :generate_palettes
+
+  def tumblr_url(username)
+    "#{username}.tumblr.com"
+  end
 
   def source_exists
+    # FIXME open for each instance of PaletteSet? Or have one open for whole app?
     client = Tumblr::Client.new
-    response = client.blog_info("#{source}.tumblr.com")
+    response = client.blog_info(tumblr_url(source))
     errors.add(:source, "not found, returned 404") if response["status"] == 404
   end
 
   def generate_palettes
-    # FIXME open for each instance of PaletteSet? Or have one open for whole app?
-    @client = Tumblr::Client.new
+    client = Tumblr::Client.new
 
-    # FIXME check response for valid response
-    response = @client.posts("#{source}.tumblr.com", :type => "photo", :limit => PULL_LIMIT)
+    response = client.posts(tumblr_url(source), :type => "photo", :limit => PULL_LIMIT)
 
     if response["status"].nil?
       response["posts"].each { |post| generate_palette(post) }
@@ -30,40 +32,32 @@ class PaletteSet < ActiveRecord::Base
   end
 
   private
-  def photo_url(post)
-    # FIXME gracefully deal with photosets 
-    first_photo = post["photos"][0]
-    photo_500px = first_photo["alt_sizes"].find{ |photo| photo["width"] == 500 } || first_photo["original_size"]
-    photo_500px["url"]
+  def image_url(post)
+    image = post["photos"][0]["alt_sizes"].find { |photo| photo["width"] == 500 }
+    image ||= post["photos"][0]["original_size"]
+    image["url"]
   end
 
   def generate_palette(post)
-    image_url = photo_url(post)
+    image_url = image_url(post)
     image = open_image(image_url)
 
     return if image.nil?
 
-    quantized_img = image.quantize(5, Magick::RGBColorspace)
-    quantized_colors = get_quantized_colors(quantized_img)
-
-    # TODO check palette is valid
-    palette = Palette.new(colors: quantized_colors, image_url: image_url)
+    palette = Palette.new(colors: colors(image), image_url: image_url)
     palettes << palette if palette.save
-
-    # TODO will save palettes without saving palette_set...
-    # is that what i want? or only when encompassing palette_set is
-    # successfully saved?
   end
 
   def open_image(url)
     Magick::ImageList.new(url).cur_image
   rescue Magick::ImageMagickError => e
-    logger.error e.inspect
-    return nil
+    errors.add(:source, "could not open source image at #{url}: #{e.inspect}")
+    nil
   end
 
-  def get_quantized_colors(image)
-    hist = image.color_histogram
+  def colors(image)
+    quantized_image = image.quantize(5, Magick::RGBColorspace)
+    hist = quantized_image.color_histogram
     hist.keys.map { |p| p.to_color(Magick::AllCompliance, false, 8, true) }
   end
 end
