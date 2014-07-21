@@ -8,10 +8,6 @@ describe Palette do
     context "with valid parameters" do
       let(:palette) { FactoryGirl.create(:palette) }
 
-      it "is valid" do
-        expect(palette).to be_valid
-      end
-
       it "initializes palette with passed-in colors" do
         expect(palette.colors.size).to be colors.size
       end
@@ -22,7 +18,7 @@ describe Palette do
         end
       end
 
-      it "adds the image url" do
+      it "saves the image url" do
         expect(palette.image_url).to eq image_url
       end
     end

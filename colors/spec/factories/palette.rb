@@ -4,3 +4,4 @@ FactoryGirl.define do
     image_url "http://imageurl.com/image.jpg"
   end
 end
+

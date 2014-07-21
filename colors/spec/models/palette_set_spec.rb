@@ -16,27 +16,17 @@ describe PaletteSet do
 
   describe "#create" do
     context "with valid params" do
-      context "with successful HTTP responses" do
+      context "with successful HTTP responses from third-party API" do
         let(:palette_set) { FactoryGirl.create(:palette_set) }
         
-        context "with photos to generate from" do
-          it "is valid" do
-            expect(palette_set).to be_valid
-          end
-
+        context "with photos to generate palettes from" do
           it "creates up to #{PULL_LIMIT} different palettes" do
             expect(palette_set.palettes.size).to be PULL_LIMIT
-          end
-
-          it "assigns a image url to each palette" do
-            palette_set.palettes.each do |palette|
-              expect(palette.image_url).to eq image_url
-            end
           end
         end
 
         context "without photos to generate from" do
-          let(:username) { "no_photos" }
+          let(:username) { "nophotos" }
           let(:palette_set) { FactoryGirl.create(:palette_set, source: username) }
 
           it "is valid" do
@@ -44,12 +34,12 @@ describe PaletteSet do
           end
 
           it "creates 0 palettes" do
-            expect(palette_set.palettes.size).to be 0
+            expect(palette_set.palettes).to be_empty
           end
         end
       end
 
-      context "with unsuccessful HTTP responses" do
+      context "with unsuccessful HTTP responses from third-party API" do
         context "with unsuccessful client response" do
           let(:username) { "unauthorized" }
           let(:palette_set_save) { FactoryGirl.build(:palette_set, source: username).save }
@@ -72,9 +62,15 @@ describe PaletteSet do
             expect(palette_set.palettes).to be_empty
           end
         end
+      end
 
-        context "with corrupted image (palette)" do
-          it "does not save the palette" 
+      context "with any unsuccessful palette creation" do
+        before(:each) do
+          allow_any_instance_of(Palette).to receive(:save) { false }
+        end
+
+        it "does not generate the palette" do
+          expect(FactoryGirl.create(:palette_set).palettes).to be_empty
         end
       end
     end
@@ -82,10 +78,10 @@ describe PaletteSet do
     context "with invalid params" do
       context "with no source" do
         let(:username) { nil }
-        let(:palette_set_new) { FactoryGirl.build(:palette_set, source: username) }
+        let(:palette_set_build) { FactoryGirl.build(:palette_set, source: username) }
 
         it "is not valid" do
-          expect(palette_set_new).to_not be_valid
+          expect(palette_set_build).to_not be_valid
         end
       end
 
@@ -100,3 +96,4 @@ describe PaletteSet do
     end
   end
 end
+

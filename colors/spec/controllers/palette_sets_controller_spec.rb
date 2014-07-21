@@ -54,12 +54,12 @@ describe PaletteSetsController do
 
       it "redirects to the new palette set page" do
         post :create, :palette_set => { tumblr_username: username }
-        expect(response).to redirect_to assigns(:palette_set)
+        expect(response).to redirect_to PaletteSet.last
       end
 
       context "that has already had palettes generated for it" do
         before(:each) do 
-          post :create, :palette_set => { tumblr_username: username }
+          PaletteSet.create!(source: username)
         end
 
         it "does not save a new palette set in the database" do
