@@ -6,6 +6,10 @@ module FieldHelpers
   def upload_file(filepath)
     attach_file "upload_receipt", filepath
   end
+  
+  def upload_file(filepath)
+    attach_file "upload_receipt", filepath
+  end
 end
 World(FieldHelpers)
 
