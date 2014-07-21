@@ -28,6 +28,10 @@ describe Palette do
     end
 
     context "with invalid parameters" do
+      it "fails if there is no image url" do
+        expect(FactoryGirl.build(:palette, image_url: nil)).to_not be_valid
+      end
+
       it "fails if no colors are given to it" do
         colors = []
         expect(FactoryGirl.build(:palette, colors: colors)).to_not be_valid
