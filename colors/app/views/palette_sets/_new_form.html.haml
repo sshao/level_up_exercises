@@ -4,7 +4,7 @@
     = form_tag "/generate", :method => "post" do 
       .row.collapse
         .small-4.columns
-          %input#tumblr_username{name: "palette_set[tumblr_username]", type: "text", placeholder: "Enter username..."}
+          %input#source{name: "palette_set[source]", type: "text", placeholder: "Enter username..."}
         .small-2.columns.end
           %button{type: "submit", class: 'button postfix'} Generate 
 

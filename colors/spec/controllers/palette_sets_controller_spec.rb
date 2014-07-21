@@ -14,10 +14,8 @@ describe PaletteSetsController do
   end
 
   describe "GET index" do
-    let(:palette_set) { FactoryGirl.create(:palette_set) }
-    
     it "assigns an array of palette_sets" do
-      p = palette_set
+      p = FactoryGirl.create(:palette_set)
       get :index
       expect(assigns(:palette_sets)).to eq [p]
     end
@@ -29,9 +27,8 @@ describe PaletteSetsController do
   end
 
   describe "GET show" do
-    let(:palette_set) { FactoryGirl.create(:palette_set) }
-
     it "renders the show template" do
+      palette_set = FactoryGirl.create(:palette_set)
       get :show, id: palette_set.id
       expect(response).to render_template :show
     end
@@ -45,48 +42,49 @@ describe PaletteSetsController do
   end
 
   describe "POST create" do
+    let(:valid_params) { FactoryGirl.attributes_for(:palette_set) }
+
     context "with valid username" do
       it "saves the new palette set in the database" do
-        expect{
-          post :create, :palette_set => { tumblr_username: username }
-        }.to change(PaletteSet, :count).by(1)
+        expect { post :create, palette_set: valid_params }
+          .to change(PaletteSet, :count)
+          .by(1)
       end
 
       it "redirects to the new palette set page" do
-        post :create, :palette_set => { tumblr_username: username }
+        post :create, palette_set: valid_params
         expect(response).to redirect_to PaletteSet.last
       end
 
       context "that has already had palettes generated for it" do
         before(:each) do 
-          PaletteSet.create!(source: username)
+          PaletteSet.create!(valid_params)
         end
 
         it "does not save a new palette set in the database" do
-          expect{
-            post :create, :palette_set => { tumblr_username: username }
-          }.to_not change(PaletteSet, :count)
+          expect { post :create, palette_set: valid_params }
+            .to_not change(PaletteSet, :count)
         end
         
         it "redirects to the existing palettes" do
-          post :create, :palette_set => { tumblr_username: username }
+          post :create, palette_set: valid_params
           expect(response).to redirect_to PaletteSet.find_by(source: username)
         end
       end
     end
 
     context "with invalid username" do
-      let(:username) { nil }
+      let(:invalid_params) { FactoryGirl.attributes_for(:invalid_palette_set) }
+      let(:username) { invalid_params[:source] }
 
       it "does not save the new palette set in the database" do
-        expect{
-          post :create, :palette_set => { tumblr_username: username }
-        }.to_not change(PaletteSet, :count)
+        expect { post :create, palette_set: invalid_params }
+          .to_not change(PaletteSet, :count)
       end
 
       it "redirects to the :index template" do
-        post :create, :palette_set => { tumblr_username: username }
-        expect(response).to redirect_to :action => :index
+        post :create, palette_set: invalid_params
+        expect(response).to redirect_to action: :index
       end
     end
   end
