@@ -4,7 +4,7 @@
   .twelve.columns
     %h2 Browse Sets
     %ul
-    - @palette_sets.each do |set|
-      %li
-        %a{href: palette_set_path(set)} 
-          = set.source
+      - @palette_sets.each do |set|
+        %li
+          %a{href: palette_set_path(set)} 
+            = set.source
