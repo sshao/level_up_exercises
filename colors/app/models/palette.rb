@@ -2,6 +2,7 @@ class Palette < ActiveRecord::Base
   has_and_belongs_to_many :palette_sets, join_table: :palette_sets_palettes
   serialize :colors, Array
 
+  validates :image_url, presence: true
   validate :validate_colors
 
   before_save :format_colors
