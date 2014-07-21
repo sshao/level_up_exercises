@@ -47,13 +47,12 @@ class PaletteSet < ActiveRecord::Base
     quantized_colors = get_quantized_colors(quantized_img)
 
     # TODO check palette is valid
-    palette = Palette.create(colors: quantized_colors, image_url: image_url)
+    palette = Palette.new(colors: quantized_colors, image_url: image_url)
+    palettes << palette if palette.save
 
     # TODO will save palettes without saving palette_set...
     # is that what i want? or only when encompassing palette_set is
     # successfully saved?
-    
-    palettes << palette
   end
 
   def open_image(url)
