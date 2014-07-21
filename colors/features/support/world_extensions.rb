@@ -22,6 +22,12 @@ module UserHelpers
   def create_user(username, password, email)
     User.create!(username: username, email: email, password: password)
   end
+
+  def sign_in(username, password)
+    visit "/"
+    fill_in "user[login]", with: username
+    fill_in "user[password]", with: password
+  end
 end
 World(UserHelpers)
 
