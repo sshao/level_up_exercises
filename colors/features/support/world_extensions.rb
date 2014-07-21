@@ -1,20 +1,27 @@
-module Fields
+module FieldHelpers
   def field_name(field)
-    field.gsub(/\s/, '_')
+    field.gsub(/\s/, "_")
+  end
+  
+  def upload_file(filepath)
+    attach_file "upload_receipt", filepath
   end
 end
-World(Fields)
+World(FieldHelpers)
 
-module KnowsUser
-  def create_user(username, password, email = "dummyemail@dummyemail123.com")
+module PaletteSetHelpers
+  def create_palette_set(username)
+    stub_info_request(username)
+    stub_photos_request(username, PULL_LIMIT)
+    PaletteSet.create!(source: username)
+  end
+end
+World(PaletteSetHelpers)
+
+module UserHelpers
+  def create_user(username, password, email)
     User.create!(username: username, email: email, password: password)
   end
-
-  def login(username, username_field, password, password_field)
-    visit '/'
-    fill_in field_name(username_field), with: username
-    fill_in field_name(password_field), with: password
-    click_link_or_button 'Sign in'
-  end
 end
-World(KnowsUser)
+World(UserHelpers)
+
