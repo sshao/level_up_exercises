@@ -2,9 +2,6 @@ Given(/^there exists a user "(.*?)" with email "(.*?)" and password "(.*?)"$/) d
   create_user(username, password, email)
 end
 
-Given(/^there does not exist a user "(.*?)"$/) do |user|
-end
-
 Given(/^that I am signed in$/) do
   create_user("kcharlie", "birdlaw123", "birdlawyer@birdlaw.com")
   sign_in("kcharlie", "birdlaw123")

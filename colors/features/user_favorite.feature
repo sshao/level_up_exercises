@@ -7,7 +7,6 @@ Feature: User favorites a palette set
   Background:
     Given that I am signed in
     And I am on a palette set's page
-    #FIXME "I" am user "sshao" ... applies for other features 
 
   Scenario: User favorites a palette set
     When I click "Favorite"
@@ -15,7 +14,6 @@ Feature: User favorites a palette set
 
   Scenario: User views list of favorited palette sets
     Given I have favorited some palette sets
-    # FIXME rename to match 'favorites'
-    When I click "My Saved Palettes" 
+    When I click "Favorites"
     Then I should see all of my favorited palette sets
 

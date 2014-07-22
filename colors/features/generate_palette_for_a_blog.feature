@@ -31,7 +31,7 @@ Feature: Generate color palettes for a blog
     And it has 0 photo posts
     When I fill in "source" with "nophotos"
     And I click "Generate"
-    Then I should see "0" palettes and their associated photo posts
+    Then I should see "0" palettes
     And I should see "No photo posts found"
 
   Scenario: Generate palettes for a blog already in database

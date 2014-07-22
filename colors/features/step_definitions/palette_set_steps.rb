@@ -15,7 +15,7 @@ Given(/^palettes have already been generated for it$/) do
   create_palette_set(@blog)
 end
 
-Then(/^I should see "(\d+)" palettes and their associated photo posts$/) do |num|
+Then(/^I should see "(\d+)" palettes(?: and their associated photo posts)*$/) do |num|
   expected_count = num.to_i
 
   expect(page).to have_selector("div.palette", count: expected_count)

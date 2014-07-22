@@ -11,6 +11,7 @@ class Palette < ActiveRecord::Base
 
   NUM_COLORS = 5
 
+  private
   def validate_colors_present
     errors.add(:colors, "No colors provided") if colors.size.zero?
   end
@@ -30,7 +31,7 @@ class Palette < ActiveRecord::Base
   end
 
   def format_colors
-    colors.each { |color| color.insert(0, '#') if color[0] != '#' }
+    colors.each { |color| color.insert(0, "#") unless color.start_with?("#") }
   end
 end
 

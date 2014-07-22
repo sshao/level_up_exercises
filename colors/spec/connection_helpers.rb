@@ -1,4 +1,4 @@
-module Helpers
+module ConnectionHelpers
   def headers
     {'content-type' => 'application/json'}
   end

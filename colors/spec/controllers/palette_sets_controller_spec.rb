@@ -1,11 +1,11 @@
 require 'rails_helper'
-require_relative '../helpers'
+require_relative '../connection_helpers'
 
 describe PaletteSetsController do
   let(:username) { FactoryGirl.attributes_for(:palette_set)[:source] }
 
   RSpec.configure do |c|
-    c.include Helpers
+    c.include ConnectionHelpers
   end
 
   before(:each) do
@@ -82,9 +82,9 @@ describe PaletteSetsController do
           .to_not change(PaletteSet, :count)
       end
 
-      it "redirects to the :index template" do
+      it "redirects to the :new template" do
         post :create, palette_set: invalid_params
-        expect(response).to redirect_to action: :index
+        expect(response).to render_template :new
       end
     end
   end

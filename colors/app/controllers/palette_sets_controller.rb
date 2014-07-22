@@ -1,19 +1,14 @@
 class PaletteSetsController < ApplicationController
-  def new
-  end
+  respond_to :html
 
   def create
-    palette_set = PaletteSet.new(permitted_params)
+    palette_set = fetch_or_return(palette_set_params)
 
-    if palette_set.save
-      flash[:alert] = "No photo posts found to generate palettes from" if palette_set.palettes.empty?
-      redirect_to palette_set
-    elsif palette_set.errors.full_messages.include? "Source has already been taken"
-      redirect_to PaletteSet.find_by(permitted_params)
-    else
-      flash[:error] = palette_set.errors.full_messages
-      redirect_to action: :index
-    end
+    flash[:error] = palette_set.errors.full_messages
+    # FIXME move into view
+    flash[:alert] = "No photo posts found to generate palettes from" if palette_set.palettes.empty?
+
+    respond_with(palette_set)
   end
 
   def update
@@ -22,6 +17,7 @@ class PaletteSetsController < ApplicationController
   def destroy
   end
 
+  # FIXME look at scopes (recent, popular)
   def index
     @palette_sets = PaletteSet.all
   end
@@ -30,8 +26,13 @@ class PaletteSetsController < ApplicationController
     @palette_set = PaletteSet.find(params[:id])
   end
 
-  def permitted_params
+  private
+  def palette_set_params
     params.fetch(:palette_set, {}).permit(:source)
+  end
+
+  def fetch_or_return(args)
+    PaletteSet.find_by(args) || PaletteSet.create(args)
   end
 end
 

@@ -9,7 +9,7 @@ describe Palette do
       let(:palette) { FactoryGirl.create(:palette) }
 
       it "initializes palette with passed-in colors" do
-        expect(palette.colors.size).to be colors.size
+        expect(palette.colors).to eq colors
       end
       
       it "appends # to beginning of each color if missing" do
@@ -23,6 +23,7 @@ describe Palette do
       end
     end
 
+    # FIXME use validate_presence_of helper
     context "with invalid parameters" do
       it "fails if there is no image url" do
         expect(FactoryGirl.build(:palette, image_url: nil)).to_not be_valid
@@ -52,14 +53,6 @@ describe Palette do
         colors = ["ZFF"]
         expect(FactoryGirl.build(:palette, colors: colors)).to_not be_valid
       end
-    end
-  end
-
-  describe "#colors" do
-    let(:palette) { FactoryGirl.create(:palette) }
-
-    it "returns all colors" do
-      expect(palette.colors).to eq colors
     end
   end
 end

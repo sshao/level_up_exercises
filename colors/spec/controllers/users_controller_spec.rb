@@ -1,9 +1,9 @@
 require 'rails_helper'
-require_relative '../helpers'
+require_relative '../connection_helpers'
 
 describe UsersController do
   RSpec.configure do |config|
-    config.include Helpers
+    config.include ConnectionHelpers
     config.include Devise::TestHelpers, :type => :controller
   end
 

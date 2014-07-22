@@ -12,7 +12,7 @@ class PaletteSet < ActiveRecord::Base
   end
 
   def source_exists
-    # FIXME open for each instance of PaletteSet? Or have one open for whole app?
+    # FIXME memoize
     client = Tumblr::Client.new
     response = client.blog_info(tumblr_url(source))
     errors.add(:source, "not found, returned 404") if response["status"] == 404
@@ -23,6 +23,7 @@ class PaletteSet < ActiveRecord::Base
 
     response = client.posts(tumblr_url(source), :type => "photo", :limit => PULL_LIMIT)
 
+    # FIXME turn into guard condition
     if response["status"].nil?
       response["posts"].each { |post| generate_palette(post) }
     else
@@ -33,9 +34,17 @@ class PaletteSet < ActiveRecord::Base
 
   private
   def image_url(post)
-    image = post["photos"][0]["alt_sizes"].find { |photo| photo["width"] == 500 }
-    image ||= post["photos"][0]["original_size"]
+    images = post["photos"].first
+    image = standard_size(images) || original_size(images)
     image["url"]
+  end
+
+  def standard_size(image)
+    image["alt_sizes"].find { |photo| photo["width"] == 500 }
+  end
+
+  def original_size(image)
+    image["original_size"]
   end
 
   def generate_palette(post)
@@ -55,6 +64,7 @@ class PaletteSet < ActiveRecord::Base
     nil
   end
 
+  # FIXME move into Palette Model -- have PaletteSet pass in URL to Palette.new
   def colors(image)
     quantized_image = image.quantize(5, Magick::RGBColorspace)
     hist = quantized_image.color_histogram
