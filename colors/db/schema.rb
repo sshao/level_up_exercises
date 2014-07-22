@@ -11,22 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140715160941) do
+ActiveRecord::Schema.define(version: 20140722143601) do
 
   create_table "palette_sets", force: true do |t|
     t.string   "title"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "source"
   end
 
   add_index "palette_sets", ["source"], name: "index_palette_sets_on_source", unique: true
-  add_index "palette_sets", ["user_id"], name: "index_palette_sets_on_user_id"
 
   create_table "palette_sets_palettes", id: false, force: true do |t|
     t.integer "palette_id",     null: false
     t.integer "palette_set_id", null: false
+  end
+
+  create_table "palette_sets_users", id: false, force: true do |t|
+    t.integer "palette_set_id", null: false
+    t.integer "user_id",        null: false
   end
 
   create_table "palettes", force: true do |t|

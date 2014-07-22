@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   attr_accessor :login
   validates :username, :uniqueness => { :case_sensitive => false }
+  
+  has_and_belongs_to_many :palette_sets, join_table: :palette_sets_users
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup

@@ -16,10 +16,17 @@ describe UsersController do
   end
 
   describe "POST favorite" do
+    let(:palette_set) { FactoryGirl.create(:palette_set) }
+
+    it "redirects to the palette set" do
+      post :favorite, id: palette_set.id
+      expect(response).to redirect_to palette_set
+    end
+
     it "adds the palette set to the current user's list of favorited sets" do
-      palette_set = FactoryGirl.create(:palette_set)
       expect { post :favorite, id: palette_set.id }
-        .to change(@user.palette_sets).by(1)
+        .to change(@user.palette_sets, :count)
+        .by(1)
     end
   end
 end

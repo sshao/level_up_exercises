@@ -1,6 +1,6 @@
 class PaletteSet < ActiveRecord::Base
   has_and_belongs_to_many :palettes, join_table: :palette_sets_palettes
-  belongs_to :user
+  has_and_belongs_to_many :users, join_table: :palette_sets_users
 
   validates :source, presence: true, uniqueness: true
   validate :source_exists
