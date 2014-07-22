@@ -1,7 +1,7 @@
 .row
   .twelve.columns
     %h2 Create Set
-    = form_tag "/generate", :method => "post" do 
+    = form_tag "/palette_sets", :method => "post" do 
       .row.collapse
         .small-4.columns
           %input#source{name: "palette_set[source]", type: "text", placeholder: "Enter username..."}
