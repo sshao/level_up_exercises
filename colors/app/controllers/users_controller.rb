@@ -5,4 +5,7 @@ class UsersController < ApplicationController
     current_user.save
     redirect_to palette_set
   end
+
+  def show
+  end
 end

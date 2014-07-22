@@ -13,7 +13,7 @@ module PaletteSetHelpers
   def create_palette_set(username)
     stub_info_request(username)
     stub_photos_request(username, PULL_LIMIT)
-    PaletteSet.create!(source: username)
+    PaletteSet.create(source: username)
   end
 end
 World(PaletteSetHelpers)
@@ -27,6 +27,7 @@ module UserHelpers
     visit "/"
     fill_in "user[login]", with: username
     fill_in "user[password]", with: password
+    click_button "Sign in"
   end
 end
 World(UserHelpers)

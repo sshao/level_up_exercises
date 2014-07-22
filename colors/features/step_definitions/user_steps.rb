@@ -18,7 +18,12 @@ end
 Given(/^I have favorited some palette sets$/) do
   create_palette_set("charlie")
   create_palette_set("nophotos")
-  current_user.favorite(PaletteSet.first)
+
+  visit palette_set_path(PaletteSet.first)
+  click_button "Favorite"
+
+  visit palette_set_path(PaletteSet.last)
+  click_button "Favorite"
 end
 
 Then(/^I should see all of my favorited palette sets$/) do

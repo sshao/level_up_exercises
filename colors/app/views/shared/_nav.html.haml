@@ -6,9 +6,9 @@
   - if user_signed_in?
     %ul.left
       %li
-        %a{href: current_user}= current_user.username
+        =link_to current_user.username, current_user
       %li
-        %a My Saved Palettes
+        =link_to "My Saved Palettes", current_user
   - else
     %section.top-bar-section
       %ul.right

@@ -6,8 +6,11 @@
         source:
         %a{href: "http://#{@palette_set.source}.tumblr.com"}= @palette_set.source
 
-    %form{action: "/favorite/#{@palette_set.id}", method: "post"}
-      %button{name: "favorite", id: "favorite"} Favorite
+    - if current_user.palette_sets.include?(@palette_set)
+      %p Favorited
+    - else
+      %form{action: "/favorite/#{@palette_set.id}", method: "post"}
+        %button{name: "favorite", id: "favorite"} Favorite
     
 .row.seamless_container
   - @palette_set.palettes.each do |palette|
