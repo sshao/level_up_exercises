@@ -4,30 +4,23 @@ require 'active_support/all'
 
 class BlagPost
   attr_accessor :author, :comments, :categories, :body, :publish_date
+  I18n.enforce_available_locales = false
 
   Author = Struct.new(:name, :url)
   DISALLOWED_CATEGORIES = [:selfposts, :gossip, :bildungsromane]
 
   def initialize(args)
-    args = args.inject({}) do |hash, (key, value)|
-      hash[key.to_sym] = value
-      hash
-    end
+    args.symbolize_keys!
 
     if args[:author] != '' && args[:author_url] != ''
       @author = Author.new(args[:author], args[:author_url])
     end
 
-    if args[:categories]
-      @categories = args[:categories].reject do |category|
-        DISALLOWED_CATEGORIES.include? category
-      end
-    else
-      @categories = []
-    end
+    @categories = Array.wrap(args[:categories])
+    @categories.reject! { |category| category.in?(DISALLOWED_CATEGORIES) }
 
-    @comments = args[:comments] || []
-    @body = args[:body].gsub(/\s{2,}|\n/, ' ').gsub(/^\s+/, '')
+    @comments = Array.wrap(args[:comments])
+    @body = args[:body].squish
     @publish_date = (args[:publish_date] && Date.parse(args[:publish_date])) || Date.today
   end
 
@@ -48,53 +41,27 @@ class BlagPost
   def category_list
     return "" if categories.empty?
 
-    if categories.length == 1
-      label = "Category"
-    else
-      label = "Categories"
-    end
-
-    if categories.length > 1
-      last_category = categories.pop
-      suffix = " and #{as_title(last_category)}"
-    else
-      suffix = ""
-    end
-
-    label + ": " + categories.map { |cat| as_title(cat) }.join(", ") + suffix
+    label = "Category".pluralize(categories.length)
+    label + ": " + categories.map { |cat| as_title(cat) }.to_sentence
   end
 
   def as_title(string)
-    string = String(string)
-    words = string.gsub('_', ' ').split(' ')
-
-    words.map!(&:capitalize)
-    words.join(' ')
+    string.to_s.humanize.titleize
   end
 
   def commenters
     return '' unless comments_allowed?
     return '' unless comments.length > 0
 
-    ordinal = case comments.length % 10
-      when 1 then "st"
-      when 2 then "nd"
-      when 3 then "rd"
-      else "th"
-    end
-    "You will be the #{comments.length}#{ordinal} commenter"
+    "You will be the #{comments.length.ordinalize} commenter"
   end
 
   def comments_allowed?
-    publish_date + (365 * 3) > Date.today
+    publish_date.years_since(3) > Date.today
   end
 
   def abstract
-    if body.length < 200
-      body
-    else
-      body[0..200] + "..."
-    end
+    body.truncate(204)
   end
 
 end
