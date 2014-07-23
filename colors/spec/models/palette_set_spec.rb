@@ -1,12 +1,13 @@
 require 'rails_helper'
-require_relative '../helpers'
+require_relative '../connection_helpers'
 
 describe PaletteSet do
   let(:username) { FactoryGirl.attributes_for(:palette_set)[:source] }
-  let(:image_url) { "spec/fixtures/images/image.jpg" }
+  let(:palette_set) { PaletteSet.create(source: username) }
+  let(:palette_set_new) { PaletteSet.new(source: username) }
 
   RSpec.configure do |c|
-    c.include Helpers
+    c.include ConnectionHelpers
   end
     
   before(:each) do 
@@ -17,8 +18,6 @@ describe PaletteSet do
   describe "#create" do
     context "with valid params" do
       context "with successful HTTP responses from third-party API" do
-        let(:palette_set) { FactoryGirl.create(:palette_set) }
-        
         context "with photos to generate palettes from" do
           it "creates up to #{PULL_LIMIT} different palettes" do
             expect(palette_set.palettes.size).to be PULL_LIMIT
@@ -27,7 +26,6 @@ describe PaletteSet do
 
         context "without photos to generate from" do
           let(:username) { "nophotos" }
-          let(:palette_set) { FactoryGirl.create(:palette_set, source: username) }
 
           it "is valid" do
             expect(palette_set).to be_valid
@@ -42,20 +40,17 @@ describe PaletteSet do
       context "with unsuccessful HTTP responses from third-party API" do
         context "with unsuccessful client response" do
           let(:username) { "unauthorized" }
-          let(:palette_set_save) { FactoryGirl.build(:palette_set, source: username).save }
 
           it "should not save to db" do
-            expect(palette_set_save).to be false
+            expect(palette_set_new.save).to be false
           end
         end
 
         context "with unsuccessful image response" do
           let(:username) { "invalid_image_urls" }
-          let(:palette_set_save) { FactoryGirl.build(:palette_set, source: username).save }
-          let(:palette_set) { FactoryGirl.create(:palette_set, source: username) }
 
           it "saves to db" do
-            expect(palette_set_save).to be true
+            expect(palette_set_new.save).to be true
           end
 
           it "does not generate a palette for the unsuccessful image read" do
@@ -70,24 +65,19 @@ describe PaletteSet do
         end
 
         it "does not generate the palette" do
-          expect(FactoryGirl.create(:palette_set).palettes).to be_empty
+          expect(PaletteSet.create(source: username).palettes).to be_empty
         end
       end
     end
     
     context "with invalid params" do
-      context "with no source" do
+      context "with empty source" do
         let(:username) { nil }
-        let(:palette_set_build) { FactoryGirl.build(:palette_set, source: username) }
-
-        it "is not valid" do
-          expect(palette_set_build).to_not be_valid
-        end
+        it { should validate_presence_of(:source) }
       end
 
       context "with non-existent source" do
         let(:username) { "doesnotexist" }
-        let(:palette_set_new) { FactoryGirl.build(:palette_set, source: username) }
 
         it "is not valid" do
           expect(palette_set_new).to_not be_valid
