@@ -11,12 +11,6 @@ class PaletteSetsController < ApplicationController
     respond_with(palette_set)
   end
 
-  def update
-  end
-
-  def destroy
-  end
-
   # FIXME look at scopes (recent, popular)
   def index
     @palette_sets = PaletteSet.all

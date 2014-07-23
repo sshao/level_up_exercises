@@ -10,9 +10,10 @@
       - if current_user.try(:palette_sets).try(:include?, @palette_set)
         %p Favorited
       - else
-        %form{action: "/favorite/#{@palette_set.id}", method: "post"}
+        %form{action: "/users/favorite/#{@palette_set.id}", method: "post"}
           %button{name: "favorite", id: "favorite"} Favorite
     
+-# FIXME refactor a la index view
 .row.seamless_container
   - @palette_set.palettes.each do |palette|
     .palette
