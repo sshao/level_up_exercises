@@ -3,12 +3,12 @@
     %li.name
       %h1
         = link_to "Home", root_path
-  - if user_signed_in?
-    %ul.left
-      %li= link_to current_user.username, current_user
-      %li= link_to "Favorites", current_user
-  - else
-    %section.top-bar-section
+  %section.top-bar-section
+    - if user_signed_in?
+      %ul.left
+        %li= link_to current_user.username, current_user
+        %li= link_to "Favorites", current_user
+    - else
       %ul.right
         %li.has-form
           = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
