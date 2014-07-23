@@ -6,7 +6,7 @@ describe Palette do
 
   describe "#new" do
     context "with valid parameters" do
-      let(:palette) { FactoryGirl.create(:palette) }
+      let(:palette) { Palette.create(colors: colors, image_url: image_url) }
 
       it "initializes palette with passed-in colors" do
         expect(palette.colors).to eq colors
