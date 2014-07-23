@@ -23,36 +23,18 @@ describe Palette do
       end
     end
 
-    # FIXME use validate_presence_of helper
     context "with invalid parameters" do
-      it "fails if there is no image url" do
-        expect(FactoryGirl.build(:palette, image_url: nil)).to_not be_valid
-      end
+      it { should validate_presence_of(:image_url) }
 
-      it "fails if no colors are given to it" do
-        colors = []
-        expect(FactoryGirl.build(:palette, colors: colors)).to_not be_valid
-      end
+      it { should_not allow_value([]).for(:colors) }
 
-      it "fails if more than five colors are given to it" do
-        colors = Array.new(6, "#FFF")
-        expect(FactoryGirl.build(:palette, colors: colors)).to_not be_valid
-      end
+      it { should_not allow_value(Array.new(6, "#FFF")).for(:colors) }
 
-      it "fails if any color is too long" do
-        colors = ["FFFFFFFFFF"]
-        expect(FactoryGirl.build(:palette, colors: colors)).to_not be_valid
-      end
+      it { should_not allow_value(["FFFFFFFFFF"]).for(:colors) }
 
-      it "fails if any color is too short" do
-        colors = ["F"]
-        expect(FactoryGirl.build(:palette, colors: colors)).to_not be_valid
-      end
+      it { should_not allow_value(["F"]).for(:colors) }
 
-      it "fails if any color uses invalid alpha chars" do
-        colors = ["ZFF"]
-        expect(FactoryGirl.build(:palette, colors: colors)).to_not be_valid
-      end
+      it { should_not allow_value(["ZFF"]).for(:colors) }
     end
   end
 end
