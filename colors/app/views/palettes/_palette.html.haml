@@ -1,0 +1,6 @@
+.palette
+  .palette_img
+    = image_tag(palette.image_url)
+  .swatch_container
+    - palette.colors.each do |color|
+      .swatch{style: "background-color: #{color};"}

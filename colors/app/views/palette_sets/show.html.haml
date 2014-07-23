@@ -12,15 +12,8 @@
       - else
         %form{action: "/users/favorite/#{@palette_set.id}", method: "post"}
           %button{name: "favorite", id: "favorite"} Favorite
-    
--# FIXME refactor a la index view
+
 .row.seamless_container
   - if @palette_set.palettes.empty?
     %p No photo posts found to generate palettes from.
-  - @palette_set.palettes.each do |palette|
-    .palette
-      .palette_img
-        %img{src: palette.image_url}
-      .swatch_container
-        - palette.colors.each do |color|
-          .swatch{style: "background-color: #{color};"}
+  = render @palette_set.palettes
