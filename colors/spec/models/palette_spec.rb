@@ -1,21 +1,15 @@
 require 'rails_helper'
 
 describe Palette do
-  let(:colors) { FactoryGirl.attributes_for(:palette)[:colors] }
+  let(:expected_colors) { ["#494E54", "#95989E", "#BDBCBA", "#C1B5B1", "#C3C9C8"] }
   let(:image_url) { FactoryGirl.attributes_for(:palette)[:image_url] }
 
   describe "#new" do
     context "with valid parameters" do
-      let(:palette) { Palette.create(colors: colors, image_url: image_url) }
+      let(:palette) { Palette.create(image_url: image_url) }
 
-      it "initializes palette with passed-in colors" do
-        expect(palette.colors).to eq colors
-      end
-      
-      it "appends # to beginning of each color if missing" do
-        palette.colors.each do |color|
-          expect(color[0]).to eq "#"
-        end
+      it "generates the correct colors" do
+        expect(palette.colors).to eq expected_colors
       end
 
       it "saves the image url" do
@@ -26,15 +20,18 @@ describe Palette do
     context "with invalid parameters" do
       it { should validate_presence_of(:image_url) }
 
-      it { should_not allow_value([]).for(:colors) }
+      it "does not generate a palette for an unsuccessful image read" do
+        image_url = "does_not_exist.jpg"
+        expect(Palette.new(image_url: image_url).save).to be false
+      end
+    end
+  end
 
-      it { should_not allow_value(Array.new(6, "#FFF")).for(:colors) }
-
-      it { should_not allow_value(["FFFFFFFFFF"]).for(:colors) }
-
-      it { should_not allow_value(["F"]).for(:colors) }
-
-      it { should_not allow_value(["ZFF"]).for(:colors) }
+  describe "#colors" do
+    it "should be read-only" do
+      palette = Palette.create(image_url: image_url)
+      palette.update_attributes colors: ["#000"]
+      expect(palette.reload.colors).to eq expected_colors
     end
   end
 end

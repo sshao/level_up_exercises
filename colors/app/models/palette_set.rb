@@ -29,6 +29,11 @@ class PaletteSet < ActiveRecord::Base
   end
 
   private
+  def generate_palette(post)
+    palette = Palette.new(image_url: image_url(post))
+    palettes << palette if palette.save
+  end
+
   def image_url(post)
     images = post["photos"].first
     image = standard_size(images) || original_size(images)
@@ -41,30 +46,6 @@ class PaletteSet < ActiveRecord::Base
 
   def original_size(image)
     image["original_size"]
-  end
-
-  def generate_palette(post)
-    image_url = image_url(post)
-    image = open_image(image_url)
-
-    return if image.nil?
-
-    palette = Palette.new(colors: colors(image), image_url: image_url)
-    palettes << palette if palette.save
-  end
-
-  def open_image(url)
-    Magick::ImageList.new(url).cur_image
-  rescue Magick::ImageMagickError => e
-    errors.add(:source, "could not open source image at #{url}: #{e.inspect}")
-    nil
-  end
-
-  # FIXME move into Palette Model -- have PaletteSet pass in URL to Palette.new
-  def colors(image)
-    quantized_image = image.quantize(5, Magick::RGBColorspace)
-    hist = quantized_image.color_histogram
-    hist.keys.map { |p| p.to_color(Magick::AllCompliance, false, 8, true) }
   end
 end
 
