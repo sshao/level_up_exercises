@@ -13,34 +13,6 @@ describe PaletteSetsController do
     stub_photos_request(username, PULL_LIMIT)
   end
 
-  describe "GET index" do
-    it "assigns an array of palette_sets" do
-      p = FactoryGirl.create(:palette_set)
-      get :index
-      expect(assigns(:palette_sets)).to eq [p]
-    end
-
-    it "renders the index template" do
-      get :index
-      expect(response).to render_template :index
-    end
-  end
-
-  describe "GET show" do
-    it "renders the show template" do
-      palette_set = FactoryGirl.create(:palette_set)
-      get :show, id: palette_set.id
-      expect(response).to render_template :show
-    end
-  end
-
-  describe "GET new" do
-    it "renders the new template" do
-      get :new
-      expect(response).to render_template :new
-    end
-  end
-
   describe "POST create" do
     let(:valid_params) { FactoryGirl.attributes_for(:palette_set) }
 
@@ -82,7 +54,7 @@ describe PaletteSetsController do
           .to_not change(PaletteSet, :count)
       end
 
-      it "redirects to the :new template" do
+      it "re-renders to the :new template" do
         post :create, palette_set: invalid_params
         expect(response).to render_template :new
       end
