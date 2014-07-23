@@ -12,24 +12,20 @@ class PaletteSet < ActiveRecord::Base
   end
 
   def source_exists
-    # FIXME memoize
-    client = Tumblr::Client.new
-    response = client.blog_info(tumblr_url(source))
+    @client ||= Tumblr::Client.new
+    response = @client.blog_info(tumblr_url(source))
     errors.add(:source, "not found, returned 404") if response["status"] == 404
   end
 
   def generate_palettes
-    client = Tumblr::Client.new
+    response = @client.posts(tumblr_url(source), :type => "photo", :limit => PULL_LIMIT)
 
-    response = client.posts(tumblr_url(source), :type => "photo", :limit => PULL_LIMIT)
+    # TODO move into its own validator? or somehow refactor into something
+    # that makes more sense
+    errors.add(:source, "did not receive successful response, got #{response["status"]}") unless response["status"].nil?
+    return false unless response["status"].nil?
 
-    # FIXME turn into guard condition
-    if response["status"].nil?
-      response["posts"].each { |post| generate_palette(post) }
-    else
-      errors.add(:source, "did not receive successful response, got #{response["status"]}")
-      return false
-    end
+    response["posts"].each { |post| generate_palette(post) }
   end
 
   private
