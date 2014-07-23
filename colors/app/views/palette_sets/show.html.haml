@@ -15,6 +15,8 @@
     
 -# FIXME refactor a la index view
 .row.seamless_container
+  - if @palette_set.palettes.empty?
+    %p No photo posts found to generate palettes from.
   - @palette_set.palettes.each do |palette|
     .palette
       .palette_img
