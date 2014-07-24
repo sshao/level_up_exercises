@@ -1,9 +1,39 @@
 @import "foundation_and_overrides";
+@import "foundation-icons";
 
 $swatch-width: 20%;
 $swatch-height: 10px;
 $swatch-margin-top: 1px;
 $block-margin: 3px;
+
+.vertical-centered-container {
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: calc(100% - 60px); // $topbar-height
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+  }
+}
+
+.index-colors {
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1.0;
+  }
+}
+
+.vertical-centered-content {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+}
 
 .error {
   @include alert(
@@ -25,12 +55,11 @@ $block-margin: 3px;
   .palette {
     margin-bottom: $swatch-height + $swatch-margin-top + $block-margin;
   }
-
-  .swatch {
-    margin-top: $swatch-margin-top;
-    width: $swatch-width;
-    height: $swatch-height;
-    float: left;
-  }
 }
 
+.swatch {
+  margin-top: $swatch-margin-top;
+  width: $swatch-width;
+  height: $swatch-height;
+  float: left;
+}

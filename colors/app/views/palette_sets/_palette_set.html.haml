@@ -1,2 +1,9 @@
-%li
-  = link_to palette_set.source, palette_set
+%a{href: palette_set_path(palette_set)}
+  - if palette_set.palettes.empty?
+    .vertical-centered-container
+      .vertical-centered-content
+        %h2= palette_set.source
+  - else
+    .vertical-centered-container{style: "background-image: url(#{palette_set.palettes.sample.image_url}); height: 20%;"}
+      .vertical-centered-content
+        %h2= palette_set.source

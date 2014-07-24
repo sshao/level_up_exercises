@@ -1,18 +1,16 @@
 .row
-  .twelve.columns
-    %h2= @palette_set.title
-    %ul
-      %li
-        source:
-        %a{href: "http://#{@palette_set.source}.tumblr.com"}= @palette_set.source
-
-    - if user_signed_in?
-      - if current_user.try(:palette_sets).try(:include?, @palette_set)
-        %p Favorited
-      - else
-        %form{action: "/users/favorite/#{@palette_set.id}", method: "post"}
-          = token_tag nil
-          %button{name: "favorite", id: "favorite"} Favorite
+  .small-10.columns
+    %h2
+      %a{href: "http://#{@palette_set.source}.tumblr.com"}= @palette_set.source
+  .small-2.columns
+    %h2
+      - if user_signed_in?
+        - if current_user.try(:palette_sets).try(:include?, @palette_set)
+          %button{class: "button tiny round disabled", name: "favorite", id: "favorite"} Favorited
+        - else
+          %form{action: "/users/favorite/#{@palette_set.id}", method: "post"}
+            = token_tag nil
+            %button{class: "button tiny round", name: "favorite", id: "favorite"} Favorite
 
 .row.seamless_container
   - if @palette_set.palettes.empty?

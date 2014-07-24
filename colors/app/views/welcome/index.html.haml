@@ -1,0 +1,17 @@
+- if @palette.nil?
+  .vertical-centered-container
+    .row.vertical-centered-content
+      .small-6.small-centered.columns
+        = render partial: "palette_sets/new_form"
+- else
+  .vertical-centered-container{style: "background-image: url(#{@palette.image_url});"}
+    .row.vertical-centered-content
+      .row
+        .small-6.small-centered.columns
+          %a{href: palette_set_path(@palette_set)}
+            .index-colors
+              - @palette.colors.each do |color|
+                .swatch{style: "height: 100px; background-color: #{color};"}
+      .row
+        .small-6.small-centered.columns
+          = render partial: "palette_sets/new_form" 

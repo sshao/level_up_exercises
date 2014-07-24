@@ -2,14 +2,15 @@
   %ul.title-area
     %li.name
       %h1
-        = link_to "Home", root_path
+        %a{href: root_path}
+          %i{class: "fi-home"}
   %section.top-bar-section
-    - if user_signed_in?
-      %ul.left
+    %ul.right
+      %li= link_to "Browse", palette_sets_path
+      - if user_signed_in?
         %li= link_to current_user.username, current_user
         %li= link_to "Favorites", current_user
-    - else
-      %ul.right
+      - else
         %li.has-form
           = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
             .row.collapse
