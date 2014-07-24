@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'users/:id', :to => 'users#show', :as => :user
+  devise_scope :user do
+    get 'users/:id', :to => 'users#show', :as => :user
+    post 'users/favorite/:id' => 'users#favorite'
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -11,7 +15,6 @@ Rails.application.routes.draw do
   #   get 'products/:id' => 'catalog#view'
   
   resources :palette_sets, :only => [:index, :create, :new, :show]
-  post 'users/favorite/:id' => 'users#favorite'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
