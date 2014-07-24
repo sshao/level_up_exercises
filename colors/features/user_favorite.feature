@@ -17,3 +17,4 @@ Feature: User favorites a palette set
     When I click "Favorites"
     Then I should see all of my favorited palette sets
 
+    # FIXME: enable forgery protection? http://stackoverflow.com/questions/5917939/

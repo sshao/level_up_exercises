@@ -11,6 +11,7 @@
         %p Favorited
       - else
         %form{action: "/users/favorite/#{@palette_set.id}", method: "post"}
+          = token_tag nil
           %button{name: "favorite", id: "favorite"} Favorite
 
 .row.seamless_container
