@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722143601) do
+ActiveRecord::Schema.define(version: 20140725191049) do
 
   create_table "palette_sets", force: true do |t|
     t.string   "title"
@@ -34,9 +34,7 @@ ActiveRecord::Schema.define(version: 20140722143601) do
 
   create_table "palettes", force: true do |t|
     t.text     "colors"
-    t.text     "sources"
     t.text     "image_url"
-    t.datetime "source_timestamp"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
