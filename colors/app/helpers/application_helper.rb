@@ -11,7 +11,8 @@ module ApplicationHelper
     @devise_mapping ||= Devise.mappings[:user]
   end
   
-  def user_area(&block)
-    yield if user_signed_in?
+  def nav_class
+    "top-bar-index" if current_page?(controller: "welcome", action: "index")
   end
 end
+

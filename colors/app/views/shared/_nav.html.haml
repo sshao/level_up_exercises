@@ -1,24 +1,35 @@
-%nav.top-bar{"data-topbar" => ""}
+%nav.top-bar{class: nav_class}(data-topbar)
   %ul.title-area
     %li.name
       %h1
-        %a{href: root_path}
-          %i{class: "fi-home"}
+        = link_to root_path do
+          %i(class = "fi-home")
+
   %section.top-bar-section
     %ul.right
       %li= link_to "Browse", palette_sets_path
-      - if user_signed_in?
-        %li= link_to current_user.username, current_user
-        %li= link_to "Favorites", current_user
-      - else
+
+      - user_area do
+        %li
+          =link_to current_user do
+            %i(class = "fi-star")
+            Favorites
+        %li
+          =link_to current_user do
+            %i(class = "fi-torso")
+            = name(current_user)
+        %li
+          =link_to "Sign out", destroy_user_session_path, method: :delete
+
+      - guest_area do
         %li.has-form
           = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
             .row.collapse
               .small-5.columns
-                =f.text_field :login, autofocus: 'true', placeholder: 'Username'
+                =f.text_field :login, autofocus: "true", placeholder: "Username"
 
               .small-5.columns
-                =f.password_field :password, autocomplete: 'off', placeholder: 'password'
+                =f.password_field :password, autocomplete: "off", placeholder: "password"
 
               .small-2.columns
-                = f.submit 'Sign in', class: 'button expand'
+                = f.submit "Sign in", class: "button expand"

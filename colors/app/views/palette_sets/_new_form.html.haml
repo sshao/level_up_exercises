@@ -1,7 +1,6 @@
-= form_tag "/palette_sets", :method => "post" do 
+= form_for :palette_set, url: { controller: "palette_sets", action: "create" } do |f|
   .row.collapse
     .small-10.columns
-      %input#source{name: "palette_set[source]", type: "text", placeholder: "Enter username..."}
+      =f.text_field :source, id: "source", placeholder: "Enter username..."
     .small-2.columns.end
-      %button{type: "submit", class: 'button postfix'} Generate 
-
+      =f.submit "Generate", class: "button postfix"

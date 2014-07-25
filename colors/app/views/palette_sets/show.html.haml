@@ -2,8 +2,8 @@
   .small-10.columns
     %h2
       = link_to @palette_set.source, tumblr_url(@palette_set.source)
-  .small-2.columns
-    - user_area do
+  - user_area do
+    .small-2.columns
       %h2
         - favorite_button(current_user.palette_sets.try(:include?, @palette_set)) do |state, classes, disabled|
           = button_to state, { action: "favorite", controller: "users" }, { class: classes, disabled: disabled }

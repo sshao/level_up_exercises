@@ -1,9 +1,5 @@
-%a{href: palette_set_path(palette_set)}
-  - if palette_set.palettes.empty?
-    .vertical-centered-container
-      .vertical-centered-content
-        %h2= palette_set.source
-  - else
-    .vertical-centered-container{style: "background-image: url(#{palette_set.palettes.sample.image_url}); height: 20%;"}
+= link_to palette_set do
+  - palette_set_div(palette_set) do |image_url|
+    .vertical-centered-container.palette-set-browse{style: "background-image: url(#{image_url});"}
       .vertical-centered-content
         %h2= palette_set.source
