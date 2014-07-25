@@ -1,8 +1,4 @@
 module PaletteSetsHelper
-  def user_area(&block)
-    yield if user_signed_in?
-  end
-
   def tumblr_url(source)
     "http://#{source}.tumblr.com"
   end
