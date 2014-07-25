@@ -23,8 +23,11 @@ Given(/^I have favorited some palette sets$/) do
   click_button "Favorite"
 end
 
+Given(/^I have already favorited the palette set/) do
+  click_button "Favorite"
+end
+
 Then(/^I should see all of my favorited palette sets$/) do
   expect(page).to have_content "charlie"
   expect(page).to have_content "nophotos"
 end
-

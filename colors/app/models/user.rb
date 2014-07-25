@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   attr_accessor :login
   validates :username, :uniqueness => { :case_sensitive => false }
+  validate :unique_sets
   
   has_and_belongs_to_many :palette_sets, join_table: :palette_sets_users
 
@@ -15,5 +16,12 @@ class User < ActiveRecord::Base
      else
        where(conditions).first
      end
+  end
+
+  private
+  def unique_sets 
+    if palette_sets.uniq.size != palette_sets.size 
+      errors.add(:palette_sets, "Palette set already in favorites.")
+    end
   end
 end

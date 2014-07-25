@@ -10,7 +10,8 @@ Feature: User favorites a palette set
 
   Scenario: User favorites a palette set
     When I click "Favorite"
-    Then I should see "Favorited"
+    Then I should see button "Favorited"
+    And button "Favorited" should be disabled
 
   Scenario: User views list of favorited palette sets
     Given I have favorited some palette sets
