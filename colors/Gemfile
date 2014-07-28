@@ -48,6 +48,9 @@ gem 'spring',        group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+  
+gem 'pry-byebug', group: [:development, :test]
+gem 'pry-rails', group: [:development, :test]
 
 group :test do
   gem 'database_cleaner'
@@ -57,6 +60,5 @@ group :test do
   gem 'factory_girl_rails'
   gem 'webmock'
   gem 'launchy'
-  gem 'pry'
   gem 'json'
 end
