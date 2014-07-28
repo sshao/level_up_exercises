@@ -1,11 +1,60 @@
-%h1 Hello World
+.topbar
+  %h1 Gmail
+  -#
+    TODO search bar
+  %a{href: "#"} app_icon
+  %a{href: "#"} sshao@gmail.com
 
-%p You've just created a new nanoc site. The page you are looking at right now is the home page for your site. To get started, consider replacing this default homepage with your own customized homepage. Some pointers on how to do so:
+.something
+  %h2 
+    %a{href: "#"} Mail
+  %a{href: "#"} 
+  %a{href: "#"} Refresh
+  %a{href: "#"} More
 
-%ul
-  %li
-    %strong Change this page’s content</strong> by editing the “index.html” file in the “content” directory. This is the actual page content, and therefore doesn’t include the header, sidebar or style information (those are part of the layout).
-  %li
-    %strong Change the layout</strong>, which is the “default.html” file in the “layouts” directory, and create something unique (and hopefully less bland).
+.sidebar
+  %a{href: "#"} Compose
+  %ul
+    %li
+      %a{href: "#"} Inbox
+    %li
+      %a{href: "#"} Starred
+    %li
+      %a{href: "#"} Sent Mail
+    %li
+      %a{href: "#"} Drafts
+    %li
+      %a{href: "#"} [Airmail]
+      %ul
+        %li
+          %a{href: "#"} Done
+        %li
+          %a{href: "#"} Memo
+        %li
+          %a{href: "#"} To Do
+    %li
+      %a{href: "#"} katas
+    %li
+      %a{href: "#"} More
+      %ul
+        %li
+          %a{href: "#"} Important
+        %li
+          %a{href: "#"} All Mail
+        %li
+          %a{href: "#"} Spam
+        %li
+          %a{href: "#"} Trash
 
-%p If you need any help with customizing your nanoc web site, be sure to check out the documentation (see sidebar), and be sure to subscribe to the discussion group (also see sidebar). Enjoy!
+.inbox
+  %table
+    %tr
+      %td Check
+      %td Star
+      %td Charlie Kelly
+      %td 
+        %span Lorem Ipsum
+        -
+        %span Vivamus eu malesuada quam. Nullam pharetra euismod turpis et faucibus. Nulla tincidunt ipsum enim
+      %td Attach
+      %td Jul 24
