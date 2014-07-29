@@ -6,7 +6,6 @@ $border-grey: #e5e5e5;
 $sidebar-left-margin: 30px;
 
 .vertical-container {
-  text-align: center;
   height: 100%;
 
   &:before {
@@ -20,7 +19,6 @@ $sidebar-left-margin: 30px;
 .vertical {
   display: inline-block;
   vertical-align: middle;
-  width: 100%;
 }
 
 .top-bar, .has-form {
