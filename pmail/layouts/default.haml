@@ -7,11 +7,10 @@
     %link{rel: "stylesheet", href: @items['/assets/stylesheets/app/'].path}
     %link{rel: "stylesheet", href: @items['/assets/stylesheets/stylesheet/'].path}
 
-    %link{rel: "script", href: @items['/assets/javascripts/foundation/foundation/'].path} 
-    %link{rel: "script", href: @items['/assets/javascripts/foundation/foundation.topbar/'].path} 
+    %script{src: @items['/assets/javascripts/vendor/jquery/'].path}
 
     %link{rel: "stylesheet", href: @items['/assets/stylesheets/foundation-icons/general_foundicons/'].path}
-    %link{rel: "script", href: @items['/assets/javascripts/foundation/foundation.section/'].path}
+    %script{src: @items['/assets/javascripts/test/'].path}
 
   %body
     = render 'topbar'

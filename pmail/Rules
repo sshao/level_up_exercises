@@ -32,7 +32,10 @@ compile '/assets/images/*/' do
 end
 
 compile '/assets/javascripts/*/' do
-  # nothing
+  if item[:extension] == 'coffee'
+    filter :coffee
+  end
+  # else nothing
 end
 
 compile '*' do
