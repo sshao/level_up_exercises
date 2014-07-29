@@ -1,5 +1,8 @@
 $grey: #f1f1f1;
-$border-grey: #ccc;
+$red: #d14836;
+$button-height: 30px;
+$border-radius: 3px;
+$border-grey: #e5e5e5;
 $sidebar-left-margin: 30px;
 
 .vertical-container {
@@ -11,7 +14,6 @@ $sidebar-left-margin: 30px;
     display: inline-block;
     height: 100%;
     vertical-align: middle;
-    margin-right: -0.25em;
   }
 }
 
@@ -22,35 +24,41 @@ $sidebar-left-margin: 30px;
 }
 
 .top-bar, .has-form {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $border-grey;
 }
 
-.has-form {
-    vertical-align: middle;
-    display: table-cell;
-  }
+.top-bar .icon {
+  height: 45px; // fix to avoid extra height: https://github.com/zurb/foundation-icons/issues/27
+  font-size: 20px;
+}
+
+.no-left-gutter {
+  padding-left: 0;
+}
 
 .searchbar {
-  width: 650px;
+  line-height: 1;
   padding-top: 7px;
+
   input {
-    height: 30px;
+    height: $button-height;
   }
+
   .button {
-    height: 30px;
+    height: $button-height;
     background: #4285f4;
-    -webkit-border-radius: 0px 3px 3px 0px;
-    border-radius: 0px 3px 3px 0px;
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
   }
 }
 
 .name {
-  width: 200px;
+  width: 190px;
 }
 
 .header {
   height: 50px;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $border-grey;
 }
 
 .sidebar {
@@ -60,13 +68,15 @@ $sidebar-left-margin: 30px;
     margin-left: $sidebar-left-margin;
   }
 
-  h2 a {
-    color: #dd4b39;
-    cursor: pointer;
-    font-size: 14pt;
-    line-height: 29px;
-    font-weight: normal;
-    margin-left: $sidebar-left-margin;
+  h2 { 
+    line-height: 1;
+    a {
+      color: $red;
+      cursor: pointer;
+      font-size: 14pt;
+      font-weight: normal;
+      margin-left: $sidebar-left-margin;
+    }
   }
 
   ul {
@@ -84,14 +94,16 @@ $sidebar-left-margin: 30px;
 
 .sidenav {
   padding-top: 10px;
+  padding-right: 16px;
 }
 
 .compose {
   font-size: 11px;
-  background: #d14836;
-  height: 29px;
+  background: $red;
+  height: $button-height;
   font-weight: bold;
   text-transform: uppercase;
+  width: 60%;
 }
 
 .full_width {
@@ -122,7 +134,7 @@ $sidebar-left-margin: 30px;
   }
 
   tbody tr {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid $border-grey;
   }
 }
 
@@ -141,10 +153,10 @@ $sidebar-left-margin: 30px;
 
 .inbox-button {
   background-color: $grey;
-  border: 1px solid $border-grey;
-  border-radius: 3px;
+  border: 1px solid #dcdcdc;
+  border-radius: $border-radius;
   display: block;
-  max-height: 29px;
+  max-height: $button-height;
   padding: 0.5em;
   font-size: 11px;
   font-weight: bold;
