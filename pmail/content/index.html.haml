@@ -1,121 +1,46 @@
-%nav{class: "top-bar"}(data-topbar)
-  %ul.title-area
-    %li.name
-      %h1 
-        %a{href: "#"} Gmail
-  %section{class: "top-bar-section"}
-    %ul.left
-      %li{class: "has-form"}
-        .row.collapse.searchbar
-          .large-11.columns
-            %input{type: "text"}
-          .large-1.columns
-            %a{href: "#", class: "button expand"} 
-              %i{class: "foundicon-search"}
-    %ul.right
-      %li.has-dropdown
-        %a{href: "#"} 
-          %i{class: "foundicon-website"}
-      %li.has-dropdown
-        %a{href: "#"} sshao@gmail.com
-
-.row.full_width
-  .large-2.columns.sidebar
-    .row.header
-      %h2 
-        %a{href: "#"} Mail
-    .row.sidenav
-      %a{href: "#", class: "button radius compose"} Compose
-      %ul
-        %li
-          %a{href: "#"} Inbox
-        %li
-          %a{href: "#"} Starred
-        %li
-          %a{href: "#"} Sent Mail
-        %li
-          %a{href: "#"} Drafts
-        %li
-          %a{href: "#"} [Airmail]
-          %ul
-            %li
-              %a{href: "#"} Done
-            %li
-              %a{href: "#"} Memo
-            %li
-              %a{href: "#"} To Do
-        %li
-          %a{href: "#"} katas
-        %li
-          %a{href: "#"} More
-          %ul
-            %li
-              %a{href: "#"} Important
-            %li
-              %a{href: "#"} All Mail
-            %li
-              %a{href: "#"} Spam
-            %li
-              %a{href: "#"} Trash
-
-  .large-10.columns
-    .row.header
-      .vertical-container
-        .vertical
-          .button-bar
-            %ul.button-group.inbox-group
-              %li
-                %a{href: "#", class: "inbox-button"} 
-                  %input{type: "checkbox"}
-              %li
-                %a{href: "#", class: "inbox-button"} 
-                  %i{class: "foundicon-refresh"}
-              %li
-                %a{href: "#", class: "inbox-button"} More
-    .row
-      %table.inbox
-        %colgroup
-          %col{style: "width: 3%;"}
-          %col{style: "width: 3%;"}
-          %col{style: "width: 15%;"}
-          %col{style: "width: 70%;"}
-          %col{style: "width: 3%;"}
-          %col{style: "width: 6%;"}
-        %tr
-          %td
-            %input{type: "checkbox"}
-          %td
-            %span.star 
-          %td Charlie Kelly
-          %td
-            .test
-              %span GET A JOB?
-              %span.summary JUST GET A JOB? WHY DON'T I STRAP ON MY JOB HELMET AND SQUEEZE DOWN INTO A JOB CANNON AND FIRE OFF INTO JOB LAND WHERE JOBS GROW ON LITTLE JOBBIES
-          %td
-            %i{class: "foundicon-paper-clip"}
-          %td Jul 24
-        %tr
-          %td
-            %input{type: "checkbox"}
-          %td
-            %span.star 
-          %td Charlie Kelly
-          %td
-            .test
-              %span I'm pleading the 5th
-              %span.summary Now, let's say you and I go toe-to-toe on bird law and see who comes out the victor? 
-          %td
-            %i{class: "foundicon-paper-clip"}
-          %td Jul 24
-        %tr
-          %td
-            %input{type: "checkbox"}
-          %td
-            %span.star 
-          %td Mac
-          %td
-            .test
-              %span Christmas
-              %span.summary That was the Christmas tradition my parents had. You go from house to house collecting your presents. And then when the next family would come, you would take your presents and run. 
-          %td
-          %td Jul 22
+%table.inbox
+  %colgroup
+    %col{style: "width: 3%;"}
+    %col{style: "width: 3%;"}
+    %col{style: "width: 15%;"}
+    %col{style: "width: 70%;"}
+    %col{style: "width: 3%;"}
+    %col{style: "width: 6%;"}
+  %tr
+    %td
+      %input{type: "checkbox"}
+    %td
+      %span.star 
+    %td Charlie Kelly
+    %td
+      .test
+        %span GET A JOB?
+        %span.summary JUST GET A JOB? WHY DON'T I STRAP ON MY JOB HELMET AND SQUEEZE DOWN INTO A JOB CANNON AND FIRE OFF INTO JOB LAND WHERE JOBS GROW ON LITTLE JOBBIES
+    %td
+      %i{class: "foundicon-paper-clip"}
+    %td Jul 24
+  %tr
+    %td
+      %input{type: "checkbox"}
+    %td
+      %span.star 
+    %td Charlie Kelly
+    %td
+      .test
+        %span I'm pleading the 5th
+        %span.summary Now, let's say you and I go toe-to-toe on bird law and see who comes out the victor? 
+    %td
+      %i{class: "foundicon-paper-clip"}
+    %td Jul 24
+  %tr
+    %td
+      %input{type: "checkbox"}
+    %td
+      %span.star 
+    %td Mac
+    %td
+      .test
+        %span Christmas
+        %span.summary That was the Christmas tradition my parents had. You go from house to house collecting your presents. And then when the next family would come, you would take your presents and run. 
+    %td
+    %td Jul 22

@@ -11,5 +11,12 @@
     %link{rel: "script", href: @items['/assets/javascripts/foundation/foundation.section/'].path}
 
   %body
-    #main
-      = yield
+    = render 'topbar'
+
+    .row.full_width
+      .large-2.columns.sidebar
+        = render 'sidebar'
+      .large-10.columns
+        = render 'inbox_topbar'
+        .row
+          = yield
