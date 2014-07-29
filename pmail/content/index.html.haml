@@ -1,60 +1,76 @@
-.topbar
-  %h1 Gmail
-  -#
-    TODO search bar
-  %a{href: "#"} app_icon
-  %a{href: "#"} sshao@gmail.com
+%nav{class: "top-bar"}(data-topbar)
+  %ul.title-area
+    %li.name
+      %h1 
+        %a{href: "#"} Gmail
+  %section{class: "top-bar-section"}
+    %ul.left
+      %li{class: "has-form"}
+        .row.collapse.searchbar
+          .large-10.columns
+            %input{type: "text", placeholder: "Find Stuff", width: "500px;"}
+          .large-2.columns
+            %a{href: "#", class: "button expand"} 
+              %i{class: "foundicon-search"}
+    %ul.right
+      %li.has-dropdown
+        %a{href: "#"} app_icon
+      %li.has-dropdown
+        %a{href: "#"} sshao@gmail.com
 
-.something
-  %h2 
-    %a{href: "#"} Mail
-  %a{href: "#"} 
-  %a{href: "#"} Refresh
-  %a{href: "#"} More
+.row.full_width
+  .large-2.columns.sidebar
+    .row.header
+      %h2 
+        %a{href: "#"} Mail
+    %a{href: "#", class: "button radius alert tiny"} Compose
+    %ul
+      %li
+        %a{href: "#"} Inbox
+      %li
+        %a{href: "#"} Starred
+      %li
+        %a{href: "#"} Sent Mail
+      %li
+        %a{href: "#"} Drafts
+      %li
+        %a{href: "#"} [Airmail]
+        %ul
+          %li
+            %a{href: "#"} Done
+          %li
+            %a{href: "#"} Memo
+          %li
+            %a{href: "#"} To Do
+      %li
+        %a{href: "#"} katas
+      %li
+        %a{href: "#"} More
+        %ul
+          %li
+            %a{href: "#"} Important
+          %li
+            %a{href: "#"} All Mail
+          %li
+            %a{href: "#"} Spam
+          %li
+            %a{href: "#"} Trash
 
-.sidebar
-  %a{href: "#"} Compose
-  %ul
-    %li
-      %a{href: "#"} Inbox
-    %li
-      %a{href: "#"} Starred
-    %li
-      %a{href: "#"} Sent Mail
-    %li
-      %a{href: "#"} Drafts
-    %li
-      %a{href: "#"} [Airmail]
-      %ul
-        %li
-          %a{href: "#"} Done
-        %li
-          %a{href: "#"} Memo
-        %li
-          %a{href: "#"} To Do
-    %li
-      %a{href: "#"} katas
-    %li
+  .large-10.columns
+    .row.header
+      %a{href: "#"} 
+      %a{href: "#"} Refresh
       %a{href: "#"} More
-      %ul
-        %li
-          %a{href: "#"} Important
-        %li
-          %a{href: "#"} All Mail
-        %li
-          %a{href: "#"} Spam
-        %li
-          %a{href: "#"} Trash
-
-.inbox
-  %table
-    %tr
-      %td Check
-      %td Star
-      %td Charlie Kelly
-      %td 
-        %span Lorem Ipsum
-        -
-        %span Vivamus eu malesuada quam. Nullam pharetra euismod turpis et faucibus. Nulla tincidunt ipsum enim
-      %td Attach
-      %td Jul 24
+    %table.inbox
+      %tr
+        %td 
+          %input{type: "checkbox"}
+        %td
+          %span.star 
+        %td Charlie Kelly
+        %td 
+          %span GET A JOB?
+          -
+          %span JUST GET A JOB? WHY DON'T I STRAP ON MY JOB HELMET AND SQUEEZE DOWN INTO A JOB CANNON AND FIRE OFF INTO JOB LAND WHERE JOBS GROW ON LITTLE JOBBIES
+        %td Attach
+        %td Jul 24

@@ -1,0 +1,58 @@
+$grey: #f1f1f1;
+
+.topbar {
+  border-bottom: 1px solid #ccc;
+}
+
+.searchbar {
+  width: 600px;
+}
+
+.name {
+  width: 200px;
+}
+
+.header {
+  height: 50px;
+  border-bottom: 1px solid #ccc;
+}
+
+.sidebar {
+  h2 a {
+    color: #dd4b39;
+    cursor: pointer;
+    font-size: 14pt;
+    line-height: 29px;
+    font-weight: normal;
+  }
+
+  ul {
+    list-style-type: none;
+    li > a {
+      color: #000;
+      display: block;
+      padding-left: 5px;
+      &:hover {
+        background: $grey;
+      }
+    }
+  }
+}
+
+.full_width {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: initial;
+}
+
+.inbox {
+  background-color: $grey;
+
+  .star {
+    background: url('/assets/images/star.png') no-repeat;
+    height: 19px;
+    width: 19px;
+    display: block;
+  }
+}
