@@ -138,6 +138,24 @@ $sidebar-left-margin: 30px;
   }
 }
 
+col {
+  &.small {
+    width: 3%;
+  }
+
+  &.date {
+    width: 6%;
+  }
+
+  &.name {
+    width: 15%;
+  }
+
+  &.body {
+    width: 70%;
+  }
+}
+
 .email {
   display: block;
   white-space: nowrap;
@@ -162,6 +180,5 @@ $sidebar-left-margin: 30px;
   font-weight: bold;
   width: 70px;
   text-align: center;
-
   color: #444;
 }
