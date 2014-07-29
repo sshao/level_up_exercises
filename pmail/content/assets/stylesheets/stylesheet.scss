@@ -1,11 +1,47 @@
 $grey: #f1f1f1;
+$border-grey: #ccc;
+$sidebar-left-margin: 30px;
 
-.topbar {
-  border-bottom: 1px solid #ccc;
+.vertical-container {
+  text-align: center;
+  height: 100%;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+  }
 }
 
+.vertical {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.top-bar, .has-form {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.has-form {
+    vertical-align: middle;
+    display: table-cell;
+  }
+
 .searchbar {
-  width: 600px;
+  width: 650px;
+  padding-top: 7px;
+  input {
+    height: 30px;
+  }
+  .button {
+    height: 30px;
+    background: #4285f4;
+    -webkit-border-radius: 0px 3px 3px 0px;
+    border-radius: 0px 3px 3px 0px;
+  }
 }
 
 .name {
@@ -14,16 +50,23 @@ $grey: #f1f1f1;
 
 .header {
   height: 50px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .sidebar {
+  font-size: 80%;
+
+  .button {
+    margin-left: $sidebar-left-margin;
+  }
+
   h2 a {
     color: #dd4b39;
     cursor: pointer;
     font-size: 14pt;
     line-height: 29px;
     font-weight: normal;
+    margin-left: $sidebar-left-margin;
   }
 
   ul {
@@ -31,12 +74,24 @@ $grey: #f1f1f1;
     li > a {
       color: #000;
       display: block;
-      padding-left: 5px;
+      padding-left: $sidebar-left-margin;
       &:hover {
         background: $grey;
       }
     }
   }
+}
+
+.sidenav {
+  padding-top: 10px;
+}
+
+.compose {
+  font-size: 11px;
+  background: #d14836;
+  height: 29px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .full_width {
@@ -48,6 +103,9 @@ $grey: #f1f1f1;
 
 .inbox {
   background-color: $grey;
+  border: 0;
+  table-layout: fixed;
+  width: 100%;
 
   .star {
     background: url('/assets/images/star.png') no-repeat;
@@ -55,4 +113,43 @@ $grey: #f1f1f1;
     width: 19px;
     display: block;
   }
+
+  .summary {
+    &:before {
+      content: '- ';
+    }
+    color: #777;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #e5e5e5;
+  }
+}
+
+.test {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.inbox-group {
+  li {
+    margin-right: 16px;
+  }
+}
+
+.inbox-button {
+  background-color: $grey;
+  border: 1px solid $border-grey;
+  border-radius: 3px;
+  display: block;
+  max-height: 29px;
+  padding: 0.5em;
+  font-size: 11px;
+  font-weight: bold;
+  width: 70px;
+  text-align: center;
+
+  color: #444;
 }
