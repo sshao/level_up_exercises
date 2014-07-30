@@ -66,7 +66,7 @@ $sidebar-left-margin: 30px;
     margin-left: $sidebar-left-margin;
   }
 
-  h2 { 
+  h2 {
     line-height: 1;
     a {
       color: $red;
@@ -93,6 +93,39 @@ $sidebar-left-margin: 30px;
 .sidenav {
   padding-top: 10px;
   padding-right: 16px;
+  ul {
+    margin-bottom: 0;
+  }
+  .section-container {
+    .section .title a.dropdown {
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 10px;
+        top: 5px;
+        width: 0;
+        height: 0;
+        border: inset 4px;
+        border-color: transparent transparent transparent #404040;
+        border-top-style: solid;
+      }
+    }
+    .active .title a.dropdown {
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        width: 0;
+        height: 0;
+        border: inset 4px;
+        border-color: #404040 transparent transparent transparent;
+        border-top-style: solid;
+      }
+    }
+  }
 }
 
 .compose {
@@ -179,4 +212,8 @@ col {
   width: 70px;
   text-align: center;
   color: #444;
+}
+
+.test {
+
 }

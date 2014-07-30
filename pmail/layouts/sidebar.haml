@@ -1,8 +1,9 @@
 .row.header
-  %h2 
+  %h2
     %a{href: "#"} Mail
 .row.sidenav
   %a{href: "#", class: "button radius compose"} Compose
+
   %ul
     %li
       %a{href: "#"} Inbox
@@ -12,26 +13,34 @@
       %a{href: "#"} Sent Mail
     %li
       %a{href: "#"} Drafts
-    %li
-      %a{href: "#"} [Airmail]
-      %ul
-        %li
-          %a{href: "#"} Done
-        %li
-          %a{href: "#"} Memo
-        %li
-          %a{href: "#"} To Do
-    %li
-      %a{href: "#"} katas
-    %li
-      %a{href: "#"} More
-      %ul
-        %li
-          %a{href: "#"} Important
-        %li
-          %a{href: "#"} All Mail
-        %li
-          %a{href: "#"} Spam
-        %li
-          %a{href: "#"} Trash
 
+  .section-container.accordion(data-section="accordion")
+    %section.section
+      %p.title(data-section-title)
+        %a{href: "#", class: "dropdown"} [Airmail]
+      .content(data-section-content)
+        %ul
+          %li
+            %a{href: "#"} Done
+          %li
+            %a{href: "#"} Memo
+          %li
+            %a{href: "#"} To Do
+    %section.section
+      %p.title
+        %a{href: "#"} katas
+
+  .section-container.accordion(data-section="accordion")
+    %section.section
+      %p.title(data-section-title)
+        %a{href: "#", class: "dropdown"} More
+      .content(data-section-content)
+        %ul
+          %li
+            %a{href: "#"} Important
+          %li
+            %a{href: "#"} All Mail
+          %li
+            %a{href: "#"} Spam
+          %li
+            %a{href: "#"} Trash

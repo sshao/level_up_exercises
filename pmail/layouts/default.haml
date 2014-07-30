@@ -13,7 +13,12 @@
       to a real file
         %script{type: "text/javascript", src: "test"}
     %script{type: "text/javascript", src: @items['/assets/javascripts/vendor/jquery/'].path}
+    %script{type: "text/javascript", src: @items['/assets/javascripts/foundation/foundation/'].path}
+    %script{type: "text/javascript", src: @items['/assets/javascripts/foundation/foundation.section/'].path}
     %script{src: @items['/assets/javascripts/test/'].path}
+
+    :javascript
+      $(document).foundation();
 
   %body
     = render 'topbar'
