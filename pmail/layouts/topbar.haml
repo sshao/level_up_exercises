@@ -16,7 +16,11 @@
       .large-4.columns
         %ul.right
           %li.has-dropdown
-            %a{href: "#", class: "icon"}
+            %a{href: "#", class: "icon"}(data-dropdown="apps")
               %i{class: "fa fa-th"}
+            %ul#apps.f-dropdown.content(data-dropdown-content)
+              %p Apps go here
           %li.has-dropdown
-            %a{href: "#"} sshao@gmail.com
+            %a{href: "#"}(data-dropdown="user") sshao@gmail.com
+            %ul#user.f-dropdown.content(data-dropdown-content)
+              %p User actions go here

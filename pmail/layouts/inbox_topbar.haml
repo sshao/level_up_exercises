@@ -4,10 +4,26 @@
       .button-bar
         %ul.button-group.inbox-group
           %li
-            %a{href: "#", class: "dropdown inbox-button"}
+            %a{href: "#", class: "dropdown inbox-button"}(data-dropdown="inbox_select")
               %input{type: "checkbox"}
+            %ul#inbox_select.f-dropdown(data-dropdown-content)
+              %li
+                %a{href: "#"} All
+              %li
+                %a{href: "#"} None
+              %li
+                %a{href: "#"} Read
+              %li
+                %a{href: "#"} Unread
+              %li
+                %a{href: "#"} Starred
+              %li
+                %a{href: "#"} Unstarred
           %li
             %a{href: "#", class: "inbox-button"}
               %i{class: "fa fa-refresh"}
           %li
-            %a{href: "#", class: "inbox-button"} More
+            %a{href: "#", class: "inbox-button"}(data-dropdown="inbox_more") More
+            %ul#inbox_more.f-dropdown(data-dropdown-content)
+              %li
+                %a{href: "#"} Mark all as read
