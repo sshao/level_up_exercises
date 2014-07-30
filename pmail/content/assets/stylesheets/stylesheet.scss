@@ -176,6 +176,10 @@ $sidebar-left-margin: 30px;
   tbody tr {
     border-bottom: 1px solid $border-grey;
   }
+
+  .clickableRow {
+    cursor: pointer;
+  }
 }
 
 col {
@@ -221,8 +225,4 @@ col {
   width: 70px;
   text-align: center;
   color: #444;
-}
-
-.test {
-
 }

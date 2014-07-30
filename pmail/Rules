@@ -20,7 +20,11 @@ end
 #   because “*” matches zero or more characters.
 
 compile '/assets/stylesheets/*' do
-  filter :sass, Compass.sass_engine_options.merge(syntax: item[:extension].to_sym)
+  if File.basename(item.identifier)[0..0] == "_"
+    # nothing
+  else
+    filter :sass, Compass.sass_engine_options.merge(syntax: item[:extension].to_sym)
+  end
 end
 
 compile '/assets/fonts/*/' do
@@ -47,7 +51,11 @@ compile '*' do
 end
 
 route '/assets/stylesheets/*' do
-  '/assets/stylesheets/' + File.basename(item.identifier) + '.css'
+  if File.basename(item.identifier)[0..0] == "_"
+    # nothing
+  else
+    '/assets/stylesheets/' + File.basename(item.identifier) + '.css'
+  end
 end
 
 route '/assets/javascripts/*' do
@@ -60,7 +68,7 @@ end
 
 route '/assets/fonts/*/' do
   # /fonts/foo-eot/ -> /fonts/foo.eot
-  item.identifier.sub(/-.+\/$/, '.') + item[:extension]
+  item.identifier.sub(/webfont-.+\/$/, 'webfont.') + item[:extension]
 end
 
 route '*' do

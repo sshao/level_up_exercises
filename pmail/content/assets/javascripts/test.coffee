@@ -1,2 +1,4 @@
 $ ->
-  console.log("here")
+  $('.clickableRow').click( ->
+    # TODO
+  )
