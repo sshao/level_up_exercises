@@ -6,10 +6,13 @@
 
     %link{rel: "stylesheet", href: @items['/assets/stylesheets/app/'].path}
     %link{rel: "stylesheet", href: @items['/assets/stylesheets/stylesheet/'].path}
-
-    %script{src: @items['/assets/javascripts/vendor/jquery/'].path}
-
     %link{rel: "stylesheet", href: @items['/assets/stylesheets/foundation-icons/general_foundicons/'].path}
+
+    -# FIXME putting any sort of script tag in head causes alignment of the
+      inbox button group to change ... even the below, which doesn't even link
+      to a real file
+        %script{type: "text/javascript", src: "test"}
+    %script{type: "text/javascript", src: @items['/assets/javascripts/vendor/jquery/'].path}
     %script{src: @items['/assets/javascripts/test/'].path}
 
   %body
