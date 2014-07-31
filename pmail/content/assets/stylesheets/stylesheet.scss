@@ -39,6 +39,30 @@ $sidebar-left-margin: 30px;
   }
 }
 
+#user {
+  font-size: 80%;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .row {
+    padding-left: 1.20em;
+  }
+
+  .user-name {
+    font-weight: bold;
+  }
+
+  .user-email {
+    color: #666;
+  }
+
+  .dropdown-bar {
+    text-align: center;
+  }
+}
+
 .title-area .name h1 a img {
   max-height: 60px;
 }
