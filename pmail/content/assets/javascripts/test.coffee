@@ -4,7 +4,9 @@ $ ->
   )
 
   $('#select_mail_input').next().click( ->
-    $('#select_mail_input').prop("checked", (i, value) ->
-      return !value
+    value = !($('#select_mail_input').prop("checked"))
+
+    $(".checkbox").each( ->
+      $(this).find("input").prop("checked", value)
     )
   )
