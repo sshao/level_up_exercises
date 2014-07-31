@@ -1,13 +1,13 @@
 .row.header
   %h2
     %a{href: "#"}(data-dropdown="drop1") Mail
-    %ul#drop1.f-dropdown(data-dropdown-content)
-      %li
-        %a{href: "#"} Mail
-      %li
-        %a{href: "#"} Contacts
-      %li
-        %a{href: "#"} Tasks
+  %ul#drop1.f-dropdown(data-dropdown-content)
+    %li
+      %a{href: "#", class: "active has-dropdown"} Mail
+    %li
+      %a{href: "#"} Contacts
+    %li
+      %a{href: "#"} Tasks
 
 .row.sidenav
   %a{href: "#", class: "button radius compose"} Compose
