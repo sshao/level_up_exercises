@@ -33,6 +33,14 @@ $ ->
         inputs("unread").each( ->
           $(this).prop("checked", true)
         )
+      when "starred"
+        inputs("starred").each( ->
+          $(this).prop("checked", true)
+        )
+      when "unstarred"
+        inputs("unstarred").each( ->
+          $(this).prop("checked", true)
+        )
 
     $("#inbox_select").foundation("dropdown", "close", $("#inbox_select"))
   )
@@ -45,5 +53,9 @@ inputs = (type) ->
       return $(".read").find("input")
     when "unread"
       return $(".unread").find("input")
+    when "starred"
+      return $(".lit-star").parent().parent().find("input")
+    when "unstarred"
+      return $(".star").parent().parent().find("input")
     else
       return []
