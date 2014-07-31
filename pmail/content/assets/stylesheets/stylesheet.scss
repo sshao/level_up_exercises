@@ -25,9 +25,8 @@ $sidebar-left-margin: 30px;
   border-bottom: 1px solid $border-grey;
 }
 
-.top-bar .icon {
-  height: 45px; // fix to avoid extra height: https://github.com/zurb/foundation-icons/issues/27
-  font-size: 20px;
+.title-area .name h1 a img {
+  max-height: 60px;
 }
 
 .no-left-gutter {
