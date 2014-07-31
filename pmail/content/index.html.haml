@@ -6,7 +6,7 @@
     %col.body
     %col.small
     %col.date
-  %tr.clickableRow{href: "#"}
+  %tr.clickableRow.read{href: "#"}
     %td
       = render "checkbox", selector: "email1"
     %td
@@ -19,7 +19,7 @@
     %td
       %i{class: "fa fa-paperclip"}
     %td Jul 24
-  %tr.clickableRow{href: "#"}
+  %tr.clickableRow.read{href: "#"}
     %td
       = render "checkbox", selector: "email2"
     %td
@@ -32,7 +32,7 @@
     %td
       %i{class: "fa fa-paperclip"}
     %td Jul 24
-  %tr.clickableRow{href: "#"}
+  %tr.clickableRow.read{href: "#"}
     %td
       = render "checkbox", selector: "email3"
     %td
@@ -42,5 +42,17 @@
       .email
         %span Christmas
         %span.summary That was the Christmas tradition my parents had. You go from house to house collecting your presents. And then when the next family would come, you would take your presents and run.
+    %td
+    %td Jul 22
+  %tr.clickableRow.unread{href: "#"}
+    %td
+      = render "checkbox", selector: "email4"
+    %td
+      %span.star
+    %td Charlie Kelly
+    %td
+      .email
+        %span KITTEN MITTENS
+        %span.summary Is your cat making TOO MUCH NOISE ALL THE TIME? Is your cat constantly stomping around driving you crazy? Is your cat clawing at your furniture? Think there’s no answer? You’re so stupid! There is! Kitten Mittens.
     %td
     %td Jul 22

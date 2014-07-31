@@ -204,7 +204,6 @@ $sidebar-left-margin: 30px;
 }
 
 .inbox {
-  background-color: $grey;
   border: 0;
   table-layout: fixed;
   width: 100%;
@@ -221,6 +220,12 @@ $sidebar-left-margin: 30px;
       content: '- ';
     }
     color: #777;
+    font-weight: normal;
+  }
+
+  .unread {
+    background-color: white;
+    font-weight: bold;
   }
 
   tbody tr {
