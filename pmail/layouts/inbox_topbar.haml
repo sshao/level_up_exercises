@@ -4,21 +4,21 @@
       .button-bar
         %ul.button-group.inbox-group
           %li
-            %a{href: "#", class: "dropdown inbox-button", id: "test"}(data-dropdown="inbox_select")
+            %a{href: "#", class: "dropdown inbox-button"}(data-dropdown="inbox_select")
               = render "checkbox", selector: "select_mail_input"
             %ul#inbox_select.f-dropdown(data-dropdown-content)
               %li
-                %a{href: "#"} All
+                %a{href: "#", selector: "all"} All
               %li
-                %a{href: "#"} None
+                %a{href: "#", selector: "none"} None
               %li
-                %a{href: "#"} Read
+                %a{href: "#", selector: "read"} Read
               %li
-                %a{href: "#"} Unread
+                %a{href: "#", selector: "unread"} Unread
               %li
-                %a{href: "#"} Starred
+                %a{href: "#", selector: "starred"} Starred
               %li
-                %a{href: "#"} Unstarred
+                %a{href: "#", selector: "unstarred"} Unstarred
           %li
             %a{href: "#", class: "inbox-button"}
               %i{class: "fa fa-rotate-right"}
