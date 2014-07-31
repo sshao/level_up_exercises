@@ -4,8 +4,8 @@
       .button-bar
         %ul.button-group.inbox-group
           %li
-            %a{href: "#", class: "dropdown inbox-button"}(data-dropdown="inbox_select")
-              %input{type: "checkbox"}
+            %a{href: "#", class: "dropdown inbox-button", id: "test"}(data-dropdown="inbox_select")
+              = render "checkbox", selector: "select_mail_input"
             %ul#inbox_select.f-dropdown(data-dropdown-content)
               %li
                 %a{href: "#"} All

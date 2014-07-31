@@ -257,6 +257,26 @@ col {
   overflow: hidden;
 }
 
+.checkbox input {
+  display: none;
+}
+
+.checkbox {
+  display: initial;
+}
+
+.checkbox span {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 1px solid #c6c6c6;
+}
+
+.checkbox input:checked + span {
+  position: relative;
+  background: url('/assets/images/checkmark.png') no-repeat -5px -5px;
+}
+
 .inbox-group > li {
   margin-right: 16px;
 }
