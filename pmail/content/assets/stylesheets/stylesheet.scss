@@ -215,6 +215,13 @@ $sidebar-left-margin: 30px;
     display: block;
   }
 
+  .lit-star {
+    background: url('/assets/images/star-lit.png') no-repeat;
+    height: 19px;
+    width: 19px;
+    display: block;
+  }
+
   .summary {
     &:before {
       content: '- ';

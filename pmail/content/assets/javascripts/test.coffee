@@ -15,7 +15,7 @@ $ ->
     inputs("all").each( ->
       $(this).prop("checked", false)
     )
-    
+
     switch ($(this).attr("selector"))
       when "all"
         inputs("all").each( ->
