@@ -56,6 +56,6 @@ inputs = (type) ->
     when "starred"
       return $(".lit-star").parent().parent().find("input")
     when "unstarred"
-      return $(".star").parent().parent().find("input")
+      return $(".star:not(.lit-star)").parent().parent().find("input")
     else
       return []

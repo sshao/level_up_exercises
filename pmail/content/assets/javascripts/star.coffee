@@ -1,4 +1,4 @@
 $ ->
   $('.star').click( ->
-    $(this).toggleClass("star lit-star")
+    $(this).toggleClass("lit-star")
   )

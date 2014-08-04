@@ -1,7 +1,7 @@
 .inbox {
-  border: 0;
   table-layout: fixed;
   width: 100%;
+  border: 0;
 
   .star {
     background: url('/assets/images/star.png') no-repeat;
@@ -12,14 +12,11 @@
 
   .lit-star {
     background: url('/assets/images/star-lit.png') no-repeat;
-    height: 19px;
-    width: 19px;
-    display: block;
   }
 
   .summary {
     &:before {
-      content: '- ';
+      content: ' - ';
     }
     color: #777;
     font-weight: normal;
