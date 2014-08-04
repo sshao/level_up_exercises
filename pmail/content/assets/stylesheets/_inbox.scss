@@ -28,7 +28,7 @@
   }
 
   .selected {
-    border-left: 3px solid #4d90f0;
+    border-left: 3px solid $blue;
   }
 
   tbody tr {
@@ -39,31 +39,31 @@
   .clickableRow {
     cursor: pointer;
   }
-}
 
-col {
-  &.small {
-    width: 3%;
+  col {
+    &.small {
+      width: 3%;
+    }
+
+    &.date {
+      width: 6%;
+    }
+
+    &.name {
+      width: 15%;
+    }
+
+    &.body {
+      width: 70%;
+    }
   }
 
-  &.date {
-    width: 6%;
+  .email {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
-
-  &.name {
-    width: 15%;
-  }
-
-  &.body {
-    width: 70%;
-  }
-}
-
-.email {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .checkbox {
@@ -73,14 +73,14 @@ col {
 
   span {
     display: inline-block;
-    width: 13px;
-    height: 13px;
+    width: $checkbox-width;
+    height: $checkbox-width;
     border: 1px solid #c6c6c6;
   }
 
   input:checked + span {
     position: relative;
-    background: url("/assets/images/checkmark.png") no-repeat -5px -5px;
+    background: url('/assets/images/checkmark.png') no-repeat -5px -5px;
   }
 }
 
@@ -96,7 +96,7 @@ col {
     font-size: 70%;
     line-height: inherit;
     width: 70px;
-    max-height: $button-height;
+    height: $button-height;
     padding: 0.5em;
     background-color: $grey;
     border: 1px solid #dcdcdc;
