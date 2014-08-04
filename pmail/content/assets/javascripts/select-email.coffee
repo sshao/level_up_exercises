@@ -1,8 +1,4 @@
 $ ->
-  $('.clickableRow').click( ->
-    # TODO
-  )
-
   $('#select-mail-input').next().click( ->
     value = !($('#select-mail-input').prop("checked"))
 
