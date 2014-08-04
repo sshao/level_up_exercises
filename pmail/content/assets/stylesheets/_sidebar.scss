@@ -1,0 +1,84 @@
+.inbox-sidebar {
+  font-size: 80%;
+
+  .f-dropdown {
+    .active {
+      font-weight: bold;
+      color: $red;
+    }
+  }
+
+  .button-compose {
+    margin-left: $sidebar-left-margin;
+    background: $red;
+    height: $button-height;
+    line-height: inherit;
+    text-transform: uppercase;
+    width: 60%;
+    border: 1px solid transparent;
+    transition: none;
+
+    &:hover {
+      background: -webkit-linear-gradient(top, #dd4b39, #c53727);
+      border: 1px solid #b0281a;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  h2 {
+    line-height: 1;
+
+    a {
+      color: $red;
+      cursor: pointer;
+      font-size: 14pt;
+      font-weight: normal;
+      margin-left: $sidebar-left-margin;
+    }
+  }
+
+  .inbox-nav {
+    padding-top: 10px;
+    padding-right: 16px;
+
+    ul {
+      margin-bottom: 0;
+      list-style-type: none;
+
+      li > a {
+        display: block;
+        padding-left: $sidebar-left-margin;
+
+        &:hover {
+          background: $grey;
+        }
+
+        &.active {
+          font-weight: bold;
+          color: $red;
+          border-left: 5px solid $red;
+          padding-left: $sidebar-left-margin - 5px;
+        }
+      }
+    }
+
+    .section-container {
+      .section .title a.dropdown {
+        &::before {
+          content: "";
+          position: absolute;
+          left: 10px;
+          top: 5px;
+          border: inset 4px;
+          border-color: transparent transparent transparent #404040;
+        }
+      }
+      .active .title a.dropdown {
+        &::before {
+          top: 8px;
+          border-color: #404040 transparent transparent transparent;
+        }
+      }
+    }
+  }
+}

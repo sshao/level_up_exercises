@@ -3,15 +3,15 @@ $ ->
     # TODO
   )
 
-  $('#select_mail_input').next().click( ->
-    value = !($('#select_mail_input').prop("checked"))
+  $('#select-mail-input').next().click( ->
+    value = !($('#select-mail-input').prop("checked"))
 
     inputs("all").each( ->
       $(this).prop("checked", value)
     )
   )
 
-  $("#inbox_select a").click( ->
+  $("#inbox-select a").click( ->
     inputs("all").each( ->
       $(this).prop("checked", false)
     )
@@ -42,7 +42,7 @@ $ ->
           $(this).prop("checked", true)
         )
 
-    $("#inbox_select").foundation("dropdown", "close", $("#inbox_select"))
+    $("#inbox-select").foundation("dropdown", "close", $("#inbox-select"))
   )
 
 inputs = (type) ->

@@ -4,34 +4,34 @@
     %meta{charset: "utf-8"}
     %title Inbox - sdee@pmail.com
 
-    %link{:href => "/assets/images/favicon.ico", :rel => "shortcut icon"}
+    %link{rel: "shortcut icon", href: "/assets/images/favicon.ico"}
 
-    %link{rel: "stylesheet", href: @items['/assets/stylesheets/app/'].path}
-    %link{rel: "stylesheet", href: @items['/assets/stylesheets/stylesheet/'].path}
-    %link{rel: "stylesheet", href: @items['/assets/stylesheets/fontawesome/font-awesome/'].path}
+    %link{rel: "stylesheet", href: @items["/assets/stylesheets/app/"].path}
+    %link{rel: "stylesheet", href: @items["/assets/stylesheets/stylesheet/"].path}
+    %link{rel: "stylesheet", href: @items["/assets/stylesheets/fontawesome/font-awesome/"].path}
 
     -# FIXME putting any sort of script tag in head causes alignment of the
-      inbox button group to change ... even the below, which doesn't even link
+      inbox button group to change ... even the below, which doesn"t even link
       to a real file
         %script{type: "text/javascript", src: "test"}
-    %script{type: "text/javascript", src: @items['/assets/javascripts/vendor/jquery/'].path}
-    %script{type: "text/javascript", src: @items['/assets/javascripts/foundation/foundation/'].path}
-    %script{type: "text/javascript", src: @items['/assets/javascripts/foundation/foundation.section/'].path}
-    %script{type: "text/javascript", src: @items['/assets/javascripts/foundation/foundation.dropdown/'].path}
-    %script{src: @items['/assets/javascripts/test/'].path}
-    %script{src: @items['/assets/javascripts/star/'].path}
-    %script{src: @items['/assets/javascripts/arrows/'].path}
+    %script{type: "text/javascript", src: @items["/assets/javascripts/vendor/jquery/"].path}
+    %script{type: "text/javascript", src: @items["/assets/javascripts/foundation/foundation/"].path}
+    %script{type: "text/javascript", src: @items["/assets/javascripts/foundation/foundation.section/"].path}
+    %script{type: "text/javascript", src: @items["/assets/javascripts/foundation/foundation.dropdown/"].path}
+    %script{src: @items["/assets/javascripts/test/"].path}
+    %script{src: @items["/assets/javascripts/star/"].path}
+    %script{src: @items["/assets/javascripts/arrows/"].path}
 
     :javascript
       $(document).foundation();
 
   %body
-    = render 'topbar'
+    = render "topbar"
 
-    .row.full_width
-      .large-2.columns.sidebar
-        = render 'sidebar'
+    .row.full-width
+      .large-2.columns.inbox-sidebar
+        = render "sidebar"
       .large-10.columns
-        = render 'inbox_topbar'
+        = render "inbox_topbar"
         .row
           = yield

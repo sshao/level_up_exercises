@@ -224,8 +224,8 @@ $shiny-edge-size: 0;
 // Style anchors
 
 // $anchor-text-decoration: none;
-// $anchor-font-color: $primary-color;
-// $anchor-font-color-hover: darken($primary-color, 5%);
+$anchor-font-color: #000;
+$anchor-font-color-hover: $anchor-font-color;
 
 // Style the <hr> element
 
@@ -371,11 +371,11 @@ $input-include-glowing-effect: false;
 // $button-font-family: inherit;
 // $button-font-color: #fff;
 // $button-font-color-alt: #333;
-// $button-font-med: em-calc(16);
+$button-font-med: em-calc(14);
 // $button-font-tny: em-calc(11);
 // $button-font-sml: em-calc(13);
 // $button-font-lrg: em-calc(20);
-$button-font-weight: normal;
+$button-font-weight: bold;
 // $button-font-align: center;
 
 // We use these to control various hover effects.

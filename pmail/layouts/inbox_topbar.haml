@@ -1,29 +1,28 @@
-.row.header
+.row.inbox-header
   .vertical-container
-    .vertical
-      .button-bar
-        %ul.button-group.inbox-group
-          %li
-            %a{href: "#", class: "dropdown inbox-button"}(data-dropdown="inbox_select")
-              = render "checkbox", selector: "select_mail_input"
-            %ul#inbox_select.f-dropdown(data-dropdown-content)
-              %li
-                %a{href: "#", selector: "all"} All
-              %li
-                %a{href: "#", selector: "none"} None
-              %li
-                %a{href: "#", selector: "read"} Read
-              %li
-                %a{href: "#", selector: "unread"} Unread
-              %li
-                %a{href: "#", selector: "starred"} Starred
-              %li
-                %a{href: "#", selector: "unstarred"} Unstarred
-          %li
-            %a{href: "#", class: "inbox-button"}
-              %i{class: "fa fa-rotate-right"}
-          %li
-            %a{href: "#", class: "inbox-button"}(data-dropdown="inbox_more") More
-            %ul#inbox_more.f-dropdown(data-dropdown-content)
-              %li
-                %a{href: "#"} Mark all as read
+    .vertical-content
+      %ul.button-group.inbox-group
+        %li
+          %a{href: "#", class: "button inbox-button"}(data-dropdown="inbox-select")
+            = render "checkbox", selector: "select-mail-input"
+          %ul#inbox-select.f-dropdown(data-dropdown-content)
+            %li
+              %a{href: "#", selector: "all"} All
+            %li
+              %a{href: "#", selector: "none"} None
+            %li
+              %a{href: "#", selector: "read"} Read
+            %li
+              %a{href: "#", selector: "unread"} Unread
+            %li
+              %a{href: "#", selector: "starred"} Starred
+            %li
+              %a{href: "#", selector: "unstarred"} Unstarred
+        %li
+          %a{href: "#", class: "button inbox-button"}
+            %i{class: "fa fa-rotate-right"}
+        %li
+          %a{href: "#", class: "button inbox-button"}(data-dropdown="inbox-more") More
+          %ul#inbox-more.f-dropdown(data-dropdown-content)
+            %li
+              %a{href: "#"} Mark all as read

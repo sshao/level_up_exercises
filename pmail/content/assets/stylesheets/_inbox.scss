@@ -1,0 +1,110 @@
+.inbox {
+  border: 0;
+  table-layout: fixed;
+  width: 100%;
+
+  .star {
+    background: url('/assets/images/star.png') no-repeat;
+    height: 19px;
+    width: 19px;
+    display: block;
+  }
+
+  .lit-star {
+    background: url('/assets/images/star-lit.png') no-repeat;
+    height: 19px;
+    width: 19px;
+    display: block;
+  }
+
+  .summary {
+    &:before {
+      content: '- ';
+    }
+    color: #777;
+    font-weight: normal;
+  }
+
+  .unread {
+    background-color: white;
+    font-weight: bold;
+  }
+
+  .selected {
+    border-left: 3px solid #4d90f0;
+  }
+
+  tbody tr {
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid $border-grey;
+  }
+
+  .clickableRow {
+    cursor: pointer;
+  }
+}
+
+col {
+  &.small {
+    width: 3%;
+  }
+
+  &.date {
+    width: 6%;
+  }
+
+  &.name {
+    width: 15%;
+  }
+
+  &.body {
+    width: 70%;
+  }
+}
+
+.email {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.checkbox {
+  input {
+    display: none;
+  }
+
+  span {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 1px solid #c6c6c6;
+  }
+
+  input:checked + span {
+    position: relative;
+    background: url("/assets/images/checkmark.png") no-repeat -5px -5px;
+  }
+}
+
+.inbox-group > li {
+  margin-right: 16px;
+
+  .button {
+    margin: 0;
+  }
+
+  .inbox-button {
+    display: block;
+    font-size: 70%;
+    line-height: inherit;
+    width: 70px;
+    max-height: $button-height;
+    padding: 0.5em;
+    background-color: $grey;
+    border: 1px solid #dcdcdc;
+    border-radius: $border-radius;
+    color: #444;
+    text-align: center;
+  }
+}
