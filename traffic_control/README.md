@@ -1,3 +1,6 @@
+## Output
+[View defined API on Apiary](http://docs.trafficcontrolapi.apiary.io/).
+
 ## Traffic Control - Routes for Humans
 
 You've been hired by a progressive airline (probably something European, not thinking of United here) to help build an API to their traffic control system. Other airlines and amateur aviation nuts (and travel agencies, if they still exist somewhere) will use this API to query and modify manifests for that airline.
