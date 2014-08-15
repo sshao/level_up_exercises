@@ -1,0 +1,39 @@
+FORMAT: 1A
+HOST: http://www.google.com
+
+# Traffic Control API
+Traffic Control API is a mock API for an theoretical airline's 
+traffic control system. See: 
+[Traffic Control](https://github.com/jmmastey/level_up_exercises/tree/master/traffic_control)
+
+# Group Flights
+## GET /flights/{id}
+flight
+## GET /flights/{id}/passengers
+flight_passengers
+## GET /flights/{id}/trip
+flight_trip
+## GET /flights/{id}/refuel_schedule
+flight_refuel_schedule
+## GET /flights/{id}/{?criteria}
+flight_with
+## POST /flights/new
+new_flight
+
+# Group Itineraries
+## GET /itineraries/{id}
+itinerary
+## POST /itineraries/new
+new_itinerary
+## PUT /itineraries/{id}
+update_itinerary
+
+# Group Airports
+## GET /airports/{airport_code}
+airport
+
+# Group Passengers
+## GET /passengers/{id}
+passenger
+## GET /passengers/{id}/itineraries
+passenger_itineraries
