@@ -48,7 +48,6 @@ LEFT JOIN (
     ORDER BY beer.style
   ) beer_avg_ratings
   WHERE row_num < 6
-  GROUP BY style, name
 ) AS top_by_style 
 ON top_by_style.style = primary_beer.style
 GROUP BY primary_beer.beer_id;
