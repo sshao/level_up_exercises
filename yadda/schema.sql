@@ -4,7 +4,7 @@ CREATE SCHEMA yadda;
   CREATE TABLE yadda.breweries (
     brewery_id SERIAL PRIMARY KEY,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    name text, 
+    name varchar(40) NOT NULL, 
     address text, 
     description text, 
     year integer
@@ -12,8 +12,8 @@ CREATE SCHEMA yadda;
   CREATE TABLE yadda.beers (
     beer_id SERIAL PRIMARY KEY,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    name text NOT NULL, 
-    style text, 
+    name varchar(40) NOT NULL, 
+    style varchar(40), 
     description text, 
     year integer,
     brewery_id integer REFERENCES yadda.breweries(brewery_id)
@@ -21,12 +21,12 @@ CREATE SCHEMA yadda;
   CREATE TABLE yadda.users (
     user_id SERIAL PRIMARY KEY,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    name text
+    name varchar(40) NOT NULL
   );
   CREATE TABLE yadda.ratings (
     rating_id SERIAL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    score integer,
+    score integer NOT NULL,
     beer_id integer REFERENCES yadda.beers(beer_id),
     user_id integer REFERENCES yadda.users(user_id)
   );
