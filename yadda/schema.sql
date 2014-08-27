@@ -9,13 +9,17 @@ CREATE SCHEMA yadda;
     description text, 
     year integer
   );
+  CREATE TABLE yadda.styles (
+    style_id SERIAL PRIMARY KEY,
+    name varchar(40) NOT NULL
+  );
   CREATE TABLE yadda.beers (
     beer_id SERIAL PRIMARY KEY,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     name varchar(40) NOT NULL, 
-    style varchar(40), 
     description text, 
     year integer,
+    style_id integer REFERENCES yadda.styles(style_id),
     brewery_id integer REFERENCES yadda.breweries(brewery_id)
   );
   CREATE TABLE yadda.users (

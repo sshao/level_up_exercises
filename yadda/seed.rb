@@ -17,6 +17,7 @@ connection = PG::Connection.open(
 )
 
 NUM_USERS = 200_000
+NUM_STYLES = 20
 NUM_BEERS = 1_000
 NUM_BREWERIES = 500
 NUM_RATINGS = 1_000_000
@@ -45,20 +46,31 @@ end
   
 connection.exec "INSERT INTO yadda.breweries (name, address, description, year) VALUES #{breweries.join(", ")}"
 
+styles = []
+progressbar = ProgressBar.create(title: "Styles", starting_at: 0, total: NUM_STYLES)
+NUM_STYLES.times do |i|
+  name = connection.escape_literal(Faker::Commerce.color)
+
+  styles.push "(#{name})"
+  progressbar.increment
+end
+
+connection.exec "INSERT INTO yadda.styles (name) VALUES #{styles.join(", ")}"
+
 beers = []
 progressbar = ProgressBar.create(title: "Beers", starting_at: 0, total: NUM_BEERS)
 NUM_BEERS.times do |i|
   name = connection.escape_literal(Faker::Name.first_name)
-  style = connection.escape_literal(Faker::Commerce.color)
   description = connection.escape_literal(Faker::Lorem.sentence)
   year = random_year
+  style = rand(1..NUM_STYLES)
   brewery = rand(1..NUM_BREWERIES)
 
-  beers.push "(#{name}, #{style}, #{description}, #{year}, #{brewery})"
+  beers.push "(#{name}, #{description}, #{year}, #{style}, #{brewery})"
   progressbar.increment
 end
 
-connection.exec "INSERT INTO yadda.beers (name, style, description, year, brewery_id) VALUES #{beers.join(", ")}"
+connection.exec "INSERT INTO yadda.beers (name, description, year, style_id, brewery_id) VALUES #{beers.join(", ")}"
 
 ratings = []
 progressbar = ProgressBar.create(title: "Ratings", starting_at: 0, total: NUM_RATINGS)
