@@ -10,9 +10,11 @@ class Dinodex
  
   def initialize(filepaths = nil)
     @dinos = []
+    @dino_objects = []
     # TODO could probably refactor further 
     filepaths = Array(filepaths)
     filepaths.each { |path| @dinos += Array(records(path)) }
+    filepaths.each { |path| @dino_objects += Array(create_dino(path)) }
   end
 
   def add(dino)
@@ -43,17 +45,22 @@ class Dinodex
 
   private
   def dino_to_s(dino)
-    dino.map { |header, fact| "#{header}: #{fact}\n" unless fact.nil? }.join
+    Dino.new(dino).to_s
+  end
+
+  def create_dino(path)
+    records(path).each { |record| Dino.new(record) }
   end
 
   def records(path)
     body = read_file(path)
     return if body.nil?
 
-    formatter = formatter(body.lines.first)
-    return if formatter.nil?
+    formatter_class = formatter(body.lines.first)
+    return if formatter_class.nil?
 
-    formatter.format(records_hash(body))
+    formatter = formatter_class.new(body)
+    formatter.format
   end
 
   def read_file(path)
@@ -63,15 +70,9 @@ class Dinodex
   end
 
   def formatter(header)
-    formatter = Formatter.formatter(header)
+    FormatterFactory.formatter(header)
   rescue InvalidFormatError => e
     puts e.inspect
-  end
-
-  def records_hash(body)
-    csv = CSV.new(body, :headers => true, :header_converters => :symbol,
-                  :converters => :all)
-    csv_hash = csv.map(&:to_hash)
   end
 
   def matches?(dino, search)
@@ -119,3 +120,24 @@ class Dinodex
 
 end
 
+class Dino
+  attr_reader :name, :period, :continent, :diet, :weight_in_lbs, :walking, :description
+
+  def initialize(record)
+    record.each do |key, value|
+      instance_variable_set("@#{key}", value)
+    end
+  end
+
+  def to_s
+    instance_variables.map do |instance_variable|
+      fact = instance_variable_get(instance_variable)
+      unless fact.nil?
+        "#{instance_variable}: #{fact}\n"
+      end
+    end.join
+  end
+
+
+
+end
