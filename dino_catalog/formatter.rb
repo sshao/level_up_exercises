@@ -1,27 +1,40 @@
 class InvalidFormatError < RuntimeError; end
 
-class Formatter
+module FormatterFactory
   FORMATTERS = { /genus,period,carnivore,weight,walking/i => "AfricanFormatter",
-                 /name,period,continent,diet,weight_in_lbs,walking,description/i => "Formatter" }
+                 /name,period,continent,diet,weight_in_lbs,walking,description/i => "DinodexFormatter" }
 
-  def format(hash_array)
-    hash_array
-  end
 
-  # TODO this doesn't seem like it belongs in this class now 
   def self.formatter(body)
     formatter = FORMATTERS.find { |header, formatter| body.lines.first =~ header }
     raise InvalidFormatError, "Invalid CSV format" if formatter.nil?
-    
-    Object.const_get(formatter[1]).new
+    Object.const_get(formatter[1])
   end
+end
+
+class Formatter
+  attr_reader :csv_hash
+
+  def initialize(body)
+    csv = CSV.new(body, :headers => true, :header_converters => :symbol,
+                  :converters => :all)
+    @csv_hash = csv.map(&:to_hash)
+  end
+end
+
+class DinodexFormatter < Formatter
+
+  def format
+    @csv_hash
+  end
+
 end
 
 class AfricanFormatter < Formatter
   AFRICAN_HEADER_MAPPINGS = { :genus => :name, :carnivore => :diet, :weight => :weight_in_lbs }
-  
-  def format(hash_array)
-    hash_array.map { |record| reformat(record) }
+
+  def format
+    @csv_hash.map { |record| reformat(record) }
   end
 
   private
