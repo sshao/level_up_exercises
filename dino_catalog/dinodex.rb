@@ -28,6 +28,10 @@ class Dinodex
     puts e.inspect
   end
 
+  def size
+    @dinos.size
+  end
+
   def to_s
     @dinos.map { |dino| dino_to_s(dino) }.join
   end
@@ -48,8 +52,8 @@ class Dinodex
 
     formatter = formatter(body.lines.first)
     return if formatter.nil?
-    
-    formatter.format(records_hash(body)) 
+
+    formatter.format(records_hash(body))
   end
 
   def read_file(path)
@@ -71,14 +75,15 @@ class Dinodex
   end
 
   def matches?(dino, search)
-    target = search[:target].downcase
+    key = search.keys.first
+    target = search[key]
 
-    method_name = "matches_#{search[:key].to_s}?"
-    
-    if self.respond_to? method_name, true 
+    method_name = "matches_#{key.to_s}?"
+
+    if self.respond_to? method_name, true
       send(method_name, *[dino, target])
     else
-      matches_arbitrary_target?(dino, search[:key], target)
+      matches_arbitrary_target?(dino, key, target)
     end
   end
 
@@ -105,7 +110,7 @@ class Dinodex
   end
 
   def is_big_dino?(dino)
-    dino[:weight_in_lbs] >= BIG_DINO_WEIGHT_THRESHOLD
+    dino[:weight_in_lbs] > BIG_DINO_WEIGHT_THRESHOLD
   end
 
   def is_small_dino?(dino)
