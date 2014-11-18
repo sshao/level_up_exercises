@@ -7,55 +7,25 @@ class InvalidWeightError < DinodexMatchError; end
 
 class Dinodex
   attr_accessor :dinos
- 
-  def initialize(filepaths = nil)
-    @dinos = []
-    @dino_objects = []
-    # TODO could probably refactor further 
-    filepaths = Array(filepaths)
-    filepaths.each { |path| @dinos += Array(records(path)) }
-    filepaths.each { |path| @dino_objects += Array(create_dino(path)) }
-  end
 
-  def add(dino)
-    if dino.is_a? Dino
-      @dino_objects << dino
-    else
-      @dinos << dino
-    end
+  def initialize(filepaths = nil, dinos = [])
+    @dinos = dinos
+
+    # TODO could probably refactor further
+    filepaths = Array(filepaths)
+    filepaths.each { |path| @dinos += Array(create_dino(path)) }
   end
 
   def find(search)
-    # TODO Dinodex.create_from( matching = @dinos.select { search } ) ?
-    results_dinodex = Dinodex.new
-    results_dinodex_objs = Dinodex.new
-    @dino_objects.select { |dino| results_dinodex_objs.add(dino) if matches?({}, dino, search) }
-    @dinos.select { |dino| results_dinodex.add(dino) if matches?(dino, nil, search) }
-    results_dinodex_objs
+    Dinodex.new(nil, @dinos.select { |dino| dino.matches? (search) })
   end
 
   def size
-    if @dinos.empty?
-      @dino_objects.size
-    else
-      @dinos.size
-    end
+    @dinos.size
   end
 
   def to_s
-    relevant_dinos = @dinos.empty? ? @dino_objects : @dinos
-    relevant_dinos.map do |dino|
-      if dino.is_a? Dino
-        dino.to_s
-      else
-        Dino.new(dino).to_s
-      end
-    end.join
-  end
-
-  def print_dino(name)
-    dino = @dinos.find { |dino| dino[:name] == name.downcase }
-    Dino.new(dino).to_s
+    @dinos.map { |dino| dino.to_s }.join
   end
 
   private
@@ -82,46 +52,6 @@ class Dinodex
 
   def formatter(header)
     FormatterFactory.formatter(header)
-  rescue InvalidFormatError => e
-    puts e.inspect
-  end
-
-  # dino = { :name => sdf, :continent => .. }
-  # search = { name: "sdf" }
-  def matches?(dino, dinoobj, search)
-    if dino.empty?
-      dino_obj = dinoobj
-    else
-      dino_obj = Dino.new(dino)
-    end
-
-    key = search.keys.first
-    target = search[key]
-
-    method_name = "matches_#{key.to_s}?"
-
-    if self.respond_to? method_name, true
-      send(method_name, *[dino_obj, target])
-    else
-      matches_arbitrary_target?(dino_obj, key, target)
-    end
-  end
-
-  def matches_arbitrary_target?(dino_obj, key, target)
-    return false if dino_obj.instance_variable_get("@#{key}").nil?
-    dino_obj.instance_variable_get("@#{key}").include? target
-  end
-
-  def matches_diet?(dino_obj, target_diet)
-    dino_obj.matches_diet?(target_diet)
-  end
-
-  # dino = dino hash
-  # weight = "big", "small"
-  def matches_weight_in_lbs?(dino_obj, weight)
-    dino_obj.matches_weight_in_lbs?(weight)
-  rescue NoMethodError
-    raise InvalidWeightError, "Cannot find dinosaurs of weight #{weight}. Try 'big' or 'small' instead"
   end
 end
 
@@ -132,6 +62,24 @@ class Dino
     record.each do |key, value|
       instance_variable_set("@#{key}", value)
     end
+  end
+
+  def matches?(search)
+    key = search.keys.first
+    target = search[key]
+
+    method_name = "matches_#{key.to_s}?"
+
+    if self.respond_to? method_name, true
+      send(method_name, target)
+    else
+      matches_arbitrary_target?(key, target)
+    end
+  end
+
+  def matches_arbitrary_target?(key, target)
+    return false if send(key).nil?
+    send(key).include? target
   end
 
   def matches_diet?(target_diet)
@@ -145,6 +93,8 @@ class Dino
   def matches_weight_in_lbs?(weight)
     method_name = "is_#{weight}?"
     send(method_name)
+  rescue NoMethodError
+    raise InvalidWeightError, "Cannot find dinosaurs of weight #{weight}. Try 'big' or 'small' instead"
   end
 
   def is_big?
