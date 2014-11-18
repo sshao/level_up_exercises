@@ -53,4 +53,3 @@ class AfricanFormatter < Formatter
     end
   end
 end
-
