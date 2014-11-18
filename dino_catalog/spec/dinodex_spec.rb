@@ -30,6 +30,8 @@ describe Dinodex do
       expect(cretaceous_dinos.size).to be 8
     end
 
+    it "should not find any dinos from invalid periods"
+
     it "should find all dinosaurs from Africa" do
       african_dinos = dinodex.find(continent: "africa")
       expect(african_dinos.size).to be 7
@@ -45,9 +47,18 @@ describe Dinodex do
       expect(carnivores.size).to be 12
     end
 
+    it "should raise an InvalidWeightError if searching by weight without 'big' or 'small'" do
+      expect { dinodex.find(weight_in_lbs: 200) }.to raise_error(InvalidWeightError)
+    end
+
     it "should find all big dinosaurs" do
       big_dinos = dinodex.find(weight_in_lbs: "big")
       expect(big_dinos.size).to be 9
+    end
+
+    it "should find all small dinosaurs" do
+      small_dinos = dinodex.find(weight_in_lbs: "small")
+      expect(small_dinos.size).to be 4
     end
 
     it "should find all dinosaurs that were bipeds" do
