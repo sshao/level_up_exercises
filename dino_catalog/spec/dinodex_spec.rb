@@ -78,6 +78,11 @@ describe Dinodex do
       expect(piscivores.size).to be 1
     end
 
+    it "finds all dinosaurs that were herbivores" do
+      herbivores = dinodex.find(diet: "herbivore")
+      expect(herbivores.size).to be 4
+    end
+
     it "finds all dinosaurs that were carnivores" do
       carnivores = dinodex.find(diet: "carnivore")
       expect(carnivores.size).to be 12

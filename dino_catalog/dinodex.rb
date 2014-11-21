@@ -3,14 +3,13 @@ require_relative 'formatter'
 require_relative 'dino'
 
 class Dinodex
-  attr_accessor :dinos
+  attr_accessor :dinos, :filepaths
 
   def initialize(filepaths = nil, dinos = [])
     @dinos = dinos
 
-    # TODO could probably refactor further
-    filepaths = Array(filepaths)
-    filepaths.each { |path| @dinos += Array(create_dino(path)) }
+    @filepaths = Array(filepaths)
+    create_dinos
   end
 
   def find(search)
@@ -26,18 +25,18 @@ class Dinodex
   end
 
   private
-  def create_dino(path)
-    records(path).map { |record| Dino.new(record) }
+  def create_dinos
+    hashes = filepaths.map { |path| dino_hashes(path) }.flatten
+
+    @dinos += hashes.map { |dino_hash| Dino.new(dino_hash) }
   end
 
-  def records(path)
+  def dino_hashes(path)
     body = read_file(path)
-    return if body.nil?
+    # TODO write spec for below
+    return [] if body.nil?
 
-    formatter_class = formatter(body.lines.first)
-    return if formatter_class.nil?
-
-    formatter = formatter_class.new(body)
+    formatter = FormatterFactory.formatter(body)
     formatter.format
   end
 
@@ -45,9 +44,5 @@ class Dinodex
     File.read(path).downcase
   rescue Errno::ENOENT
     puts "File #{path} not found, skipping"
-  end
-
-  def formatter(header)
-    FormatterFactory.formatter(header)
   end
 end
