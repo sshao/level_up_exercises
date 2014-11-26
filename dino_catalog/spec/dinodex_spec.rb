@@ -4,10 +4,12 @@ describe Dinodex do
   let(:african_dinodex_file) { "./african_dinosaur_export.csv" }
   let(:dinodex_file) { "./dinodex.csv" }
   let(:invalid_file) { "./spec/fixtures/invalid_format.csv" }
+  let(:missing_file) { "./missing_file.csv" }
 
   let(:african_dinodex) { Dinodex.new(african_dinodex_file) }
   let(:single_dinodex) { Dinodex.new(dinodex_file) }
   let(:invalid_dinodex) { Dinodex.new(invalid_file) }
+  let(:missing_dinodex) { Dinodex.new([african_dinodex_file, missing_file]) }
   let(:dinodex) { Dinodex.new([african_dinodex_file, dinodex_file]) }
 
   context "#initialize" do
@@ -32,6 +34,12 @@ describe Dinodex do
     context "with invalid CSV files" do
       it "throws an InvalidFormatError" do
         expect { invalid_dinodex }.to raise_error(InvalidFormatError)
+      end
+    end
+
+    context "with non-existent files" do
+      it "skips the file" do
+        expect(missing_dinodex.size).to be 7
       end
     end
   end
