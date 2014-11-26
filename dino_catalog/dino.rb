@@ -1,4 +1,4 @@
-require_relative "dinodex_config"
+require_relative "dino_config"
 
 class DinodexMatchError < RuntimeError; end
 class InvalidWeightError < DinodexMatchError; end
