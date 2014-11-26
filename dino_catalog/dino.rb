@@ -1,4 +1,4 @@
-require_relative 'dinodex_config'
+require_relative "dinodex_config"
 
 class DinodexMatchError < RuntimeError; end
 class InvalidWeightError < DinodexMatchError; end
@@ -7,9 +7,7 @@ class Dino
   attr_accessor :name, :period, :continent, :diet, :weight_in_lbs, :walking, :description
 
   def initialize(dino_hash)
-    dino_hash.each do |attribute, value|
-      send("#{attribute}=", value)
-    end
+    dino_hash.each { |attribute, value| send("#{attribute}=", value) }
   end
 
   def matches?(search)
@@ -25,17 +23,30 @@ class Dino
     end
   end
 
-  def matches_arbitrary_target?(key, target)
-    return false if send(key).nil?
-    send(key).include? target
+  def to_s
+    instance_variables.map do |attribute|
+      fact = instance_variable_get(attribute)
+      "#{attribute}: #{fact}\n" unless fact.nil?
+    end.join
+  end
+
+  private
+  def matches_arbitrary_target?(attribute, target)
+    attribute_value = send(attribute)
+    return false if attribute_value.nil?
+    attribute_value.include? target
   end
 
   def matches_diet?(target_diet)
     if target_diet == "carnivore"
-      CARNIVORES.include?(@diet)
+      is_carnivore?
     else
       @diet == target_diet
     end
+  end
+
+  def is_carnivore?
+    CARNIVORES.include?(@diet)
   end
 
   def matches_weight_in_lbs?(weight)
@@ -53,14 +64,5 @@ class Dino
   def is_small?
     return false if @weight_in_lbs.nil?
     !is_big?
-  end
-
-  def to_s
-    instance_variables.map do |instance_variable|
-      fact = instance_variable_get(instance_variable)
-      unless fact.nil?
-        "#{instance_variable}: #{fact}\n"
-      end
-    end.join
   end
 end
