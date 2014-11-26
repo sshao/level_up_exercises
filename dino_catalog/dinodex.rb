@@ -1,19 +1,17 @@
-require 'csv'
-require_relative 'formatter'
-require_relative 'dino'
+require "csv"
+require_relative "formatter"
+require_relative "dino"
 
 class Dinodex
-  attr_accessor :dinos, :filepaths
+  attr_accessor :dinos
 
   def initialize(filepaths = nil, dinos = [])
     @dinos = dinos
-
-    @filepaths = Array(filepaths)
-    create_dinos
+    create_dinos_from(Array(filepaths))
   end
 
   def find(search)
-    Dinodex.new(nil, @dinos.select { |dino| dino.matches? (search) })
+    Dinodex.new(nil, @dinos.select { |dino| dino.matches?(search) })
   end
 
   def size
@@ -25,24 +23,27 @@ class Dinodex
   end
 
   private
-  def create_dinos
-    hashes = filepaths.map { |path| dino_hashes(path) }.flatten
-
-    @dinos += hashes.map { |dino_hash| Dino.new(dino_hash) }
+  def create_dinos_from(filepaths)
+    dino_hashes = filepaths.map { |path| dino_hashes_from(path) }.flatten
+    @dinos += dino_hashes.map { |dino_hash| Dino.new(dino_hash) }
   end
 
-  def dino_hashes(path)
-    body = read_file(path)
-    # TODO write spec for below
-    return [] if body.nil?
+  def dino_hashes_from(path)
+    raw_data = read_file(path)
+    raw_header = read_header(raw_data)
 
-    formatter = FormatterFactory.formatter(body)
-    formatter.format
+    formatter = FormatterFactory.formatter(raw_header)
+    formatter.format(raw_data)
+  end
+
+  def read_header(raw_data)
+    return "" if raw_data.nil? or raw_data.empty?
+    raw_data.lines.first.chomp
   end
 
   def read_file(path)
-    File.read(path).downcase
+    File.read(path)
   rescue Errno::ENOENT
-    puts "File #{path} not found, skipping"
+    STDERR.puts "WARNING: File #{path} not found, skipping"
   end
 end
