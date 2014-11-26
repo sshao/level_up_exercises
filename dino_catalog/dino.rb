@@ -4,11 +4,11 @@ class DinodexMatchError < RuntimeError; end
 class InvalidWeightError < DinodexMatchError; end
 
 class Dino
-  attr_reader :name, :period, :continent, :diet, :weight_in_lbs, :walking, :description
+  attr_accessor :name, :period, :continent, :diet, :weight_in_lbs, :walking, :description
 
-  def initialize(record)
-    record.each do |key, value|
-      instance_variable_set("@#{key}", value)
+  def initialize(dino_hash)
+    dino_hash.each do |attribute, value|
+      send("#{attribute}=", value)
     end
   end
 
@@ -18,7 +18,7 @@ class Dino
 
     method_name = "matches_#{key.to_s}?"
 
-    if self.respond_to? method_name, true
+    if self.respond_to?(method_name, true)
       send(method_name, target)
     else
       matches_arbitrary_target?(key, target)
