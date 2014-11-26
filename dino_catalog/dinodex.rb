@@ -11,7 +11,14 @@ class Dinodex
   end
 
   def find(search)
-    Dinodex.new(dinos: @dinos.select { |dino| dino.matches?(search) })
+    raise ArgumentError if search.size != 1
+
+    attribute = search.keys.first
+    target = search[attribute]
+
+    matching_dinos = @dinos.select { |dino| dino.matches?(attribute, target) }
+
+    Dinodex.new(dinos: matching_dinos)
   end
 
   def size

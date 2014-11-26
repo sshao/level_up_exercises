@@ -45,6 +45,10 @@ describe Dinodex do
   end
 
   context "#find" do
+    it "throws an ArgumentError if it doesn't get exactly one search criteria" do
+      expect { dinodex.find }.to raise_error(ArgumentError)
+      expect { dinodex.find(description: nil, name: "suchomimus") }.to raise_error(ArgumentError)
+    end
     it "finds all dinosaurs without descriptions" do
       pending
       expect(dinodex.find(description: nil).size).to be 9

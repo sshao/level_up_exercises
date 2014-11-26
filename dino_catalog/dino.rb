@@ -10,16 +10,13 @@ class Dino
     dino_hash.each { |attribute, value| send("#{attribute}=", value) }
   end
 
-  def matches?(search)
-    key = search.keys.first
-    target = search[key]
-
-    method_name = "matches_#{key.to_s}?"
+  def matches?(attribute, target)
+    method_name = "matches_#{attribute}?"
 
     if self.respond_to?(method_name, true)
       send(method_name, target)
     else
-      matches_arbitrary_target?(key, target)
+      matches_arbitrary_target?(attribute, target)
     end
   end
 
