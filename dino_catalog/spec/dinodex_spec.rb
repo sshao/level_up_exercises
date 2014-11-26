@@ -126,6 +126,11 @@ describe Dinodex do
     it "is case-insensitive" do
       pending
       expect(dinodex.find(name: "Suchomimus").size).to be 1
+      expect(dinodex.find(period: "Oxfordian").size).to be 1
+      expect(dinodex.find(continent: "Asia").size).to be 1
+      expect(dinodex.find(diet: "Piscivore").size).to be 1
+      expect(dinodex.find(walking: "Biped").size).to be 11
+      expect(dinodex.find(description: "LIKE A T-REX BUT SMaLLER").size).to be 1
     end
   end
 
