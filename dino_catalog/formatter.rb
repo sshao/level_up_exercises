@@ -4,25 +4,30 @@ module FormatterFactory
   FORMATTERS = { "genus,period,carnivore,weight,walking" => "AfricanFormatter",
                  "name,period,continent,diet,weight_in_lbs,walking,description" => "DinodexFormatter" }
 
-  def self.formatter(body)
-    header_str = body.lines.first.downcase.chomp
-    formatter_class = FORMATTERS[header_str]
+  def self.formatter(raw_data)
+    formatter_class = FORMATTERS[header_str(raw_data)]
     raise InvalidFormatError, "Invalid CSV format" if formatter_class.nil?
-    Object.const_get(formatter_class).new(body)
+
+    Object.const_get(formatter_class).new(raw_data)
+  end
+
+  private
+  def self.header_str(raw_data)
+    raw_data.lines.first.downcase.chomp
   end
 end
 
 class Formatter
-  attr_reader :csv_hash
+  attr_reader :dino_hashes
 
   def initialize(body)
-    csv = CSV.new(body, headers: true, header_converters: header_conversions,
-                  converters: body_conversions)
-    @csv_hash = csv.map(&:to_hash)
+    csv = CSV(body, headers: true, header_converters: header_conversions.flatten,
+                  converters: body_conversions.flatten)
+    @dino_hashes = csv.map(&:to_hash)
   end
 
   def format
-    @csv_hash
+    @dino_hashes
   end
 
   private
@@ -31,7 +36,11 @@ class Formatter
   end
 
   def body_conversions
-    [:all]
+    [:downcase, :all]
+  end
+
+  CSV::Converters[:downcase] = lambda do |body, field_info|
+    body.downcase unless body.nil?
   end
 end
 
@@ -39,32 +48,31 @@ class DinodexFormatter < Formatter
 end
 
 class AfricanFormatter < Formatter
-  HEADER_MAPPINGS = { genus: :name, carnivore: :diet, weight: :weight_in_lbs }
+  HEADER_MAPPINGS = { "genus" => :name, "carnivore" => :diet, "weight" => :weight_in_lbs }
   DIET_MAPPINGS = { "yes" => "carnivore", "no" => "herbivore" }
 
-  CSV::HeaderConverters[:standardize_header] = lambda do |header|
-    HEADER_MAPPINGS[header.to_sym] || header
-  end
-
-  CSV::Converters[:standardize_diet] = lambda do |body, field_info|
-    field_info.header == :diet ? DIET_MAPPINGS[body] : body
-  end
-
   def format
-    @csv_hash.map { |dino_hash| reformat(dino_hash) }
+    @dino_hashes.each { |dino_hash| add_continent(dino_hash) }
   end
 
   private
   def header_conversions
-    [:standardize_header, :symbol]
+    [:downcase, :standardize_header, super]
   end
 
   def body_conversions
-    [:standardize_diet, :all]
+    [super, :standardize_diet]
   end
 
-  def reformat(dino_hash)
+  def add_continent(dino_hash)
     dino_hash[:continent] = "africa"
-    dino_hash
+  end
+
+  CSV::HeaderConverters[:standardize_header] = lambda do |header|
+    HEADER_MAPPINGS[header] || header
+  end
+
+  CSV::Converters[:standardize_diet] = lambda do |body, field_info|
+    field_info.header == :diet ? DIET_MAPPINGS[body] : body
   end
 end
