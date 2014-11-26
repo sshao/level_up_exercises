@@ -5,13 +5,13 @@ require_relative "dino"
 class Dinodex
   attr_accessor :dinos
 
-  def initialize(filepaths = nil, dinos = [])
+  def initialize(filepaths: nil, dinos: [])
     @dinos = dinos
     create_dinos_from(Array(filepaths))
   end
 
   def find(search)
-    Dinodex.new(nil, @dinos.select { |dino| dino.matches?(search) })
+    Dinodex.new(dinos: @dinos.select { |dino| dino.matches?(search) })
   end
 
   def size

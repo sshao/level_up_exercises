@@ -6,11 +6,11 @@ describe Dinodex do
   let(:invalid_file) { "./spec/fixtures/invalid_format.csv" }
   let(:missing_file) { "./missing_file.csv" }
 
-  let(:african_dinodex) { Dinodex.new(african_dinodex_file) }
-  let(:single_dinodex) { Dinodex.new(dinodex_file) }
-  let(:invalid_dinodex) { Dinodex.new(invalid_file) }
-  let(:missing_dinodex) { Dinodex.new([african_dinodex_file, missing_file]) }
-  let(:dinodex) { Dinodex.new([african_dinodex_file, dinodex_file]) }
+  let(:african_dinodex) { Dinodex.new(filepaths: african_dinodex_file) }
+  let(:single_dinodex) { Dinodex.new(filepaths: dinodex_file) }
+  let(:invalid_dinodex) { Dinodex.new(filepaths: invalid_file) }
+  let(:missing_dinodex) { Dinodex.new(filepaths: [african_dinodex_file, missing_file]) }
+  let(:dinodex) { Dinodex.new(filepaths: [african_dinodex_file, dinodex_file]) }
 
   context "#initialize" do
     context "with valid CSV files" do
