@@ -1,8 +1,1 @@
-*~
-*.swp
-*.sass-cache
-*.DS_Store
-
-pmail/crash.log
-pmail/output
-pmail/tmp
+.DS_Store

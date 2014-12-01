@@ -1,5 +1,4 @@
 class Arrowhead
-
   # This seriously belongs in a database.
   CLASSIFICATIONS = {
     far_west: {
@@ -27,9 +26,6 @@ class Arrowhead
     arrowhead = shapes[shape]
     puts "You have a(n) '#{arrowhead}' arrowhead. Probably priceless."
   end
-
 end
 
-
-
-puts Arrowhead::classify(:northern_plains, :bifurcated)
+puts Arrowhead.classify(:northern_plains, :bifurcated)
