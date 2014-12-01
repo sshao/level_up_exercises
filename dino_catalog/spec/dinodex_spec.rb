@@ -49,6 +49,7 @@ describe Dinodex do
       expect { dinodex.find }.to raise_error(ArgumentError)
       expect { dinodex.find(description: nil, name: "suchomimus") }.to raise_error(ArgumentError)
     end
+
     it "finds all dinosaurs without descriptions" do
       pending
       expect(dinodex.find(description: nil).size).to be 9
@@ -136,11 +137,11 @@ describe Dinodex do
     end
 
     it "is case-insensitive" do
-      pending
       expect(dinodex.find(name: "Suchomimus").size).to be 1
       expect(dinodex.find(period: "Oxfordian").size).to be 1
       expect(dinodex.find(continent: "Asia").size).to be 1
       expect(dinodex.find(diet: "Piscivore").size).to be 1
+      expect(dinodex.find(diet: "Carnivore").size).to be 12
       expect(dinodex.find(walking: "Biped").size).to be 11
       expect(dinodex.find(description: "LIKE A T-REX BUT SMaLLER").size).to be 1
     end
