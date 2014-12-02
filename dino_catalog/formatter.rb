@@ -1,18 +1,5 @@
 class InvalidFormatError < RuntimeError; end
 
-module FormatterFactory
-  FORMATTERS = { "" => "Formatter",
-                 "genus,period,carnivore,weight,walking" => "AfricanFormatter",
-                 "name,period,continent,diet,weight_in_lbs,walking,description" => "DinodexFormatter" }
-
-  def self.formatter(header)
-    formatter_class = FORMATTERS[header.downcase]
-    raise InvalidFormatError, "Invalid CSV format" if formatter_class.nil?
-
-    Object.const_get(formatter_class).new
-  end
-end
-
 class Formatter
   def format(raw_data)
     # in case raw_data is nil
@@ -73,3 +60,17 @@ class AfricanFormatter < Formatter
     field_info.header == :diet ? DIET_MAPPINGS[body] : body
   end
 end
+
+module FormatterFactory
+  FORMATTERS = { "" => Formatter,
+                 "genus,period,carnivore,weight,walking" => AfricanFormatter,
+                 "name,period,continent,diet,weight_in_lbs,walking,description" => DinodexFormatter }
+
+  def self.formatter(header)
+    formatter_class = FORMATTERS[header.downcase]
+    raise InvalidFormatError, "Invalid CSV format" if formatter_class.nil?
+
+    formatter_class.new
+  end
+end
+

@@ -11,12 +11,11 @@ class Dinodex
   end
 
   def find(search)
-    raise ArgumentError if search.size != 1
+    matching_dinos = []
 
-    attribute = search.keys.first
-    target = search[attribute]
-
-    matching_dinos = @dinos.select { |dino| dino.matches?(attribute, target) }
+    search.each do |attribute, target|
+      matching_dinos += @dinos.select { |dino| dino.matches?(attribute, target) }
+    end
 
     Dinodex.new(dinos: matching_dinos)
   end

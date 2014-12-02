@@ -15,9 +15,7 @@ class Dino
     return false if send(attribute).nil?
     method_name = "matches_#{attribute}?"
 
-    if PARTIAL_MATCHING_ATTRS.include?(attribute)
-      partially_matches?(attribute, target)
-    elsif self.respond_to?(method_name, true)
+    if self.respond_to?(method_name, true)
       send(method_name, target)
     else
       matches_arbitrary_target?(attribute, target)
@@ -37,8 +35,14 @@ class Dino
     send(attribute).casecmp(target) == 0
   end
 
-  def partially_matches?(attribute, target)
-    send(attribute).include?(target.downcase)
+  def matches_period?(target_period)
+    # FIXME period.downcase.include?
+    period.include?(target_period.downcase)
+  end
+
+  def matches_description?(target_description)
+    # FIXME description.downcase.include?
+    description.include?(target_description.downcase)
   end
 
   def matches_diet?(target_diet)
@@ -62,12 +66,10 @@ class Dino
   end
 
   def big?
-    return false if weight_in_lbs.nil?
-    @weight_in_lbs > BIG_DINO_WEIGHT_THRESHOLD
+    weight_in_lbs && (@weight_in_lbs > BIG_DINO_WEIGHT_THRESHOLD)
   end
 
   def small?
-    return false if weight_in_lbs.nil?
-    !big?
+    weight_in_lbs && !big?
   end
 end
